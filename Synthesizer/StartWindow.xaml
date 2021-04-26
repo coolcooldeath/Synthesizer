@@ -13,7 +13,18 @@
         Background="#b8b8b8"
          WindowStartupLocation ="CenterScreen"
          d:DataContext="{d:DesignInstance Type=local:StartWindowViewModel}"
-        Title="StartWindow" Height="420" Width="340">
+        Title="StartWindow" Height="460" Width="340">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="./resources/#Determination2"/>
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="./resources/#Determination2"/>
+            
+        </Style>
+    </Window.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -21,6 +32,7 @@
             <RowDefinition Height="85"/>
             <RowDefinition Height="85" />
             <RowDefinition Height="85" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -34,18 +46,25 @@
                BorderBrush="Black"
                BorderThickness="3"
                VerticalAlignment="Center"
-              
+               
                HorizontalAlignment="Center" 
                Content="ПОЛИВОКС" HorizontalContentAlignment="Center" Padding="60,10,10,5"   FontSize="22" FontFamily="./resources/#AA Spaceman" Foreground="Black" Grid.ColumnSpan="2" Margin="0,-50,0,0"
                />
-            <TextBox Padding="5,10,0,2" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#AnotherCastle3" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="18" Margin="0,20,0,10"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Padding="5,10,0,2" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#AnotherCastle3" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="18" Margin="0,0,0,10"  Foreground="#b8b8b8" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Padding="5,10,0,2"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#AnotherCastle3" x:Name="Name"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="18" Margin="0,0,0,10"  Foreground="#b8b8b8"  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Height="40" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="14" Margin="0,10,0,10"   />
-            <Button Height="40" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="14" Content="Регистрация"  Margin="0,10,0,10" />
+            <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock  Text="{Binding Password}"></TextBlock>
 
-            <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" Visibility="{Binding RegisterVisibility}"    FontFamily="./resources/#AnotherCastle3" Content="Есть аккаунт" Width="140"  FontSize="12"   />
-            <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}"  Visibility="{Binding LoginVisibility}"   FontFamily="./resources/#AnotherCastle3" Content="Нет аккаунта" Width="140"  FontSize="12"   />
+            <TextBox Padding="10,0,0,0" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock  Text="{Binding Password}"></TextBlock>
+
+            <TextBox Padding="10,0,0,10"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Foreground="Red" Text="{Binding RegisterRepeat}"></TextBlock>
+            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,10,0,10"   />
+            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="Регистрация"  Margin="0,10,0,10" />
+
+            <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" Visibility="{Binding RegisterVisibility}"  FontFamily="./resources/#Determination2" Content="Есть аккаунт" Width="140"  FontSize="12"   />
+            <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}"  Visibility="{Binding LoginVisibility}" FontFamily="./resources/#Determination2" Content="Нет аккаунта" Width="140"  FontSize="12"   />
 
         </StackPanel >
         

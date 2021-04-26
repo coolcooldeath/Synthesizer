@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Synthesizer.DataLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,11 +12,15 @@ namespace Synthesizer
 {
     public partial class StartWindowViewModel : INotifyPropertyChanged
     {
+        private EDM db = new EDM();
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyChanged)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyChanged));
         }
+
+
+        #region Свойства
         Visibility _RegisterVisibility = Visibility.Collapsed;
 
         void Raise_RegisterVisibility()
@@ -81,7 +86,175 @@ namespace Synthesizer
         {
             OnPropertyChanged("MidiEnabled");
         }
-        public string LoginName { get; set; }
+
+
+        
+        string _LoginName = default;
+
+        void Raise_LoginName()
+        {
+            OnPropertyChanged("LoginName");
+        }
+
+        public string LoginName
+        {
+            get { return _LoginName; }
+            set
+            {
+                if (_LoginName == value)
+                {
+                    return;
+                }
+
+                var prev = _LoginName;
+
+                _LoginName = value;
+
+                Changed_LoginName(prev, _LoginName);
+
+                Raise_LoginName();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_LoginName(string prev, string current)
+        {
+            ResetCanExecute();
+        }
+        
+
+
+        string _Password = default;
+
+        void Raise_Password()
+        {
+            OnPropertyChanged("Password");
+        }
+
+        public string Password
+        {
+            get { return _Password; }
+            set
+            {
+                if (_Password == value)
+                {
+                    return;
+                }
+
+                var prev = _Password;
+
+                _Password = value;
+
+                Changed_Password();
+
+                Raise_LoginName();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_Password()
+        {
+            ResetCanExecute();
+        }
+
+        bool _Loading = default;
+
+        void Raise_Loading()
+        {
+            OnPropertyChanged("Loading");
+        }
+
+        public bool Loading
+        {
+            get { return _Loading; }
+            set
+            {
+                if (_Loading == value)
+                {
+                    return;
+                }
+
+                var prev = _Loading;
+
+                _Loading = value;
+
+                Changed_Loading();
+
+                Raise_Loading();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_Loading()
+        {
+            ResetCanExecute();
+        }
+
+
+        string _UserName = default;
+
+        void Raise_UserName()
+        {
+            OnPropertyChanged("UserName");
+        }
+
+        public string UserName
+        {
+            get { return _UserName; }
+            set
+            {
+                if (_UserName == value)
+                {
+                    return;
+                }
+
+                var prev = _UserName;
+
+                _UserName = value;
+
+                Changed_UserName();
+
+                Raise_LoginName();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_UserName()
+        {
+            ResetCanExecute();
+        }
+
+        string  _RegisterRepeat = default;
+
+        void Raise_RegisterRepeat()
+        {
+            OnPropertyChanged("RegisterRepeat");
+        }
+
+        public string RegisterRepeat
+        {
+            get { return _RegisterRepeat; }
+            set
+            {
+                if (_RegisterRepeat == value)
+                {
+                    return;
+                }
+
+                var prev = _RegisterRepeat;
+
+                _RegisterRepeat = value;
+
+
+
+                Raise_RegisterRepeat();
+            }
+        }
+        #endregion
+
+
+
+        #region Команды
         readonly UserCommand _LoginCommand;
 
         bool CanExecuteLoginCommand()
@@ -106,50 +279,58 @@ namespace Synthesizer
 
         public void CanExecute_LoginCommand(ref bool result)
         {
-            result = true;
+            if (LoginName != "" && LoginName!=null && Password != "" && Password != null)
+                result = true;
+            else
+                result = false;
+          
+            
         }
-        public void Execute_LoginCommand()
-        {
-           
-            MainWindowViewModel viewModel = new MainWindowViewModel();
-            viewModel.LoginName = this.LoginName;
-            MainWindow mainWindow = new MainWindow(viewModel);
-            mainWindow.Show();
-            Application.Current.MainWindow.Close();
-
-
-
-
-
-            /*using (DataContext db = new DataContext())
-            {
-                // создаем два объекта User
-                Synthesis SynthObject = new Synthesis { Name = this.Name, Decay = this.Decay, Attack = this.Attack };
-
-                // добавляем их в бд
-
-                db.Syntheses.Add(SynthObject);
-                db.SaveChanges();
-                Console.WriteLine("Объекты успешно сохранены");
-
-                // получаем объекты из бд и выводим на консоль
-                *//* var users = db.Users;
-                 Console.WriteLine("Список объектов:");
-                 foreach (User u in users)
-                 {
-                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                 }*//*
-            }*/
-
-
-        }
-
-
-
+       
 
 
 
         
+
+        readonly UserCommand _RegisterCommand;
+
+        bool CanExecuteRegisterCommand()
+        {
+            bool result = false;
+            CanExecute_RegisterCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteRegisterCommand()
+        {
+            Execute_RegisterCommand();
+        }
+
+        public ICommand RegisterCommand { get { return _RegisterCommand; } }
+        // --------------------------------------------------------------------
+
+
+
+
+
+        public void CanExecute_RegisterCommand(ref bool result)
+        {
+            if (LoginName != "" && LoginName != null && Password != "" && Password != null && UserName != "" && UserName != null)
+                result = true;
+            else
+                result = false;
+
+
+        }
+      
+
+
+
+
+
+
+
         readonly UserCommand _OpenRegisterCommand;
 
         bool CanExecuteOpenRegisterCommand()
@@ -172,12 +353,7 @@ namespace Synthesizer
         {
             result = true;
         }
-        public void Execute_OpenRegisterCommand()
-        {
-            RegisterVisibility = Visibility.Visible;
-            LoginVisibility = Visibility.Collapsed;
-
-        }
+       
 
 
 
@@ -207,6 +383,113 @@ namespace Synthesizer
         {
             result = true;
         }
+
+        #endregion
+
+
+        public void Execute_LoginCommand()
+        {
+            Loading = true;
+            string hashPassword = HelperClass.getHash(Password);
+            
+            if (db.users.FirstOrDefault(u => u.login == LoginName && u.password == hashPassword ) != null)
+            {
+                
+                users user = db.users.FirstOrDefault(u => u.login == LoginName);
+                factory factory = (db.factory.FirstOrDefault(u => u.login == LoginName));
+                MainWindowViewModel viewModel = new MainWindowViewModel();
+                viewModel.LoginName = this.LoginName;
+                viewModel.User = user;
+                viewModel.factory = factory;
+                MainWindow mainWindow = new MainWindow(viewModel);
+                mainWindow.Show();
+                Application.Current.MainWindow.Close();
+            }
+            else
+            {
+                RegisterRepeat = "Неверный логин или пароль";
+            }
+           
+            
+
+            ResetCanExecute();
+
+
+
+            /*using (DataContext db = new DataContext())
+            {
+                // создаем два объекта User
+                Synthesis SynthObject = new Synthesis { Name = this.Name, Decay = this.Decay, Attack = this.Attack };
+
+                // добавляем их в бд
+
+                db.Syntheses.Add(SynthObject);
+                db.SaveChanges();
+                Console.WriteLine("Объекты успешно сохранены");
+
+                // получаем объекты из бд и выводим на консоль
+                *//* var users = db.Users;
+                 Console.WriteLine("Список объектов:");
+                 foreach (User u in users)
+                 {
+                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
+                 }*//*
+            }*/
+
+
+        }
+        public void Execute_RegisterCommand()
+        {
+
+            Loading = true;
+            if (db.users.FirstOrDefault(u => u.login == LoginName) == null)
+            {
+                
+                users user = new users {name = this.UserName,password = HelperClass.getHash(Password),login = this.LoginName};
+                factory factory = new factory { factory_name = "Базовая",login = this.LoginName};
+                db.users.Add(user);
+                db.factory.Add(factory);
+                db.SaveChanges();
+                Execute_OpenLoginCommand();
+
+                
+
+            }
+            else { RegisterRepeat = "Логин занят"; }
+
+
+            ResetCanExecute();
+
+
+            /*using (DataContext db = new DataContext())
+            {
+                // создаем два объекта User
+                Synthesis SynthObject = new Synthesis { Name = this.Name, Decay = this.Decay, Attack = this.Attack };
+
+                // добавляем их в бд
+
+                db.Syntheses.Add(SynthObject);
+                db.SaveChanges();
+                Console.WriteLine("Объекты успешно сохранены");
+
+                // получаем объекты из бд и выводим на консоль
+                *//* var users = db.Users;
+                 Console.WriteLine("Список объектов:");
+                 foreach (User u in users)
+                 {
+                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
+                 }*//*
+            }*/
+
+
+        }
+
+        public void Execute_OpenRegisterCommand()
+        {
+            RegisterVisibility = Visibility.Visible;
+            LoginVisibility = Visibility.Collapsed;
+
+        }
         public void Execute_OpenLoginCommand()
         {
             RegisterVisibility = Visibility.Collapsed;
@@ -217,8 +500,16 @@ namespace Synthesizer
         public StartWindowViewModel()
         {
             _LoginCommand = new UserCommand(CanExecuteLoginCommand, ExecuteLoginCommand);
+            _RegisterCommand = new UserCommand(CanExecuteRegisterCommand, ExecuteRegisterCommand);
             _OpenRegisterCommand = new UserCommand(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
             _OpenLoginCommand = new UserCommand(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);
+
+        }
+
+        void ResetCanExecute()
+        {
+            _RegisterCommand.RefreshCanExecute();
+            _LoginCommand.RefreshCanExecute();
 
         }
     }

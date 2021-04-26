@@ -5,6 +5,7 @@ using NAudio.Wave.SampleProviders;
 using Synthesizer.DataLayer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -22,16 +23,23 @@ namespace Synthesizer
 
 
    
+
     public partial class MainWindowViewModel
     {
+       
+       
         private readonly List<Key> keyboard = new List<Key>
         {
             Key.Z, Key.S, Key.X, Key.C, Key.F, Key.V, Key.G, Key.B,
             Key.N, Key.J, Key.M, Key.K, Key.OemComma, Key.L,
             Key.OemPeriod, Key.OemQuestion,
         };
+        public bool Tremolo { get; set; }
+        private EDM db = new EDM();
         private MidiIn midiIn;
-        
+        public users User = new users();
+        public factory factory = new factory();
+        public List<string> NamesOfPresets { get; set; } = new List<string>();
         private SynthWaveProvider[] _oscillators = new SynthWaveProvider[88];
         private VolumeSampleProvider _volControl;
         private MixingSampleProvider _mixer;
@@ -103,16 +111,9 @@ namespace Synthesizer
                     var noteOffEvent = (NoteEvent)e.MidiEvent;
                     if (noteOffEvent.Velocity == 0)
                         NoteOff(noteOffEvent.NoteNumber);
-                   /* if () 
-                    {
-                        MessageBox.Show("ЕБАТЬ");
-                        NoteOff(noteOffEvent.NoteNumber);
-
-                    }*/
-                        
+                 
                     break;
-                  /*  if (noteOffEvent)
-                        NoteOff(noteOffEvent.NoteNumber);*/
+                 
 
             }
         }
@@ -196,24 +197,24 @@ namespace Synthesizer
             _chorus = new ChorusSampleProvider(_tremolo);
             _phaser = new PhaserSampleProvider(_chorus);
             _lpf = new LowPassFilterSampleProvider(_phaser, 20000);
-            
+
             /*_fftProvider = new FFTSampleProvider(8, (ss, cs) => Dispatch=> UpdateRealTimeData(ss, cs)), _phaser);*/
+
+
            
-
-
             WaveType = SignalGeneratorType.Sin;
             Volume = 0.5;
             Attack = 0.01f;
             Decay = 0.01f;
             Sustain = 1.0f;
             Release = 0.3f;
-            CutOff = 4000;
-            Q = 0.7f;
+            CutOff = 8000;
+            Q = 1f;
             TremoloFreq = 5;
             TremoloFreqMult = 1;
             ChorusDelay = 0.0f;
             ChorusSweep = 0.0f;
-            ChorusWidth = 0.4f;
+            ChorusWidth = 0.01f;
             PhaserDry = 0.0f;
             PhaserWet = 0.0f;
             PhaserFeedback = 0.0f;
@@ -412,22 +413,46 @@ namespace Synthesizer
         }
         partial void Execute_LoadPatchCommand()
         {
-            Decay = 2.0f;
-            Attack = 2.0f;
+            
+            
         }
 
         partial void Execute_SavePatchCommand()
         {
-            using (DataContext db = new DataContext())
-            {
-                // создаем два объекта User
-                Synthesis SynthObject = new Synthesis { Name = this.Name , Decay = this.Decay , Attack = this.Attack };
-               
+            
+            if (TremoloGain > 0.2f)
+                Tremolo = true;
+            if(db.Syntheses.FirstOrDefault(u => u.Name == this.Name) == null)
+                { 
+                Syntheses SynthObject = new Syntheses
+                {
+                    Name = this.Name,
+                    Decay = this.Decay,
+                    Attack = this.Attack,
+                    ChorusDelay = this.ChorusDelay,
+                    ChorusSweep = this.ChorusSweep,
+                    ChorusWidth = this.ChorusWidth,
+                    PhaserDry = this.PhaserDry,
+                    PhaserFeedback = this.PhaserFeedback,
+                    PhaserFreq = this.PhaserFreq,
+                    PhaserSweep = this.PhaserSweep,
+                    PhaserWet = this.PhaserWet,
+                    PhaserWidth = this.PhaserWidth,
+                    CutOff = this.CutOff,
+                    Sustain = this.Sustain,
+                    Q = this.Q,
+                    Release = this.Release,
+                    TremoloFreq = this.TremoloFreq,
+                    Volume = this.Volume,
+                    Tremolo = this.Tremolo,
+                    FactId = factory.id_factory
+                };
+
                 // добавляем их в бд
-               
+
                 db.Syntheses.Add(SynthObject);
                 db.SaveChanges();
-                Console.WriteLine("Объекты успешно сохранены");
+                ValidateBlock = ("Сохранено!");
 
                 // получаем объекты из бд и выводим на консоль
                 /* var users = db.Users;
@@ -437,6 +462,12 @@ namespace Synthesizer
                      Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
                  }*/
             }
+            else
+            {
+                ValidateBlock = "Имя занято!";
+            }
+
+
 
         }
 
@@ -456,6 +487,20 @@ namespace Synthesizer
         {
             if (_player == null)
             {
+                
+                    // создаем два объекта User
+                   /* List<Synthesis> list = db.Syntheses.ToList();
+                    foreach (var l in list)
+                        NamesOfPresets.Add(l.Name);
+*/
+                    // получаем объекты из бд и выводим на консоль
+                    /* var users = db.Users;
+                     Console.WriteLine("Список объектов:");
+                     foreach (User u in users)
+                     {
+                         Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
+                     }*/
+               
                 var waveOutEvent = new WaveOutEvent
                 {
                     NumberOfBuffers = 2,

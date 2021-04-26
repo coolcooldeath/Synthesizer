@@ -103,7 +103,6 @@ D:\source\Synthesizer\Synthesizer\bin\Debug\System.Memory.xml
 D:\source\Synthesizer\Synthesizer\bin\Debug\System.Numerics.Vectors.xml
 D:\source\Synthesizer\Synthesizer\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\source\Synthesizer\Synthesizer\bin\Debug\System.Threading.Tasks.Extensions.xml
-D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csprojAssemblyReference.cache
 D:\source\Synthesizer\Synthesizer\bin\Debug\SkiaSharp.dll.config
 D:\source\Synthesizer\Synthesizer\bin\Debug\libSkiaSharp.dll
 D:\source\Synthesizer\Synthesizer\bin\Debug\libSkiaSharp.dylib
@@ -112,3 +111,4 @@ D:\source\Synthesizer\Synthesizer\bin\Debug\x64\libSkiaSharp.dll
 D:\source\Synthesizer\Synthesizer\bin\Debug\SkiaSharp.dll
 D:\source\Synthesizer\Synthesizer\bin\Debug\SkiaSharp.Extended.Svg.dll
 D:\source\Synthesizer\Synthesizer\bin\Debug\SkiaSharp.xml
+D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csprojAssemblyReference.cache

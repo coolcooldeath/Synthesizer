@@ -1298,8 +1298,8 @@ namespace Synthesizer
         void ResetCanExecute()
         {
             
-           /* _MidiOnCommand.RefreshCanExecute();
-            _MidiOffCommand.RefreshCanExecute();*/
+            _MidiOnCommand.RefreshCanExecute();
+            _MidiOffCommand.RefreshCanExecute();
             _LoadPatchCommand.RefreshCanExecute();
             _SavePatchCommand.RefreshCanExecute();
         }
@@ -1366,8 +1366,38 @@ namespace Synthesizer
             }
         }
 
+        string _ValidateBlock = default;
+        void EditValidateBlock()
+        {
+            OnPropertyChanged("ValidateBlock");
+        }
+
+        public string ValidateBlock
+        {
+            get { return _ValidateBlock; }
+            set
+            {
+                if (_ValidateBlock == value)
+                {
+                    return;
+                }
+
+                var prev = _ValidateBlock;
+
+                _ValidateBlock = value;
+
+                EditValidateBlock();
+
+
+            }
+        }
+
+
         partial void Changed_Name(string prev, string current);
         partial void Changed_LoginName(string prev, string current);
+
+      
+
     }
 }
 

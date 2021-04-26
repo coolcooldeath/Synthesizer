@@ -29,7 +29,10 @@ namespace Synthesizer
             
 
         }
-        
-       
+
+        private void Name_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

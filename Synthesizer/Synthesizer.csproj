@@ -111,6 +111,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
@@ -141,14 +143,17 @@
     </ApplicationDefinition>
     <Compile Include="ChorusSampleProvider.cs" />
     <Compile Include="Controls\DependencyProperties.cs" />
-    <Compile Include="DataLayer\DataContext.cs" />
-    <Compile Include="DataLayer\Synthesis.cs" />
+    <Compile Include="DataLayer\EDM.cs" />
+    <Compile Include="DataLayer\factory.cs" />
+    <Compile Include="DataLayer\Syntheses.cs" />
+    <Compile Include="DataLayer\users.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Generated_ViewModel1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Generated_ViewModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="HelperClass.cs" />
     <Compile Include="HighPassFilterSampleProvider.cs" />
     <Compile Include="Controls\Knob.cs" />
     <Compile Include="LowPassFilterSampleProvider.cs" />
