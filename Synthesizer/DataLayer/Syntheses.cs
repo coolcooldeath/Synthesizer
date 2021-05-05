@@ -5,6 +5,7 @@ namespace Synthesizer.DataLayer
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Windows.Input;
 
     public partial class Syntheses
     {
@@ -60,5 +61,7 @@ namespace Synthesizer.DataLayer
         public bool IsAdminFactory { get; set; }
 
         public virtual factory factory { get; set; }
+       
+        
     }
 }

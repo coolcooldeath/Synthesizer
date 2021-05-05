@@ -14,25 +14,22 @@ using System.Windows.Shapes;
 
 namespace Synthesizer
 {
-    /// <summary>
-    /// Логика взаимодействия для StartWindow.xaml
-    /// </summary>
     public partial class StartWindow : Window
     {
         private readonly StartWindowViewModel _viewModel;
         public StartWindow()
         {
-
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+               
+            }
             InitializeComponent();
             _viewModel = new StartWindowViewModel();
             DataContext = _viewModel;
-            
+
 
         }
 
-        private void Name_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
     }
 }

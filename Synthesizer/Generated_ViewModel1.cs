@@ -1167,6 +1167,7 @@ namespace Synthesizer
         // --------------------------------------------------------------------
 
 
+        
 
 
         readonly UserCommand _MidiOnCommand;
@@ -1220,26 +1221,26 @@ namespace Synthesizer
 
         // --------------------------------------------------------------------
         // BEGIN_COMMAND: LoadPatchCommand
-        // --------------------------------------------------------------------
-        readonly UserCommand _LoadPatchCommand;
-
-        bool CanExecuteLoadPatchCommand()
+        // -------------------------------------------------------------------- 
+        private UserCommandWithParametrs _LoadPatchCommand;
+        
+        bool CanExecuteLoadPatchCommand(    )
         {
             bool result = false;
-            CanExecute_LoadPatchCommand(ref result);
+            result = true;
 
             return result;
         }
 
-        void ExecuteLoadPatchCommand()
+        void ExecuteLoadPatchCommand(object id)
         {
-            Execute_LoadPatchCommand();
+            Execute_LoadPatchCommand(id);
         }
 
         public ICommand LoadPatchCommand { get { return _LoadPatchCommand; } }
         // --------------------------------------------------------------------
         partial void CanExecute_LoadPatchCommand(ref bool result);
-        partial void Execute_LoadPatchCommand();
+        partial void Execute_LoadPatchCommand(object id);
         // --------------------------------------------------------------------
         // END_COMMAND: LoadPatchCommand
         // --------------------------------------------------------------------
@@ -1270,6 +1271,25 @@ namespace Synthesizer
         // END_COMMAND: SavePatchCommand
         // --------------------------------------------------------------------
 
+        private UserCommandWithParametrs _DeletePatchCommand;
+
+        bool CanExecuteDeletePatchCommand()
+        {
+            bool result = false;
+            result = true;
+
+            return result;
+        }
+
+        void ExecuteDeletePatchCommand(object id)
+        {
+            Execute_DeletePatchCommand(id);
+        }
+
+        public ICommand DeletePatchCommand { get { return _DeletePatchCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_DeletePatchCommand(ref bool result);
+        partial void Execute_DeletePatchCommand(object id);
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
@@ -1286,10 +1306,12 @@ namespace Synthesizer
             /*_dispatcher = dispatcher;*/
             /*_MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);*/
-            _LoadPatchCommand = new UserCommand(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
+            _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
+            _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);
+           
             Constructed ();
         }
 

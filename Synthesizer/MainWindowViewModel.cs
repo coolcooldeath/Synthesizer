@@ -26,7 +26,7 @@ namespace Synthesizer
 
     public partial class MainWindowViewModel
     {
-       
+
        
         private readonly List<Key> keyboard = new List<Key>
         {
@@ -56,9 +56,45 @@ namespace Synthesizer
         public bool EnableSubOsc {get; set;}
         public bool EnableVibrato { get; set; }
 
-        
 
 
+        private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses);
+
+        void Raise_SynthesesList()
+        {
+            OnPropertyChanged("SynthesesList");
+        }
+
+        public ObservableCollection<Syntheses> SynthesesList
+        {
+            get { return _SynthesesList; }
+            set
+            {
+                if (_SynthesesList == value)
+                {
+                    return;
+                }
+
+                var prev = _SynthesesList;
+
+                _SynthesesList = value;
+
+                Changed_SynthesesList();
+
+                Raise_SynthesesList();
+            }
+        }
+
+        public void Changed_SynthesesList()
+        {
+            ResetCanExecute();
+        }
+
+
+        /*  public ObservableCollection<Syntheses> SynthesesList
+          {
+              get => _SynthesesList;
+          }*/
         public EnBaseFrequency[] SelectableBaseFrequencies => EnumValues<EnBaseFrequency>();
         public static T[] EnumValues<T>()
         {
@@ -411,10 +447,57 @@ namespace Synthesizer
         {
             result = true;
         }
-        partial void Execute_LoadPatchCommand()
+
+
+
+        partial void Execute_LoadPatchCommand(object _id)
         {
             
-            
+            int ID = Convert.ToInt32(_id);
+            Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
+            if (SynthObject != null)
+            {
+                
+
+                Name = SynthObject.Name;
+                Decay = (float)SynthObject.Decay;
+                Attack = (float)SynthObject.Attack;
+                ChorusDelay = (float)SynthObject.ChorusDelay;
+                ChorusSweep = (float)SynthObject.ChorusSweep;
+                ChorusWidth = (float)SynthObject.ChorusWidth;
+                this.PhaserDry = (float)SynthObject.PhaserDry;
+                this.PhaserFeedback = (float)SynthObject.PhaserFeedback;
+                this.PhaserFreq = (float)SynthObject.PhaserFreq;
+                this.PhaserSweep = (float)SynthObject.PhaserSweep;
+                this.PhaserWet = (float)SynthObject.PhaserWet;
+                this.PhaserWidth = (float)SynthObject.PhaserWidth;
+                this.CutOff = (int)SynthObject.CutOff;
+                this.Sustain = (float)SynthObject.Sustain;
+                this.Q = (float)SynthObject.Q;
+                this.Release = (float)SynthObject.Release;
+                this.TremoloFreq = (int)SynthObject.TremoloFreq;
+                this.Volume = (double)SynthObject.Volume;
+                this.Tremolo = SynthObject.Tremolo;
+                /*this.FactId = SynthObject.Name;*/
+                   
+                   
+              
+
+             
+
+                // получаем объекты из бд и выводим на консоль
+                /* var users = db.Users;
+                 Console.WriteLine("Список объектов:");
+                 foreach (User u in users)
+                 {
+                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
+                 }*/
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Какая то хуйня");
+            }
+
         }
 
         partial void Execute_SavePatchCommand()
@@ -447,13 +530,14 @@ namespace Synthesizer
                     Tremolo = this.Tremolo,
                     FactId = factory.id_factory
                 };
-
+               
                 // добавляем их в бд
 
                 db.Syntheses.Add(SynthObject);
                 db.SaveChanges();
                 ValidateBlock = ("Сохранено!");
 
+                
                 // получаем объекты из бд и выводим на консоль
                 /* var users = db.Users;
                  Console.WriteLine("Список объектов:");
@@ -464,10 +548,28 @@ namespace Synthesizer
             }
             else
             {
-                ValidateBlock = "Имя занято!";
+               
             }
+            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses);
 
 
+        }
+
+        partial void Execute_DeletePatchCommand(object _id)
+        {
+
+            int ID = Convert.ToInt32(_id);
+            Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
+            if (SynthObject != null)
+            {
+                db.Syntheses.Remove(SynthObject);
+                db.SaveChanges();
+            }
+            else
+            {
+                
+            }
+            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses);
 
         }
 

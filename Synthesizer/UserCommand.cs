@@ -8,12 +8,16 @@ namespace Synthesizer
         public event EventHandler CanExecuteChanged;
         private readonly Func<bool> _canExecute;
         private readonly Action _execute;
+        
+      
 
         public UserCommand(Func<bool> canExecute, Action execute)
         {
             _canExecute = canExecute;
             _execute = execute;
         }
+
+        
 
         public bool CanExecute(object parameter)
         {
@@ -24,6 +28,8 @@ namespace Synthesizer
         {
             _execute();
         }
+
+        
 
         public void RefreshCanExecute()
         {

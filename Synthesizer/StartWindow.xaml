@@ -4,16 +4,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local="clr-namespace:Synthesizer"
+        xmlns:local="clr-namespace:Synthesizer" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:bh="clr-namespace:Synthesizer.Helpers"
         mc:Ignorable="d"
-        WindowStyle="ToolWindow"
-       
-        BorderBrush="Black" BorderThickness="3"
+        WindowStyle="None"
+
+        BorderBrush="Black" BorderThickness="6"
         Background="#b8b8b8"
          WindowStartupLocation ="CenterScreen"
          d:DataContext="{d:DesignInstance Type=local:StartWindowViewModel}"
-        Title="StartWindow" Height="460" Width="340">
+        Title="StartWindow" Height="370" Width="340">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="./resources/#Determination2"/>
@@ -53,15 +52,18 @@
             <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock  Text="{Binding Password}"></TextBlock>
 
-            <TextBox Padding="10,0,0,0" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock  Text="{Binding Password}"></TextBlock>
+            <PasswordBox Padding="10,0,0,0" Style="{StaticResource MaterialDesignFilledPasswordBox}" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1"  FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8">
+                <i:Interaction.Behaviors>
+                    <bh:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+            </PasswordBox>
 
-            <TextBox Padding="10,0,0,10"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Foreground="Red" Text="{Binding RegisterRepeat}"></TextBlock>
             <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
-                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,10,0,10"   />
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=EnterPasswordTextBox}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,0,0,10"   />
             <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
-                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="Регистрация"  Margin="0,10,0,10" />
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=EnterPasswordTextBox}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="Регистрация"  Margin="0,10,0,10" />
 
             <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" Visibility="{Binding RegisterVisibility}"  FontFamily="./resources/#Determination2" Content="Есть аккаунт" Width="140"  FontSize="12"   />
             <Button Height="20" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}"  Visibility="{Binding LoginVisibility}" FontFamily="./resources/#Determination2" Content="Нет аккаунта" Width="140"  FontSize="12"   />

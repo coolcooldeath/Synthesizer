@@ -40,6 +40,12 @@ namespace Synthesizer
             }
         }
 
+
+       /* private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Keyboard.ClearFocus();
+        }
+*/
         private void SetWaveform(object sender, RoutedEventArgs e)
         {
             var selector = sender as RadioButton;
@@ -61,7 +67,7 @@ namespace Synthesizer
                         _viewModel.WaveType = SignalGeneratorType.Triangle;
                         break;
                     case "White":
-                        _viewModel.WaveType = SignalGeneratorType.White;
+                        _viewModel.WaveType = SignalGeneratorType.Pink;
                         break;
                 }
             }

@@ -449,7 +449,7 @@ namespace Synthesizer
                 factory factory = new factory { factory_name = "Базовая",login = this.LoginName};
                 db.users.Add(user);
                 db.factory.Add(factory);
-                db.SaveChanges();
+                db.SaveChangesAsync();
                 Execute_OpenLoginCommand();
 
                 
@@ -486,12 +486,15 @@ namespace Synthesizer
 
         public void Execute_OpenRegisterCommand()
         {
+            Application.Current.MainWindow.Height = 440;
+
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
 
         }
         public void Execute_OpenLoginCommand()
         {
+            Application.Current.MainWindow.Height = 370;
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;
 
@@ -499,6 +502,9 @@ namespace Synthesizer
 
         public StartWindowViewModel()
         {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                return;
+            db.users.FindAsync(new users());
             _LoginCommand = new UserCommand(CanExecuteLoginCommand, ExecuteLoginCommand);
             _RegisterCommand = new UserCommand(CanExecuteRegisterCommand, ExecuteRegisterCommand);
             _OpenRegisterCommand = new UserCommand(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
