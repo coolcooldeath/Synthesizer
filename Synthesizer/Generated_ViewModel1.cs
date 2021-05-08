@@ -37,13 +37,80 @@ namespace Synthesizer
 
                 _MidiVisibility = value;
 
-                Changed_MidiVisibility(prev, _MidiVisibility);
+                Changed_MidiVisibility();
 
                 Raise_MidiVisibility();
             }
         }
         // --------------------------------------------------------------------
-        partial void Changed_MidiVisibility(Visibility prev, Visibility current);
+        public void Changed_MidiVisibility()
+        {
+            ResetCanExecute();
+        }
+
+
+        Visibility _BaseFactoryVisibility = Visibility.Hidden;
+
+        void Raise_BaseFactoryVisibility()
+        {
+            OnPropertyChanged("BaseFactoryVisibility");
+        }
+
+        public Visibility BaseFactoryVisibility
+        {
+            get { return _BaseFactoryVisibility; }
+            set
+            {
+                if (_BaseFactoryVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _BaseFactoryVisibility;
+
+                _BaseFactoryVisibility = value;
+
+                Changed_BaseFactoryVisibility();
+
+                Raise_BaseFactoryVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_BaseFactoryVisibility()
+        {
+            ResetCanExecute();
+        }
+        Visibility _UserFactoryVisibility = Visibility.Visible;
+
+        void Raise_UserFactoryVisibility()
+        {
+            OnPropertyChanged("UserFactoryVisibility");
+        }
+
+        public Visibility UserFactoryVisibility
+        {
+            get { return _UserFactoryVisibility; }
+            set
+            {
+                if (_UserFactoryVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _UserFactoryVisibility;
+
+                _UserFactoryVisibility = value;
+
+                Changed_UserFactoryVisibility();
+
+                Raise_UserFactoryVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_UserFactoryVisibility()
+        {
+            ResetCanExecute();
+        }
 
 
 
@@ -1270,6 +1337,128 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         // END_COMMAND: SavePatchCommand
         // --------------------------------------------------------------------
+        bool _Guide = false;
+
+        void Raise_Guide()
+        {
+            OnPropertyChanged("Guide");
+        }
+
+        public bool Guide
+        {
+            get { return _Guide; }
+            set
+            {
+                if (_Guide == value)
+                {
+                    return;
+                }
+
+                var prev = _Guide;
+
+                _Guide = value;
+
+                Changed_Guide();
+
+                Raise_Guide();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_Guide()
+        {
+            ResetCanExecute();
+        }
+
+
+        readonly UserCommand _CloseGuideCommand;
+
+
+
+        bool CanExecuteCloseGuideCommand()
+        {
+            bool result = false;
+            CanExecute_CloseGuideCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteCloseGuideCommand()
+        {
+            Execute_CloseGuideCommand();
+        }
+
+        public ICommand CloseGuideCommand { get { return _CloseGuideCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_CloseGuideCommand(ref bool result);
+        partial void Execute_CloseGuideCommand();
+
+
+        readonly UserCommand _OpenGuideCommand;
+
+
+
+        bool CanExecuteOpenGuideCommand()
+        {
+            bool result = false;
+            CanExecute_OpenGuideCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteOpenGuideCommand()
+        {
+            Execute_OpenGuideCommand();
+        }
+
+        public ICommand OpenGuideCommand { get { return _OpenGuideCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_OpenGuideCommand(ref bool result);
+        partial void Execute_OpenGuideCommand();
+
+
+
+        readonly UserCommand _ChangeFactoryCommand;
+
+
+
+        bool CanExecuteChangeFactoryCommand()
+        {
+            bool result = false;
+            CanExecute_ChangeFactoryCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteChangeFactoryCommand()
+        {
+            Execute_ChangeFactoryCommand();
+        }
+
+        public ICommand ChangeFactoryCommand { get { return _ChangeFactoryCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_ChangeFactoryCommand(ref bool result);
+        partial void Execute_ChangeFactoryCommand();
+
+
+        readonly UserCommandWithParametrs _ExitCommand;
+
+        bool CanExecuteExitCommand()
+        {
+            bool result = false;
+            CanExecute_ExitCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteExitCommand(object window)
+        {
+            Execute_ExitCommand(window);
+        }
+
+        public ICommand ExitCommand { get { return _ExitCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_ExitCommand(ref bool result);
+        partial void Execute_ExitCommand(object window);
 
         private UserCommandWithParametrs _DeletePatchCommand;
 
@@ -1299,9 +1488,9 @@ namespace Synthesizer
 
 
 
-        partial void Constructed ();
+        partial void Constructed();
 
-        public MainWindowViewModel (/*Dispatcher dispatcher*/)
+        public MainWindowViewModel(/*Dispatcher dispatcher*/)
         {
             /*_dispatcher = dispatcher;*/
             /*_MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
@@ -1309,27 +1498,34 @@ namespace Synthesizer
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
+            _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);
+            _OpenGuideCommand = new UserCommand(CanExecuteOpenGuideCommand, ExecuteOpenGuideCommand);
+            _ChangeFactoryCommand = new UserCommand(CanExecuteChangeFactoryCommand, ExecuteChangeFactoryCommand);
+            _ExitCommand = new UserCommandWithParametrs(CanExecuteExitCommand, ExecuteExitCommand);
             _MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);
-           
-            Constructed ();
+
+            Constructed();
         }
 
-       
+
 
         void ResetCanExecute()
         {
-            
+            /* _MidiOnCommand.RefreshCanExecute();
+             _MidiOffCommand.RefreshCanExecute();*//*
+            _DeletePatchCommand.RefreshCanExecute();
             _MidiOnCommand.RefreshCanExecute();
             _MidiOffCommand.RefreshCanExecute();
             _LoadPatchCommand.RefreshCanExecute();
-            _SavePatchCommand.RefreshCanExecute();
+            _CloseGuideCommand.RefreshCanExecute();
+            _ChangeFactoryCommand.RefreshCanExecute();
+            _ExitCommand.RefreshCanExecute();*/
         }
-
-       /* void Dispatch(Action action)
-        {
-            _dispatcher.BeginInvoke(action);
-        }*/
+        /* void Dispatch(Action action)
+         {
+             _dispatcher.BeginInvoke(action);
+         }*/
         protected virtual void OnPropertyChanged (string propertyChanged)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyChanged));

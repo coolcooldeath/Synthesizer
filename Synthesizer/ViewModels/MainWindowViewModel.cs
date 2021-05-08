@@ -59,7 +59,6 @@ namespace Synthesizer
 
 
         private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses);
-        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses);
 
         void Raise_SynthesesList()
         {
@@ -91,35 +90,6 @@ namespace Synthesizer
             ResetCanExecute();
         }
 
-        void Raise_BaseSynthesesList()
-        {
-            OnPropertyChanged("BaseSynthesesList");
-        }
-
-        public ObservableCollection<Syntheses> BaseSynthesesList
-        {
-            get { return _BaseSynthesesList; }
-            set
-            {
-                if (_BaseSynthesesList == value)
-                {
-                    return;
-                }
-
-                var prev = _BaseSynthesesList;
-
-                _BaseSynthesesList = value;
-
-                Changed_BaseSynthesesList();
-
-                Raise_BaseSynthesesList();
-            }
-        }
-
-        public void Changed_BaseSynthesesList()
-        {
-            ResetCanExecute();
-        }
 
         /*  public ObservableCollection<Syntheses> SynthesesList
           {
@@ -478,39 +448,7 @@ namespace Synthesizer
             result = true;
         }
 
-        partial void CanExecute_CloseGuideCommand(ref bool result)
-        {
-            result = true;
-        }
 
-        partial void CanExecute_ExitCommand(ref bool result)
-        {
-            result = true;
-        }
-
-        partial void CanExecute_OpenGuideCommand(ref bool result)
-        {
-            result = true;
-        }
-
-
-        partial void Execute_CloseGuideCommand()
-        {
-            Guide = false;
-        }
-
-        partial void Execute_ExitCommand(object _window)
-        {
-            Window window = _window as Window;
-            StartWindow startWindow = new StartWindow();
-            startWindow.Show();
-            window.Close();
-        }
-
-        partial void Execute_OpenGuideCommand()
-        {
-            Guide = true;
-        }
 
         partial void Execute_LoadPatchCommand(object _id)
         {
@@ -634,36 +572,6 @@ namespace Synthesizer
             SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses);
 
         }
-
-        partial void CanExecute_ChangeFactoryCommand(ref bool result)
-        {
-            result = true;
-        }
-        public bool factoryVisible = true;
-        partial void Execute_ChangeFactoryCommand()
-        {
-            
-            if(factoryVisible == true)
-            {
-                MessageBox.Show("Работает же ебаный рот переключидло на базу");
-                BaseFactoryVisibility = Visibility.Visible;
-                UserFactoryVisibility = Visibility.Collapsed;
-                factoryVisible = false;
-                return;
-            }
-
-            if (factoryVisible == false)
-            {
-                MessageBox.Show("Работает же ебаный рот переключидло обратно");
-                BaseFactoryVisibility = Visibility.Collapsed;
-                UserFactoryVisibility = Visibility.Visible;
-                factoryVisible = true;
-                return;
-            } 
-
-        }
-
-
 
 
         public void Stop()

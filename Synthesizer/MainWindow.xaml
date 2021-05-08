@@ -8,8 +8,8 @@
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="cooldeathsynthesizer" 
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         
+        x:Name="SynthWindow"
        
     Height="630" Width="1480" 
         WindowStartupLocation ="CenterScreen">
@@ -247,9 +247,22 @@
 
         </StackPanel>
 
+        <materialDesign:DialogHost Grid.Column="3" Grid.Row="2" IsOpen="{Binding Guide}">
+            <materialDesign:DialogHost.DialogContent>
+                <Button Grid.Column="6" Width="50" Background="#919191" Content="Закрыть" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding CloseGuideCommand}" >
+                    
+                </Button>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <Button Grid.Column="6" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=SynthWindow}" >
+            <Image Source="/resources/users icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+        </Button>
 
 
-
+        <Button Grid.Column="6" Grid.Row="1" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding OpenGuideCommand}" >
+            <Image Source="/resources/users icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+        </Button>
         <Ellipse Grid.Column="6"
                 Grid.Row="4" Height="20" Margin="0,50,0,0"  Width="20"  Style="{DynamicResource Bulb}"></Ellipse>
         <CheckBox x:Name="On"
@@ -367,14 +380,15 @@
             
             
             <Label  Content="{Binding LoginName}" FontSize="20"  Foreground="Black" Margin="30,-30,0,0" HorizontalAlignment="Left" FontFamily="./resources/#Determination2" Width="150" ></Label>
-            <Button Margin="140,-40,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" >
+            <Button Margin="140,-40,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ChangeFactoryCommand}" >
                 <Image Source="/resources/factory icon.png" Margin="-10,-2,0,0"  Width="30" Height="35" ></Image>
             </Button>
             <Button Margin="255,-40,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" >
                 <Image Source="/resources/users icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
             </Button>
         </StackPanel>
-        <ScrollViewer x:Name="Scroll"  Background="#b8b8b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
+        
+        <ScrollViewer x:Name="Scroll" Visibility="{Binding UserFactoryVisibility}" Background="#b8b8b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
             <ListBox ItemsSource="{Binding SynthesesList}" Margin="0,0,0,0">
 
                 <ListBox.ItemTemplate>
@@ -400,6 +414,62 @@
                                     <Image Source="/resources/load icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
                                 </Button>
                                 <Button Margin="70,-35,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding DeletePatchCommand}" DataContext="{Binding DataContext, ElementName=Scroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
+                                    <Image Source="/resources/delete icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+
+                </ListBox.ItemTemplate>
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+
+
+
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+            </ListBox>
+        </ScrollViewer>
+
+        <ScrollViewer x:Name="BaseScroll" Visibility="{Binding BaseFactoryVisibility}"  Background="#11b9b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
+            <ListBox ItemsSource="{Binding BaseSynthesesList}" Margin="0,0,0,0">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="20,0,0,10" Height="50">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="175"></ColumnDefinition>
+                                <ColumnDefinition Width="140"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Fill="#919191"   Grid.Column="0" ></Rectangle>
+
+                            <StackPanel Grid.Column="0" >
+                                <TextBlock Padding="10,0,0,0" Margin="10,10,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Name}" FontSize="20"/>
+                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Decay}" FontSize="15"/>
+
+                                <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="./resources/#Determination2" Height="30"  Text="{Binding Id}" FontSize="20"/>
+
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"  >
+
+                                <Button Margin="-45,5,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
+                                    <Image Source="/resources/load icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
+                                </Button>
+                                <Button Margin="70,-35,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding DeletePatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
                                     <Image Source="/resources/delete icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
                                 </Button>
                             </StackPanel>

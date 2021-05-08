@@ -255,7 +255,7 @@ namespace Synthesizer
 
 
         #region Команды
-        readonly UserCommand _LoginCommand;
+        readonly UserCommandWithParametrs _LoginCommand;
 
         bool CanExecuteLoginCommand()
         {
@@ -265,9 +265,9 @@ namespace Synthesizer
             return result;
         }
 
-        void ExecuteLoginCommand()
+        void ExecuteLoginCommand(object window)
         {
-            Execute_LoginCommand();
+            Execute_LoginCommand(window);
         }
 
         public ICommand LoginCommand { get { return _LoginCommand; } }
@@ -292,7 +292,7 @@ namespace Synthesizer
 
         
 
-        readonly UserCommand _RegisterCommand;
+        readonly UserCommandWithParametrs _RegisterCommand;
 
         bool CanExecuteRegisterCommand()
         {
@@ -302,9 +302,9 @@ namespace Synthesizer
             return result;
         }
 
-        void ExecuteRegisterCommand()
+        void ExecuteRegisterCommand(object window)
         {
-            Execute_RegisterCommand();
+            Execute_RegisterCommand(window);
         }
 
         public ICommand RegisterCommand { get { return _RegisterCommand; } }
@@ -331,7 +331,7 @@ namespace Synthesizer
 
 
 
-        readonly UserCommand _OpenRegisterCommand;
+        readonly UserCommandWithParametrs _OpenRegisterCommand;
 
         bool CanExecuteOpenRegisterCommand()
         {
@@ -341,9 +341,9 @@ namespace Synthesizer
             return result;
         }
 
-        void ExecuteOpenRegisterCommand()
+        void ExecuteOpenRegisterCommand(object window)
         {
-            Execute_OpenRegisterCommand();
+            Execute_OpenRegisterCommand(window);
         }
 
         public ICommand OpenRegisterCommand { get { return _OpenRegisterCommand; } }
@@ -357,7 +357,7 @@ namespace Synthesizer
 
 
 
-        readonly UserCommand _OpenLoginCommand;
+        readonly UserCommandWithParametrs _OpenLoginCommand;
 
         bool CanExecuteOpenLoginCommand()
         {
@@ -367,9 +367,9 @@ namespace Synthesizer
             return result;
         }
 
-        void ExecuteOpenLoginCommand()
+        void ExecuteOpenLoginCommand(object window)
         {
-            Execute_OpenLoginCommand();
+            Execute_OpenLoginCommand(window);
         }
 
         public ICommand OpenLoginCommand { get { return _OpenLoginCommand; } }
@@ -387,7 +387,7 @@ namespace Synthesizer
         #endregion
 
 
-        public void Execute_LoginCommand()
+        public void Execute_LoginCommand(object _window)
         {
             Loading = true;
             string hashPassword = HelperClass.getHash(Password);
@@ -403,7 +403,8 @@ namespace Synthesizer
                 viewModel.factory = factory;
                 MainWindow mainWindow = new MainWindow(viewModel);
                 mainWindow.Show();
-                Application.Current.MainWindow.Close();
+                Window window = _window as Window;
+                window.Close();
             }
             else
             {
@@ -438,7 +439,7 @@ namespace Synthesizer
 
 
         }
-        public void Execute_RegisterCommand()
+        public void Execute_RegisterCommand(object _window)
         {
 
             Loading = true;
@@ -450,7 +451,7 @@ namespace Synthesizer
                 db.users.Add(user);
                 db.factory.Add(factory);
                 db.SaveChangesAsync();
-                Execute_OpenLoginCommand();
+                Execute_OpenLoginCommand(_window);
 
                 
 
@@ -484,17 +485,20 @@ namespace Synthesizer
 
         }
 
-        public void Execute_OpenRegisterCommand()
+        public void Execute_OpenRegisterCommand(object _window)
         {
-            Application.Current.MainWindow.Height = 440;
+            Window window = _window as Window;
+            window.Height = 440;
 
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
 
         }
-        public void Execute_OpenLoginCommand()
+        public void Execute_OpenLoginCommand(object _window)
         {
-            Application.Current.MainWindow.Height = 370;
+            Window window = _window as Window;
+            window.Height = 370;
+            
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;
 
@@ -505,10 +509,10 @@ namespace Synthesizer
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
             db.users.FindAsync(new users());
-            _LoginCommand = new UserCommand(CanExecuteLoginCommand, ExecuteLoginCommand);
-            _RegisterCommand = new UserCommand(CanExecuteRegisterCommand, ExecuteRegisterCommand);
-            _OpenRegisterCommand = new UserCommand(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
-            _OpenLoginCommand = new UserCommand(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);
+            _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
+            _RegisterCommand = new UserCommandWithParametrs(CanExecuteRegisterCommand, ExecuteRegisterCommand);
+            _OpenRegisterCommand = new UserCommandWithParametrs(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
+            _OpenLoginCommand = new UserCommandWithParametrs(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);
 
         }
 
@@ -516,6 +520,8 @@ namespace Synthesizer
         {
             _RegisterCommand.RefreshCanExecute();
             _LoginCommand.RefreshCanExecute();
+            _OpenLoginCommand.RefreshCanExecute();
+            _OpenRegisterCommand.RefreshCanExecute();
 
         }
     }
