@@ -174,7 +174,23 @@
             <Label Content="24" Margin="-45,55,0,0"></Label>
 
         </StackPanel >
-
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+                <Image Grid.Column="1" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+                <Image  Grid.Column="2" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+                <Image Grid.Column="3" Source="/resources/fun icon.png" Margin="0,0,0,0"  Width="30" Height="30" ></Image>
+                <Image  Grid.Column="4" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="30" ></Image>
+            </Grid>
+           
+        </StackPanel>
         <StackPanel Orientation="Horizontal"
                 Grid.Row="2"
                 Grid.Column="2"
@@ -380,10 +396,10 @@
             
             
             <Label  Content="{Binding LoginName}" FontSize="20"  Foreground="Black" Margin="30,-30,0,0" HorizontalAlignment="Left" FontFamily="./resources/#Determination2" Width="150" ></Label>
-            <Button Margin="140,-40,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ChangeFactoryCommand}" >
+            <Button Visibility="{Binding UserVisibility}" Margin="200,-40,0,0" Width="110" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ChangeFactoryCommand}" >
                 <Image Source="/resources/factory icon.png" Margin="-10,-2,0,0"  Width="30" Height="35" ></Image>
             </Button>
-            <Button Margin="255,-40,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" >
+            <Button Visibility="{Binding AdminVisibility}" Margin="200,-40,0,0" Width="110"  Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding OpenUsersScrollCommand}" >
                 <Image Source="/resources/users icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
             </Button>
         </StackPanel>
@@ -443,8 +459,60 @@
 
             </ListBox>
         </ScrollViewer>
+        <ScrollViewer x:Name="UsersScroll" Visibility="{Binding UserScrollVisibility}" Background="#b8b8b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
+            <ListBox ItemsSource="{Binding UsersList}" Margin="0,0,0,0">
 
-        <ScrollViewer x:Name="BaseScroll" Visibility="{Binding BaseFactoryVisibility}"  Background="#11b9b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="20,0,0,10" Height="50">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="175"></ColumnDefinition>
+                                <ColumnDefinition Width="140"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Fill="#919191"   Grid.Column="0" ></Rectangle>
+
+                            <StackPanel Grid.Column="0" >
+                                <TextBlock Padding="10,0,0,0" Margin="10,10,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding name}" FontSize="20"/>
+                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding factory }" FontSize="15"/>
+
+                                <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="./resources/#Determination2" Height="30"  Text="{Binding login}" FontSize="20"/>
+
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"  >
+
+                                
+                                <Button Margin="70,10,0,0" Width="50" Background="#919191"  Height="35"  Command="{Binding DeleteUserCommand}" DataContext="{Binding DataContext, ElementName=UsersScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
+                                    <Image Source="/resources/delete icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+
+                </ListBox.ItemTemplate>
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+
+
+
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+            </ListBox>
+        </ScrollViewer>
+        <ScrollViewer x:Name="BaseScroll" Visibility="{Binding BaseFactoryVisibility}"  Background="#b8b8b8" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="60.8,64,6.2,20.8">
             <ListBox ItemsSource="{Binding BaseSynthesesList}" Margin="0,0,0,0">
 
                 <ListBox.ItemTemplate>
@@ -469,9 +537,7 @@
                                 <Button Margin="-45,5,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
                                     <Image Source="/resources/load icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
                                 </Button>
-                                <Button Margin="70,-35,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding DeletePatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
-                                    <Image Source="/resources/delete icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
-                                </Button>
+                                
                             </StackPanel>
 
                         </Grid>
@@ -503,7 +569,7 @@
         <StackPanel  Background="#b8b8b8" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="16.6,5.6,104,22.6" >
            
 
-            <TextBox Padding="10,10,0,0" Background="#919191" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="NameTextBox" materialDesign:HintAssist.Hint="Имя для сохранения" BorderThickness="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="30"  Foreground="Black" Height="70" Margin="0,10,200,0">
+            <TextBox Padding="10,5,0,0" Background="#919191" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="NameTextBox" materialDesign:HintAssist.Hint="Имя для сохранения" BorderThickness="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="30"  Foreground="Black" Height="60" Margin="0,10,200,0">
                 <TextBox.Text>
                     <Binding Path="Name"  UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules></Binding.ValidationRules>
@@ -511,7 +577,7 @@
                 </TextBox.Text>
 
             </TextBox>
-            <Button Background="#919191" Padding="0,0,0,10" Command="{Binding SavePatchCommand}" FontFamily="./resources/#Determination2" FontSize="30"  Margin="270,-35,0,0" Width="170" Height="35" Content="Сохранить">
+            <Button Background="#919191" Padding="0,0,0,10" Command="{Binding SavePatchCommand}" FontFamily="./resources/#Determination2" FontSize="30"  Margin="270,-30,0,0" Width="170" Height="35" Content="Сохранить">
                   
            
             </Button>

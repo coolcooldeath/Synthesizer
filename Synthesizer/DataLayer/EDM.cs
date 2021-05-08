@@ -8,7 +8,7 @@ namespace Synthesizer.DataLayer
     public partial class EDM : DbContext
     {
         public EDM()
-            : base("name=EDM1")
+            : base("name=EDM")
         {
         }
 

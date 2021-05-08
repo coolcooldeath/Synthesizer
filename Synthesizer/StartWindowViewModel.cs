@@ -1,6 +1,7 @@
 ﻿using Synthesizer.DataLayer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -401,6 +402,16 @@ namespace Synthesizer
                 viewModel.LoginName = this.LoginName;
                 viewModel.User = user;
                 viewModel.factory = factory;
+                viewModel.SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
+                if(user.isadmin == true)
+                {
+                    viewModel.AdminVisibility = Visibility.Visible;
+                    viewModel.UserVisibility = Visibility.Collapsed;
+
+                }
+                else
+                viewModel.AdminVisibility = Visibility.Collapsed;
+                viewModel.UserVisibility = Visibility.Visible;
                 MainWindow mainWindow = new MainWindow(viewModel);
                 mainWindow.Show();
                 Window window = _window as Window;
@@ -447,7 +458,7 @@ namespace Synthesizer
             {
                 
                 users user = new users {name = this.UserName,password = HelperClass.getHash(Password),login = this.LoginName};
-                factory factory = new factory { factory_name = "Базовая",login = this.LoginName};
+                factory factory = new factory { factory_name = this.UserName, login = this.LoginName};
                 db.users.Add(user);
                 db.factory.Add(factory);
                 db.SaveChangesAsync();
@@ -521,7 +532,7 @@ namespace Synthesizer
             _RegisterCommand.RefreshCanExecute();
             _LoginCommand.RefreshCanExecute();
             _OpenLoginCommand.RefreshCanExecute();
-            _OpenRegisterCommand.RefreshCanExecute();
+            _OpenRegisterCommand.RefreshCanExecute();   
 
         }
     }

@@ -22,12 +22,12 @@ namespace Synthesizer
     }
 
 
-   
+
 
     public partial class MainWindowViewModel
     {
 
-       
+
         private readonly List<Key> keyboard = new List<Key>
         {
             Key.Z, Key.S, Key.X, Key.C, Key.F, Key.V, Key.G, Key.B,
@@ -40,6 +40,7 @@ namespace Synthesizer
         public users User = new users();
         public factory factory = new factory();
         public List<string> NamesOfPresets { get; set; } = new List<string>();
+        
         private SynthWaveProvider[] _oscillators = new SynthWaveProvider[88];
         private VolumeSampleProvider _volControl;
         private MixingSampleProvider _mixer;
@@ -53,13 +54,14 @@ namespace Synthesizer
         public double BaseFrequency { get; set; } = 110.0;
         public SignalGeneratorType WaveType { get; set; } = SignalGeneratorType.Sin;
         public bool EnableLpf { get; set; }
-        public bool EnableSubOsc {get; set;}
+        public bool EnableSubOsc { get; set; }
         public bool EnableVibrato { get; set; }
 
 
+        private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>();
+        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses.Where(p => p.FactId == 19));
+        private ObservableCollection<users> _UsersList = new ObservableCollection<users>((new EDM()).users);
 
-        private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses);
-        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses);
 
         void Raise_SynthesesList()
         {
@@ -87,6 +89,38 @@ namespace Synthesizer
         }
 
         public void Changed_SynthesesList()
+        {
+            ResetCanExecute();
+        }
+
+        
+
+        void Raise_UsersList()
+        {
+            OnPropertyChanged("UsersList");
+        }
+
+        public ObservableCollection<users> UsersList
+        {
+            get { return _UsersList; }
+            set
+            {
+                if (_UsersList == value)
+                {
+                    return;
+                }
+
+                var prev = _UsersList;
+
+                _UsersList = value;
+
+                Changed_UsersList();
+
+                Raise_UsersList();
+            }
+        }
+
+        public void Changed_UsersList()
         {
             ResetCanExecute();
         }
@@ -237,6 +271,7 @@ namespace Synthesizer
         // Construction event
         partial void Constructed()
         {
+           
 
             for (var device = 0; device < NAudio.Midi.MidiIn.NumberOfDevices; device++)
             {
@@ -430,33 +465,9 @@ namespace Synthesizer
         }
 
 
-        
 
 
-
-        partial void Execute_MidiOnCommand()
-        {
-            var selectedMidiDevice = MidiDevices.IndexOf(MidiDevice);
-            if (selectedMidiDevice >= 0)
-            {
-                OctaveVisibility = Visibility.Hidden;
-                MidiEnabled = true;
-                midiIn = new MidiIn(selectedMidiDevice);
-                midiIn.MessageReceived += MidiMessageReceived;
-                // midiIn.ErrorReceived += MidiErrorReceived;
-                midiIn.Start();
-                ResetCanExecute();
-            }
-        }
-
-        partial void Execute_MidiOffCommand()
-        {
-            MidiEnabled = false;
-            midiIn.Stop();
-            midiIn.Dispose();
-            ResetCanExecute();
-        }
-
+        #region CanExecute
         partial void CanExecute_MidiOnCommand(ref bool result)
         {
             result = !MidiEnabled;
@@ -493,12 +504,53 @@ namespace Synthesizer
             result = true;
         }
 
-
-        partial void Execute_CloseGuideCommand()
+        partial void CanExecute_ChangeFactoryCommand(ref bool result)
         {
-            Guide = false;
+            result = true;
         }
 
+        partial void CanExecute_DeletePatchCommand(ref bool result)
+        {
+            result = true;
+        }
+
+        partial void CanExecute_OpenUsersScrollCommand(ref bool result)
+        {
+            result = true;
+        }
+
+        partial void CanExecute_DeleteUserCommand(ref bool result)
+        {
+            result = true;
+        }
+
+        #endregion
+
+
+        #region Execute
+
+        partial void Execute_MidiOnCommand()
+        {
+            var selectedMidiDevice = MidiDevices.IndexOf(MidiDevice);
+            if (selectedMidiDevice >= 0)
+            {
+                OctaveVisibility = Visibility.Hidden;
+                MidiEnabled = true;
+                midiIn = new MidiIn(selectedMidiDevice);
+                midiIn.MessageReceived += MidiMessageReceived;
+                // midiIn.ErrorReceived += MidiErrorReceived;
+                midiIn.Start();
+                ResetCanExecute();
+            }
+        }
+
+        partial void Execute_MidiOffCommand()
+        {
+            MidiEnabled = false;
+            midiIn.Stop();
+            midiIn.Dispose();
+            ResetCanExecute();
+        }
         partial void Execute_ExitCommand(object _window)
         {
             Window window = _window as Window;
@@ -557,7 +609,7 @@ namespace Synthesizer
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Какая то хуйня");
+               
             }
 
         }
@@ -612,7 +664,7 @@ namespace Synthesizer
             {
                
             }
-            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses);
+            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
 
 
         }
@@ -631,21 +683,18 @@ namespace Synthesizer
             {
                 
             }
-            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses);
+            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
 
         }
 
-        partial void CanExecute_ChangeFactoryCommand(ref bool result)
-        {
-            result = true;
-        }
+       
         public bool factoryVisible = true;
         partial void Execute_ChangeFactoryCommand()
         {
             
             if(factoryVisible == true)
             {
-                MessageBox.Show("Работает же ебаный рот переключидло на базу");
+                
                 BaseFactoryVisibility = Visibility.Visible;
                 UserFactoryVisibility = Visibility.Collapsed;
                 factoryVisible = false;
@@ -654,7 +703,7 @@ namespace Synthesizer
 
             if (factoryVisible == false)
             {
-                MessageBox.Show("Работает же ебаный рот переключидло обратно");
+                
                 BaseFactoryVisibility = Visibility.Collapsed;
                 UserFactoryVisibility = Visibility.Visible;
                 factoryVisible = true;
@@ -663,7 +712,54 @@ namespace Synthesizer
 
         }
 
+        partial void Execute_CloseGuideCommand()
+        {
+            Guide = false;
+        }
 
+        partial void Execute_DeleteUserCommand(object _id)
+        {
+            string login = Convert.ToString(_id);
+            users user = db.users.FirstOrDefault(u => u.login == login);
+            factory factory = db.factory.FirstOrDefault(u => u.login == login);
+           
+            if (user != null && factory!= null)
+            {
+                db.Syntheses.RemoveRange(db.Syntheses.Where(x => x.FactId == factory.id_factory));
+                db.factory.Remove(factory);
+                db.users.Remove(user);
+                db.SaveChanges();
+            }
+            else
+            {
+
+            }
+            UsersList = new ObservableCollection<users>(db.users);
+        }
+
+        public bool UserScrollVisible = true;
+        partial void Execute_OpenUsersScrollCommand()
+        {
+            if (UserScrollVisible == true)
+            {
+                MessageBox.Show("Открывается нахуй");
+                UserScrollVisibility = Visibility.Visible;
+                UserFactoryVisibility = Visibility.Collapsed;
+                UserScrollVisible = false;
+                return;
+            }
+
+            if (UserScrollVisible == false)
+            {
+                MessageBox.Show("Закрывается нахуй");
+                UserScrollVisibility = Visibility.Collapsed;
+                UserFactoryVisibility = Visibility.Visible;
+                UserScrollVisible = true;
+                return;
+            }
+        }
+
+        #endregion
 
 
         public void Stop()

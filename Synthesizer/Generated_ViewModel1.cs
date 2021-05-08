@@ -48,6 +48,101 @@ namespace Synthesizer
             ResetCanExecute();
         }
 
+        Visibility _UserScrollVisibility = Visibility.Collapsed;
+
+        void Raise_UserScrollVisibility()
+        {
+            OnPropertyChanged("UserScrollVisibility");
+        }
+
+        public Visibility UserScrollVisibility
+        {
+            get { return _UserScrollVisibility; }
+            set
+            {
+                if (_UserScrollVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _UserScrollVisibility;
+
+                _UserScrollVisibility = value;
+
+                Changed_UserScrollVisibility();
+
+                Raise_UserScrollVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_UserScrollVisibility()
+        {
+            ResetCanExecute();
+        }
+
+        Visibility _AdminVisibility = default;
+
+        void Raise_AdminVisibility()
+        {
+            OnPropertyChanged("AdminVisibility");
+        }
+
+        public Visibility AdminVisibility
+        {
+            get { return _AdminVisibility; }
+            set
+            {
+                if (_AdminVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _AdminVisibility;
+
+                _AdminVisibility = value;
+
+                Changed_AdminVisibility();
+
+                Raise_AdminVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_AdminVisibility()
+        {
+            ResetCanExecute();
+        }
+
+        Visibility _UserVisibility = default;
+
+        void Raise_UserVisibility()
+        {
+            OnPropertyChanged("UserVisibility");
+        }
+
+        public Visibility UserVisibility
+        {
+            get { return _UserVisibility; }
+            set
+            {
+                if (_UserVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _UserVisibility;
+
+                _UserVisibility = value;
+
+                Changed_UserVisibility();
+
+                Raise_UserVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_UserVisibility()
+        {
+            ResetCanExecute();
+        }
 
         Visibility _BaseFactoryVisibility = Visibility.Hidden;
 
@@ -1440,6 +1535,29 @@ namespace Synthesizer
         partial void Execute_ChangeFactoryCommand();
 
 
+        readonly UserCommand _OpenUsersScrollCommand;
+
+
+
+        bool CanExecuteOpenUsersScrollCommand()
+        {
+            bool result = false;
+            CanExecute_OpenUsersScrollCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteOpenUsersScrollCommand()
+        {
+            Execute_OpenUsersScrollCommand();
+        }
+
+        public ICommand OpenUsersScrollCommand { get { return _OpenUsersScrollCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_OpenUsersScrollCommand(ref bool result);
+        partial void Execute_OpenUsersScrollCommand();
+
+
         readonly UserCommandWithParametrs _ExitCommand;
 
         bool CanExecuteExitCommand()
@@ -1480,6 +1598,29 @@ namespace Synthesizer
         partial void CanExecute_DeletePatchCommand(ref bool result);
         partial void Execute_DeletePatchCommand(object id);
 
+
+
+
+        private UserCommandWithParametrs _DeleteUserCommand;
+
+        bool CanExecuteDeleteUserCommand()
+        {
+            bool result = false;
+            result = true;
+
+            return result;
+        }
+
+        void ExecuteDeleteUserCommand(object id)
+        {
+            Execute_DeleteUserCommand(id);
+        }
+
+        public ICommand DeleteUserCommand { get { return _DeleteUserCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_DeleteUserCommand(ref bool result);
+        partial void Execute_DeleteUserCommand(object id);
+
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
             Stop();
@@ -1496,11 +1637,13 @@ namespace Synthesizer
             /*_MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);*/
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
+            _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);
             _OpenGuideCommand = new UserCommand(CanExecuteOpenGuideCommand, ExecuteOpenGuideCommand);
             _ChangeFactoryCommand = new UserCommand(CanExecuteChangeFactoryCommand, ExecuteChangeFactoryCommand);
+            _OpenUsersScrollCommand = new UserCommand(CanExecuteOpenUsersScrollCommand, ExecuteOpenUsersScrollCommand);
             _ExitCommand = new UserCommandWithParametrs(CanExecuteExitCommand, ExecuteExitCommand);
             _MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);
@@ -1519,7 +1662,7 @@ namespace Synthesizer
             _MidiOffCommand.RefreshCanExecute();
             _LoadPatchCommand.RefreshCanExecute();
             _CloseGuideCommand.RefreshCanExecute();
-            _ChangeFactoryCommand.RefreshCanExecute();
+            _OpenUsersScrollCommand.RefreshCanExecute();
             _ExitCommand.RefreshCanExecute();*/
         }
         /* void Dispatch(Action action)
