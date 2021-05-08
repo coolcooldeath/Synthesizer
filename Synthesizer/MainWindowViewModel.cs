@@ -642,6 +642,7 @@ namespace Synthesizer
                     TremoloFreq = this.TremoloFreq,
                     Volume = this.Volume,
                     Tremolo = this.Tremolo,
+                    
                     FactId = factory.id_factory
                 };
                

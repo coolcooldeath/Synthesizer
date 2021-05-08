@@ -4,7 +4,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Synthesizer" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:bh="clr-namespace:Synthesizer.Helpers"
+        xmlns:local="clr-namespace:Synthesizer" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:helpers="clr-namespace:Synthesizer.Helpers"
         mc:Ignorable="d"
         WindowStyle="None"
         x:Name="StartWin"
@@ -54,7 +54,7 @@
 
             <PasswordBox Padding="10,0,0,0" Style="{StaticResource MaterialDesignFilledPasswordBox}" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1"  FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8">
                 <i:Interaction.Behaviors>
-                    <bh:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
+                    <helpers:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
             </PasswordBox>
 

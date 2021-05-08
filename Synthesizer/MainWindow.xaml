@@ -6,13 +6,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Synthesizer"   d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         mc:Ignorable="d"
-         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:helpers="clr-namespace:Synthesizer.Helpers"
         Title="cooldeathsynthesizer" 
         
         x:Name="SynthWindow"
        
     Height="630" Width="1480" 
         WindowStartupLocation ="CenterScreen">
+
+    <i:Interaction.Behaviors>
+        <helpers:ClearFocusBehavior/>
+    </i:Interaction.Behaviors>
     <Window.Background >
         <ImageBrush ImageSource="./resources/back.jpg">
 
@@ -373,7 +377,7 @@
 
 
             <controls:Knob Width="60"  Margin="20,0,0,0" Value="{Binding CutOff}" To="8000" From="1000"/>
-            <controls:Knob Width="60"  Margin="20,0,0,0" Value="{Binding Q}" To="1.0" From="0.0"/>
+            <controls:Knob Width="60"  Margin="20,0,0,0" Value="{Binding Q}" To="1.0" From="0.1"/>
 
         </StackPanel>
         <Label VerticalAlignment="Top"  FontSize ="21" Width="120"   Grid.Row="4" Grid.Column="2" Margin="312.4,109.6,7.6,0" Grid.RowSpan="2" >фильтр</Label>
@@ -387,7 +391,7 @@
         </Border>
         <Border BorderBrush="White"  BorderThickness="2.4" Margin="500.6,0.2,0.2,46.8" Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="3" Grid.Row="3" />
 
-        <Border  BorderBrush="White"  BorderThickness="2.4" Margin="10.6,0.2,10.2,133.2" Grid.Column="3" Grid.RowSpan="4" Grid.Row="3" />
+        <Border Focusable="True"  BorderBrush="White"  BorderThickness="2.4" Margin="10.6,0.2,10.2,133.2" Grid.Column="3" Grid.RowSpan="4" Grid.Row="3" />
         <Border BorderBrush="Black" Panel.ZIndex="2"  BorderThickness="6" Margin="54.2,7.7,0,14.4" Grid.Column="4" Grid.RowSpan="3" Grid.ColumnSpan="2" >
             <Border BorderBrush="White"  BorderThickness="2.4" Margin="-56.4,349.6,-1.8,-334" />
         </Border>

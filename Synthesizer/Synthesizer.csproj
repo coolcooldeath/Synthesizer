@@ -158,7 +158,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Generated_ViewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="HelperClass.cs" />
+    <Compile Include="Helpers\HelperClass.cs" />
+    <Compile Include="Helpers\CleareFocus.cs" />
     <Compile Include="Helpers\PasswordBehavior.cs" />
     <Compile Include="HighPassFilterSampleProvider.cs" />
     <Compile Include="Controls\Knob.cs" />

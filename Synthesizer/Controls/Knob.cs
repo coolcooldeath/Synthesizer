@@ -110,6 +110,17 @@ namespace Synthesizer.Controls
             if (currentRoot != null)
             {
                 currentRoot.AddHandler(MouseMoveEvent, MouseMovedHandler, true);
+                
+            }
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (currentRoot != null)
+            {
+                currentRoot.RemoveHandler(MouseMoveEvent, MouseMovedHandler);
+                currentRoot = null;
             }
         }
 
@@ -164,6 +175,7 @@ namespace Synthesizer.Controls
              
                 drawingContext.DrawEllipse(_knobBrushRing, null, origo, 55, 55);
                 drawingContext.DrawEllipse(_knobBrush, null, origo, 50, 50);
+               /* drawingContext.DrawGeometry(_knobBrush, null, origo, 50, 50);*/
 
                 drawingContext.PushTransform(_rotate);
                 drawingContext.DrawLine(pen, new Point(0,0), new Point(0, 50));
