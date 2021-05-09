@@ -15,6 +15,7 @@ namespace Synthesizer
        /* readonly Dispatcher _dispatcher;*/
 
         public event PropertyChangedEventHandler PropertyChanged;
+        #region Visibility
 
         Visibility _MidiVisibility = default;
 
@@ -238,6 +239,89 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         partial void Changed_OctaveVisibility(Visibility prev, Visibility current);
 
+        #endregion
+
+        string _WaveForm = default;
+
+        void Raise_WaveForm()
+        {
+            OnPropertyChanged("WaveForm");
+        }
+
+        public string WaveForm
+        {
+            get { return _WaveForm; }
+            set
+            {
+                if (_WaveForm == value)
+                {
+                    return;
+                }
+
+                var prev = _WaveForm;
+
+                _WaveForm = value;
+
+                Changed_WaveForm(value);
+
+                Raise_WaveForm();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_WaveForm(string value)
+        {
+            if (Convert.ToInt32(value) == 0)
+                WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.Sin;
+            if (Convert.ToInt32(value) == 1)
+                WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.Triangle;
+            if (Convert.ToInt32(value) == 2)
+                WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.SawTooth;
+            if (Convert.ToInt32(value) == 3)
+                WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.Square;
+            if (Convert.ToInt32(value) == 4)
+                WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.Pink;
+
+        }
+
+
+        string _Octave = default;
+
+        void Raise_Octave()
+        {
+            OnPropertyChanged("Octave");
+        }
+
+        public string Octave
+        {
+            get { return _Octave; }
+            set
+            {
+                if (_Octave == value)
+                {
+                    return;
+                }
+
+                var prev = _Octave;
+
+                _Octave = value;
+
+                Changed_Octave(value);
+
+                Raise_Octave();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_Octave(string value)
+        {
+            if(Convert.ToInt32(value) == 2)
+            BaseFrequency = 110.0;
+            if(Convert.ToInt32(value) == 3)
+            BaseFrequency = 220.0;
+            if (Convert.ToInt32(value) == 4)
+            BaseFrequency = 440.0;
+
+        }
+
         bool _MidiEnabled = false;
 
         void Raise_MidiEnabled()
@@ -323,9 +407,8 @@ namespace Synthesizer
 
 
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: Volume (double)
-        // --------------------------------------------------------------------
+     
+        #region SoundProperties
         double _Volume = default;
 
         void Raise_Volume ()
@@ -498,40 +581,7 @@ namespace Synthesizer
         // END_PROPERTY: Attack (float)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: AttackLabel (string)
-        // --------------------------------------------------------------------
-        string _AttackLabel = default;
-
-        void Raise_AttackLabel ()
-        {
-          OnPropertyChanged ("AttackLabel");
-        }
-
-        public string AttackLabel
-        {
-            get { return _AttackLabel; }
-            set
-            {
-                if (_AttackLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _AttackLabel;
-
-                _AttackLabel = value;
-
-                Changed_AttackLabel (prev, _AttackLabel);
-
-                Raise_AttackLabel ();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_AttackLabel (string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: AttackLabel (string)
-        // --------------------------------------------------------------------
+      
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: Decay (float)
@@ -1327,9 +1377,9 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         // END_PROPERTY: PhaserSweep (float)
         // --------------------------------------------------------------------
+        #endregion
 
 
-        
 
 
         readonly UserCommand _MidiOnCommand;

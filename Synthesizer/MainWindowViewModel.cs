@@ -60,8 +60,9 @@ namespace Synthesizer
 
         private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>();
         private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses.Where(p => p.FactId == 19));
-        private ObservableCollection<users> _UsersList = new ObservableCollection<users>((new EDM()).users);
+        private ObservableCollection<users> _UsersList = new ObservableCollection<users>((new EDM()).users.Where(p=>p.isadmin == false));
 
+       
 
         void Raise_SynthesesList()
         {
@@ -327,17 +328,14 @@ namespace Synthesizer
 
         }
 
-        // Property events
+        #region Changed
         partial void Changed_Volume(double prev, double current)
         {
             _volControl.Volume = (float)current;
             VolumeLabel = $"{(int)(Volume * 100.0)}%";
         }
 
-        partial void Changed_Attack(float prev, float current)
-        {
-            AttackLabel = $"{(int)(Attack * 1000.0)} ms";
-        }
+        
 
         partial void Changed_Decay(float prev, float current)
         {
@@ -464,7 +462,7 @@ namespace Synthesizer
             }
         }
 
-
+        #endregion
 
 
         #region CanExecute
@@ -592,20 +590,12 @@ namespace Synthesizer
                 this.TremoloFreq = (int)SynthObject.TremoloFreq;
                 this.Volume = (double)SynthObject.Volume;
                 this.Tremolo = SynthObject.Tremolo;
-                /*this.FactId = SynthObject.Name;*/
-                   
-                   
-              
+                this.EnableLpf = SynthObject.Filter;
+                this.EnableVibrato = SynthObject.Vibrato;
+                this.WaveForm = Convert.ToString(SynthObject.WaveForm);
 
-             
 
-                // получаем объекты из бд и выводим на консоль
-                /* var users = db.Users;
-                 Console.WriteLine("Список объектов:");
-                 foreach (User u in users)
-                 {
-                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                 }*/
+
             }
             else
             {
@@ -616,11 +606,24 @@ namespace Synthesizer
 
         partial void Execute_SavePatchCommand()
         {
-            
+            int wavetype = 0;
+            if (WaveType == SignalGeneratorType.Sin)
+                wavetype = 0;
+            if (WaveType == SignalGeneratorType.Triangle)
+                wavetype = 1;
+            if (WaveType == SignalGeneratorType.SawTooth)
+                wavetype = 2;
+            if (WaveType == SignalGeneratorType.Square)
+                wavetype = 3;
+            if (WaveType == SignalGeneratorType.Pink)
+                wavetype = 4;
             if (TremoloGain > 0.2f)
-                Tremolo = true;
+               Tremolo = true;
+
+            
+           
             if(db.Syntheses.FirstOrDefault(u => u.Name == this.Name) == null)
-                { 
+                {
                 Syntheses SynthObject = new Syntheses
                 {
                     Name = this.Name,
@@ -642,7 +645,10 @@ namespace Synthesizer
                     TremoloFreq = this.TremoloFreq,
                     Volume = this.Volume,
                     Tremolo = this.Tremolo,
-                    
+                    Filter = EnableLpf,
+                    Vibrato = EnableVibrato,
+                    Date = DateTime.Now,
+                    WaveForm = wavetype,
                     FactId = factory.id_factory
                 };
                
@@ -735,7 +741,7 @@ namespace Synthesizer
             {
 
             }
-            UsersList = new ObservableCollection<users>(db.users);
+            UsersList = new ObservableCollection<users>(db.users.Where(p => p.isadmin == false));
         }
 
         public bool UserScrollVisible = true;
@@ -743,7 +749,7 @@ namespace Synthesizer
         {
             if (UserScrollVisible == true)
             {
-                MessageBox.Show("Открывается нахуй");
+              
                 UserScrollVisibility = Visibility.Visible;
                 UserFactoryVisibility = Visibility.Collapsed;
                 UserScrollVisible = false;
@@ -752,7 +758,7 @@ namespace Synthesizer
 
             if (UserScrollVisible == false)
             {
-                MessageBox.Show("Закрывается нахуй");
+             
                 UserScrollVisibility = Visibility.Collapsed;
                 UserFactoryVisibility = Visibility.Visible;
                 UserScrollVisible = true;

@@ -457,7 +457,7 @@ namespace Synthesizer
             if (db.users.FirstOrDefault(u => u.login == LoginName) == null)
             {
                 
-                users user = new users {name = this.UserName,password = HelperClass.getHash(Password),login = this.LoginName};
+                users user = new users {name = this.UserName,password = HelperClass.getHash(Password),login = this.LoginName,date = DateTime.Now,isadmin=false};
                 factory factory = new factory { factory_name = this.UserName, login = this.LoginName};
                 db.users.Add(user);
                 db.factory.Add(factory);

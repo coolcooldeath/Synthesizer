@@ -57,6 +57,9 @@ namespace Synthesizer.DataLayer
 
         public int? FactId { get; set; }
 
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? Date { get; set; }
+
         public virtual factory factory { get; set; }
     }
 }

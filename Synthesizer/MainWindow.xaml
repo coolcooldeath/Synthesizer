@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:Synthesizer"   d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:helpers="clr-namespace:Synthesizer.Helpers"
+         
         Title="cooldeathsynthesizer" 
         
         x:Name="SynthWindow"
@@ -14,23 +15,15 @@
     Height="630" Width="1480" 
         WindowStartupLocation ="CenterScreen">
 
-    <i:Interaction.Behaviors>
-        <helpers:ClearFocusBehavior/>
-    </i:Interaction.Behaviors>
+   
     <Window.Background >
         <ImageBrush ImageSource="./resources/back.jpg">
-
-
         </ImageBrush>
     </Window.Background>
     <Window.Resources>
 
-
-
-
-
-
-
+        <helpers:ValueConverter x:Key="ValueConverter"></helpers:ValueConverter>
+        
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="25"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
@@ -41,6 +34,9 @@
     </Window.Resources>
 
     <Grid  >
+        <i:Interaction.Behaviors>
+            <helpers:ClearFocusBehavior/>
+        </i:Interaction.Behaviors>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" />
             <ColumnDefinition Width="20"/>
@@ -152,8 +148,8 @@
                  Margin="15,0,0,0"
                 GroupName="Octave"
                           Style="{DynamicResource MyRadioButton}"
-                         IsChecked="true"
-                         Checked="SetOctave"
+                         IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=2}"
+                        
                          VerticalAlignment="Center">
 
             </RadioButton>
@@ -161,7 +157,7 @@
                           Style="{DynamicResource MyRadioButton}"
                          Margin="15,0,0,0"
                          GroupName="Octave"
-                         Checked="SetOctave"
+                         IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=3}"
                          VerticalAlignment="Center">
 
             </RadioButton>
@@ -169,7 +165,7 @@
                        Margin="15,0,0,0"
                          GroupName="Octave"
                           Style="{DynamicResource MyRadioButton}"
-                         Checked="SetOctave"
+                         IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=4}"
                          VerticalAlignment="Center">
 
             </RadioButton>
@@ -203,27 +199,27 @@
             <RadioButton x:Name="Triangle"
                          Margin="0,0,0,0"
                           Style="{DynamicResource MyRadioButton}"
-                         Checked="SetWaveform"
+                          IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=4}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="White"
                          Margin="50,0,0,0"
-                         Checked="SetWaveform"
+                         IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=0}"
                           Style="{DynamicResource MyRadioButton}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="Sine"
                          Margin="50,0,5,0"
                           Style="{DynamicResource MyRadioButton}"
-                         Checked="SetWaveform"
+                         IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=1}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="Square"
                          Margin="50,5,5,5"
                           Style="{DynamicResource MyRadioButton}"
-                         Checked="SetWaveform"
+                         IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=2}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="SawTooth"
                          Margin="50,5,5,5"
                          Style="{DynamicResource MyRadioButton}"
-                         Checked="SetWaveform"
+                         IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=3}"
                          VerticalAlignment="Center" />
 
         </StackPanel >
@@ -301,7 +297,7 @@
             <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="20,0,10,0" To="1.0" From="0.0" Value="{Binding PhaserDry}"/>
             <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" To="1.0" From="0.0" Value="{Binding PhaserWet}"/>
             <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" To="0.95" From="0.0" Value="{Binding PhaserFeedback}"/>
-            <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" From="0.0" To="150.0" Value="{Binding PhaserFreq}"/>
+            <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" From="0.0"  To="150.0" Value="{Binding PhaserFreq}"/>
             <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" From="0.0" To="1.0" Value="{Binding PhaserSweep}"/>
             <controls:Knob  Width="50" HorizontalAlignment="Center" Margin="10,0,10,0" From="0.0" To="1.0" Value="{Binding PhaserWidth}"/>
 
@@ -309,7 +305,7 @@
 
 
         <StackPanel  Orientation="Horizontal" Grid.Row="4" Grid.Column="2" Height="27" Margin="0,65,0,0" VerticalAlignment="Top" Grid.RowSpan="2">
-
+              
             <Label Content="Без эфф." FontSize="12" Margin="0,0,0,0"></Label>
             <Label Content="С эфф." FontSize="12" Margin="0,0,0,0"></Label>
             <Label Content="Фидбэк" FontSize="12" Margin="0,0,0,0"></Label>
@@ -399,7 +395,7 @@
             <Rectangle Fill="#919191" Margin="20,5,150,0" Grid.ColumnSpan="2" Height="35" ></Rectangle>
             
             
-            <Label  Content="{Binding LoginName}" FontSize="20"  Foreground="Black" Margin="30,-30,0,0" HorizontalAlignment="Left" FontFamily="./resources/#Determination2" Width="150" ></Label>
+            <Label  Content="{Binding LoginName}" FontSize="20"  Foreground="Black" Margin="35,-30,0,0" HorizontalAlignment="Left" FontFamily="./resources/#Determination2" Width="150" ></Label>
             <Button Visibility="{Binding UserVisibility}" Margin="200,-40,0,0" Width="110" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ChangeFactoryCommand}" >
                 <Image Source="/resources/factory icon.png" Margin="-10,-2,0,0"  Width="30" Height="35" ></Image>
             </Button>
@@ -422,8 +418,8 @@
                             <Rectangle Fill="#919191"   Grid.Column="0" ></Rectangle>
                             
                             <StackPanel Grid.Column="0" >
-                                <TextBlock Padding="10,0,0,0" Margin="10,10,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Name}" FontSize="20"/>
-                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Decay}" FontSize="15"/>
+                                <TextBlock Padding="10,0,0,0" Margin="10,5,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Name}" FontSize="20"/>
+                                <TextBlock Padding="10,5,0,0" Margin="10,-5,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Date}" FontSize="15"/>
 
                                 <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="./resources/#Determination2" Height="30"  Text="{Binding Id}" FontSize="20"/>
 
@@ -477,8 +473,8 @@
                             <Rectangle Fill="#919191"   Grid.Column="0" ></Rectangle>
 
                             <StackPanel Grid.Column="0" >
-                                <TextBlock Padding="10,0,0,0" Margin="10,10,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding name}" FontSize="20"/>
-                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding factory }" FontSize="15"/>
+                                <TextBlock Padding="10,0,0,0" Margin="10,5,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding name}" FontSize="20"/>
+                                <TextBlock Padding="10,5,0,0" Margin="10,-5,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding date }" FontSize="15"/>
 
                                 <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="./resources/#Determination2" Height="30"  Text="{Binding login}" FontSize="20"/>
 
@@ -486,7 +482,7 @@
                             <StackPanel Grid.Column="1"  >
 
                                 
-                                <Button Margin="70,10,0,0" Width="50" Background="#919191"  Height="35"  Command="{Binding DeleteUserCommand}" DataContext="{Binding DataContext, ElementName=UsersScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
+                                <Button Margin="15,5,0,0" Width="110" Background="#919191"  Height="35"  Command="{Binding DeleteUserCommand}" DataContext="{Binding DataContext, ElementName=UsersScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
                                     <Image Source="/resources/delete icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
                                 </Button>
                             </StackPanel>
@@ -531,7 +527,7 @@
 
                             <StackPanel Grid.Column="0" >
                                 <TextBlock Padding="10,0,0,0" Margin="10,10,10,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Name}" FontSize="20"/>
-                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Decay}" FontSize="15"/>
+                                <TextBlock Padding="10,5,0,0" Margin="10,0,0,0" FontFamily="./resources/#Determination2" Height="20"  Text="{Binding Date}" FontSize="15"/>
 
                                 <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="./resources/#Determination2" Height="30"  Text="{Binding Id}" FontSize="20"/>
 

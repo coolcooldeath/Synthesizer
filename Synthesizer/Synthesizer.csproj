@@ -161,6 +161,7 @@
     <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="Helpers\CleareFocus.cs" />
     <Compile Include="Helpers\PasswordBehavior.cs" />
+    <Compile Include="Helpers\ValueConverter.cs" />
     <Compile Include="HighPassFilterSampleProvider.cs" />
     <Compile Include="Controls\Knob.cs" />
     <Compile Include="LowPassFilterSampleProvider.cs" />
