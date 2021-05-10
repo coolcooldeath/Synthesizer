@@ -287,11 +287,38 @@ namespace Synthesizer
           
             
         }
-       
+
+        readonly UserCommandWithParametrs _CloseLoginWindowCommand;
+
+        bool CanExecuteCloseLoginWindowCommand()
+        {
+            bool result = false;
+            CanExecute_CloseLoginWindowCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteCloseLoginWindowCommand(object window)
+        {
+            Execute_CloseLoginWindowCommand(window);
+        }
+
+        public ICommand CloseLoginWindowCommand { get { return _CloseLoginWindowCommand; } }
+        // --------------------------------------------------------------------
 
 
 
-        
+
+
+        public void CanExecute_CloseLoginWindowCommand(ref bool result)
+        {
+            result = true;
+
+
+        }
+
+
+
 
         readonly UserCommandWithParametrs _RegisterCommand;
 
@@ -473,25 +500,7 @@ namespace Synthesizer
             ResetCanExecute();
 
 
-            /*using (DataContext db = new DataContext())
-            {
-                // создаем два объекта User
-                Synthesis SynthObject = new Synthesis { Name = this.Name, Decay = this.Decay, Attack = this.Attack };
-
-                // добавляем их в бд
-
-                db.Syntheses.Add(SynthObject);
-                db.SaveChanges();
-                Console.WriteLine("Объекты успешно сохранены");
-
-                // получаем объекты из бд и выводим на консоль
-                *//* var users = db.Users;
-                 Console.WriteLine("Список объектов:");
-                 foreach (User u in users)
-                 {
-                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                 }*//*
-            }*/
+            
 
 
         }
@@ -499,7 +508,7 @@ namespace Synthesizer
         public void Execute_OpenRegisterCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height = 440;
+            window.Height =440;
 
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
@@ -508,10 +517,17 @@ namespace Synthesizer
         public void Execute_OpenLoginCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height = 370;
+            window.Height = 380;
             
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;
+
+        }
+
+        public void Execute_CloseLoginWindowCommand(object _window)
+        {
+            Window window = _window as Window;
+            window.Close();
 
         }
 
@@ -521,6 +537,7 @@ namespace Synthesizer
                 return;
             db.users.FindAsync(new users());
             _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
+            _CloseLoginWindowCommand = new UserCommandWithParametrs(CanExecuteCloseLoginWindowCommand, ExecuteCloseLoginWindowCommand);
             _RegisterCommand = new UserCommandWithParametrs(CanExecuteRegisterCommand, ExecuteRegisterCommand);
             _OpenRegisterCommand = new UserCommandWithParametrs(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
             _OpenLoginCommand = new UserCommandWithParametrs(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);

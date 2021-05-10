@@ -34,9 +34,7 @@
     </Window.Resources>
 
     <Grid  >
-        <i:Interaction.Behaviors>
-            <helpers:ClearFocusBehavior/>
-        </i:Interaction.Behaviors>
+       
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" />
             <ColumnDefinition Width="20"/>
