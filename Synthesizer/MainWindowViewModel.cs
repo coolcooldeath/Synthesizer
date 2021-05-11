@@ -521,7 +521,15 @@ namespace Synthesizer
         {
             result = true;
         }
+        partial void CanExecute_NoDeleteCommand(ref bool result)
+        {
+            result = true;
+        }
 
+        partial void CanExecute_OkDeleteCommand(ref bool result)
+        {
+            result = true;
+        }
         #endregion
 
 
@@ -678,20 +686,26 @@ namespace Synthesizer
 
         partial void Execute_DeletePatchCommand(object _id)
         {
-
+            isUser = false;
+            memory = _id;
+            IsDeleteOpen = true;
             int ID = Convert.ToInt32(_id);
             Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
-            if (SynthObject != null)
+            
+            if (SynthObject != null && IsDelete == true)
             {
+                
                 db.Syntheses.Remove(SynthObject);
                 db.SaveChanges();
+                
             }
             else
             {
                 
             }
+            
             SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
-
+            
         }
 
        
@@ -724,24 +738,33 @@ namespace Synthesizer
             Guide = false;
         }
 
+        object memory;
+        bool isUser = false;
         partial void Execute_DeleteUserCommand(object _id)
         {
-            string login = Convert.ToString(_id);
+            isUser = true;
+            memory = _id;
+            IsDeleteOpen = true;
+            string login = _id as String;
             users user = db.users.FirstOrDefault(u => u.login == login);
             factory factory = db.factory.FirstOrDefault(u => u.login == login);
-           
-            if (user != null && factory!= null)
+            
+            
+            if (user != null && factory!= null && IsDelete == true)
             {
                 db.Syntheses.RemoveRange(db.Syntheses.Where(x => x.FactId == factory.id_factory));
                 db.factory.Remove(factory);
                 db.users.Remove(user);
                 db.SaveChanges();
+                
+                
             }
             else
             {
 
             }
             UsersList = new ObservableCollection<users>(db.users.Where(p => p.isadmin == false));
+            
         }
 
         public bool UserScrollVisible = true;
@@ -766,6 +789,28 @@ namespace Synthesizer
             }
         }
 
+        partial void Execute_NoDeleteCommand()
+        {
+            IsDeleteOpen = false;
+           
+        }
+
+        partial void Execute_OkDeleteCommand()
+        {
+          
+            
+            IsDelete = true;
+            if(isUser == true)
+            ExecuteDeleteUserCommand(memory);
+            else
+            ExecuteDeletePatchCommand(memory);
+
+            IsDeleteOpen = false;
+            IsDelete = false;
+
+        }
+
+        
         #endregion
 
 

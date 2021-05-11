@@ -508,7 +508,7 @@ namespace Synthesizer
         public void Execute_OpenRegisterCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height =440;
+            window.Height =420;
 
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
@@ -517,7 +517,7 @@ namespace Synthesizer
         public void Execute_OpenLoginCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height = 380;
+            window.Height = 350;
             
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;

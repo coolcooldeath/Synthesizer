@@ -241,6 +241,75 @@ namespace Synthesizer
 
         #endregion
 
+
+        #region Properties
+
+
+        bool _IsDeleteOpen = false;
+
+        void Raise_IsDeleteOpen()
+        {
+            OnPropertyChanged("IsDeleteOpen");
+        }
+
+        public bool IsDeleteOpen
+        {
+            get { return _IsDeleteOpen; }
+            set
+            {
+                if (_IsDeleteOpen == value)
+                {
+                    return;
+                }
+
+                var prev = _IsDeleteOpen;
+
+                _IsDeleteOpen = value;
+
+                Changed_IsDeleteOpen();
+
+                Raise_IsDeleteOpen();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_IsDeleteOpen()
+        {
+            ResetCanExecute();
+        }
+
+
+        bool _IsDelete = false;
+
+        void Raise_IsDelete()
+        {
+            OnPropertyChanged("IsDelete");
+        }
+
+        public bool IsDelete
+        {
+            get { return _IsDelete; }
+            set
+            {
+                if (_IsDelete == value)
+                {
+                    return;
+                }
+
+                var prev = _IsDelete;
+
+                _IsDelete = value;
+
+                Changed_IsDelete();
+
+                Raise_IsDelete();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_IsDelete()
+        {
+            ResetCanExecute();
+        }
+
         string _WaveForm = default;
 
         void Raise_WaveForm()
@@ -403,11 +472,11 @@ namespace Synthesizer
             get { return _MidiDevices; }
         }
 
+        #endregion
 
 
 
 
-     
         #region SoundProperties
         double _Volume = default;
 
@@ -1401,13 +1470,8 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         partial void CanExecute_MidiOnCommand(ref bool result);
         partial void Execute_MidiOnCommand();
-        // --------------------------------------------------------------------
-        // END_COMMAND: MidiOnCommand
-        // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_COMMAND: MidiOffCommand
-        // --------------------------------------------------------------------
+
         readonly UserCommand _MidiOffCommand;
 
         bool CanExecuteMidiOffCommand()
@@ -1427,13 +1491,49 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         partial void CanExecute_MidiOffCommand(ref bool result);
         partial void Execute_MidiOffCommand();
-        // --------------------------------------------------------------------
-        // END_COMMAND: MidiOffCommand
-        // --------------------------------------------------------------------
 
+
+        readonly UserCommand _NoDeleteCommand;
+
+        bool CanExecuteNoDeleteCommand()
+        {
+            bool result = false;
+            CanExecute_NoDeleteCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteNoDeleteCommand()
+        {
+            Execute_NoDeleteCommand();
+        }
+
+        public ICommand NoDeleteCommand { get { return _NoDeleteCommand; } }
         // --------------------------------------------------------------------
-        // BEGIN_COMMAND: LoadPatchCommand
-        // -------------------------------------------------------------------- 
+        partial void CanExecute_NoDeleteCommand(ref bool result);
+        partial void Execute_NoDeleteCommand();
+
+        readonly UserCommand _OkDeleteCommand;
+
+        bool CanExecuteOkDeleteCommand()
+        {
+            bool result = false;
+            CanExecute_OkDeleteCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteOkDeleteCommand()
+        {
+            Execute_OkDeleteCommand();
+        }
+
+        public ICommand OkDeleteCommand { get { return _OkDeleteCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_OkDeleteCommand(ref bool result);
+        partial void Execute_OkDeleteCommand();
+
+
         private UserCommandWithParametrs _LoadPatchCommand;
         
         bool CanExecuteLoadPatchCommand(    )
@@ -1688,6 +1788,8 @@ namespace Synthesizer
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);*/
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
             _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
+            _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);
+            _OkDeleteCommand = new UserCommand(CanExecuteOkDeleteCommand, ExecuteOkDeleteCommand);
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);
