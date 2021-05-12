@@ -181,11 +181,7 @@
     <Compile Include="DataLayer\Syntheses.cs" />
     <Compile Include="DataLayer\users.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Generated_ViewModel1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Generated_ViewModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Generated_ViewModel.cs" />
     <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="Helpers\CleareFocus.cs" />
     <Compile Include="Helpers\PasswordBehavior.cs" />
@@ -278,10 +274,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Generated_ViewModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Generated_ViewModel1.cs</LastGenOutput>
-    </Content>
     <Resource Include="resources\delete icon.png" />
     <Resource Include="resources\fun icon.png" />
     <Resource Include="resources\users icon.png" />

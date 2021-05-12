@@ -99,7 +99,6 @@ D:\source\Synthesizer\Synthesizer\obj\Debug\styles\RadioButton.baml
 D:\source\Synthesizer\Synthesizer\obj\Debug\MainWindow.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\StartWindow.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\App.g.cs
-D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer_Content.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer_MarkupCompile.cache
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer_MarkupCompile.lref
@@ -120,3 +119,4 @@ D:\source\Synthesizer\Synthesizer\bin\Debug\Synthesizer.exe.manifest
 D:\source\Synthesizer\Synthesizer\bin\Debug\Synthesizer.application
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.exe.manifest
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.application
+D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csprojAssemblyReference.cache
