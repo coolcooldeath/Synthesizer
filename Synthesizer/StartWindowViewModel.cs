@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Synthesizer.Helpers;
+using System.Windows.Threading;
+
 namespace Synthesizer
 {
     public partial class StartWindowViewModel : INotifyPropertyChanged
     {
+        Dispatcher dispatcher;
         private EDM db = new EDM();
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyChanged)
@@ -420,7 +423,7 @@ namespace Synthesizer
             Loading = true;
             string hashPassword = HelperClass.getHash(Password);
             
-            if (db.users.FirstOrDefault(u => u.login == LoginName && u.password == hashPassword ) != null)
+            if (db.users.FirstOrDefault(u => u.login.Equals(LoginName) && u.password == hashPassword ) != null)
             {
                 
                 users user = db.users.FirstOrDefault(u => u.login == LoginName);
@@ -533,8 +536,7 @@ namespace Synthesizer
 
         public StartWindowViewModel()
         {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                return;
+           
             db.users.FindAsync(new users());
             _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
             _CloseLoginWindowCommand = new UserCommandWithParametrs(CanExecuteCloseLoginWindowCommand, ExecuteCloseLoginWindowCommand);
@@ -552,5 +554,6 @@ namespace Synthesizer
             _OpenRegisterCommand.RefreshCanExecute();   
 
         }
+        
     }
 }

@@ -12,7 +12,7 @@ namespace Synthesizer
 {
     public partial class MainWindowViewModel : INotifyPropertyChanged
     {
-       /* readonly Dispatcher _dispatcher;*/
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         #region Visibility
@@ -351,6 +351,117 @@ namespace Synthesizer
                 WaveType = NAudio.Wave.SampleProviders.SignalGeneratorType.Pink;
 
         }
+
+        bool _LpfChecked = default;
+
+        void Raise_LpfChecked()
+        {
+            OnPropertyChanged("LpfChecked");
+        }
+
+        public bool LpfChecked
+        {
+            get { return _LpfChecked; }
+            set
+            {
+                if (_LpfChecked == value)
+                {
+                    return;
+                }
+
+                var prev = _LpfChecked;
+
+                _LpfChecked = value;
+
+                Changed_LpfChecked(value);
+
+                Raise_LpfChecked();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_LpfChecked(bool value)
+        {
+           if(value == true)
+                EnableLpf = true;
+           else
+                EnableLpf = false;
+
+        }
+
+        bool _OnChecked = default;
+
+        void Raise_OnChecked()
+        {
+            OnPropertyChanged("OnChecked");
+        }
+
+        public bool OnChecked
+        {
+            get { return _OnChecked; }
+            set
+            {
+                if (_OnChecked == value)
+                {
+                    return;
+                }
+
+                var prev = _OnChecked;
+
+                _OnChecked = value;
+
+                Changed_OnChecked(value);
+
+                Raise_OnChecked();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_OnChecked(bool value)
+        {
+            if (value == true)
+                
+                Start();
+            else
+                Stop();
+
+        }
+
+        bool _VibratoChecked = default;
+
+        void Raise_VibratoChecked()
+        {
+            OnPropertyChanged("VibratoChecked");
+        }
+
+        public bool VibratoChecked
+        {
+            get { return _VibratoChecked; }
+            set
+            {
+                if (_VibratoChecked == value)
+                {
+                    return;
+                }
+
+                var prev = _VibratoChecked;
+
+                _VibratoChecked = value;
+
+                Changed_VibratoChecked(value);
+
+                Raise_VibratoChecked();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_VibratoChecked(bool value)
+        {
+            if (value == true)
+                EnableVibrato = true;
+            else
+                EnableVibrato = false;
+
+        }
+
+        
 
 
         string _Octave = default;
@@ -1450,7 +1561,7 @@ namespace Synthesizer
 
 
 
-
+        #region Команды
         readonly UserCommand _MidiOnCommand;
 
         bool CanExecuteMidiOnCommand()
@@ -1725,8 +1836,32 @@ namespace Synthesizer
 
         public ICommand ExitCommand { get { return _ExitCommand; } }
         // --------------------------------------------------------------------
+
         partial void CanExecute_ExitCommand(ref bool result);
         partial void Execute_ExitCommand(object window);
+
+
+
+
+        readonly UserCommandWithParametrs _ExitInLoginWindowCommand;
+
+        bool CanExecuteExitInLoginWindowCommand()
+        {
+            bool result = false;
+            CanExecute_ExitInLoginWindowCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteExitInLoginWindowCommand(object window)
+        {
+            Execute_ExitInLoginWindowCommand(window);
+        }
+
+        public ICommand ExitInLoginWindowCommand { get { return _ExitInLoginWindowCommand; } }
+        // --------------------------------------------------------------------
+        partial void CanExecute_ExitInLoginWindowCommand(ref bool result);
+        partial void Execute_ExitInLoginWindowCommand(object window);
 
         private UserCommandWithParametrs _DeletePatchCommand;
 
@@ -1776,16 +1911,14 @@ namespace Synthesizer
             Stop();
         }
 
-
+        #endregion
 
 
         partial void Constructed();
 
-        public MainWindowViewModel(/*Dispatcher dispatcher*/)
+        public MainWindowViewModel()
         {
-            /*_dispatcher = dispatcher;*/
-            /*_MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
-            _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);*/
+           
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
             _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
             _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);
@@ -1797,6 +1930,7 @@ namespace Synthesizer
             _ChangeFactoryCommand = new UserCommand(CanExecuteChangeFactoryCommand, ExecuteChangeFactoryCommand);
             _OpenUsersScrollCommand = new UserCommand(CanExecuteOpenUsersScrollCommand, ExecuteOpenUsersScrollCommand);
             _ExitCommand = new UserCommandWithParametrs(CanExecuteExitCommand, ExecuteExitCommand);
+            _ExitInLoginWindowCommand = new UserCommandWithParametrs(CanExecuteExitInLoginWindowCommand, ExecuteExitInLoginWindowCommand);
             _MidiOnCommand = new UserCommand(CanExecuteMidiOnCommand, ExecuteMidiOnCommand);
             _MidiOffCommand = new UserCommand(CanExecuteMidiOffCommand, ExecuteMidiOffCommand);
 
@@ -1815,12 +1949,9 @@ namespace Synthesizer
             _LoadPatchCommand.RefreshCanExecute();
             _CloseGuideCommand.RefreshCanExecute();
             _OpenUsersScrollCommand.RefreshCanExecute();
-            _ExitCommand.RefreshCanExecute();*/
+            _ExitInLoginWindowCommand.RefreshCanExecute();*/
         }
-        /* void Dispatch(Action action)
-         {
-             _dispatcher.BeginInvoke(action);
-         }*/
+       
         protected virtual void OnPropertyChanged (string propertyChanged)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyChanged));
@@ -1847,6 +1978,7 @@ namespace Synthesizer
 
                 _Name = value;
 
+                EditName();
                 Changed_Name(prev, _Name);
 
               

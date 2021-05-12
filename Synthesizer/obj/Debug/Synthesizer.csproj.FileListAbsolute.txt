@@ -116,4 +116,7 @@ D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csproj.CoreCompileInputs
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csproj.CopyComplete
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.exe
 D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.pdb
-D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csprojAssemblyReference.cache
+D:\source\Synthesizer\Synthesizer\bin\Debug\Synthesizer.exe.manifest
+D:\source\Synthesizer\Synthesizer\bin\Debug\Synthesizer.application
+D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.exe.manifest
+D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.application

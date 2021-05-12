@@ -142,6 +142,7 @@ namespace Synthesizer
 
         private void SetSweep()
         {
+            
             _wp = _minWp = (float)(Math.PI * BottomFrequency / _source.WaveFormat.SampleRate);
             var widthOfSweep = Width + 6.0f;
 

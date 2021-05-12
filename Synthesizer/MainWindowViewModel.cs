@@ -46,7 +46,7 @@ namespace Synthesizer
         private MixingSampleProvider _mixer;
         private ChorusSampleProvider _chorus;
         private PhaserSampleProvider _phaser;
-        //private FFTSampleProvider _fftProvider;
+       
         private LowPassFilterSampleProvider _lpf;
         private TremoloSampleProvider _tremolo;
         private IWavePlayer _player;
@@ -300,10 +300,21 @@ namespace Synthesizer
             _phaser = new PhaserSampleProvider(_chorus);
             _lpf = new LowPassFilterSampleProvider(_phaser, 20000);
 
-            /*_fftProvider = new FFTSampleProvider(8, (ss, cs) => Dispatch=> UpdateRealTimeData(ss, cs)), _phaser);*/
+            /*_fftProvider = new FFTSampleProvider(8, (ss, cs) => Dispatch(() => UpdateRealTimeData(ss, cs)), _lpf);
 
+            void UpdateRealTimeData(float[] waveform, Complex[] frequencies)
+            {
+                var famps = new float[frequencies.Length / 2];
+                for (var iter = 0; iter < famps.Length; ++iter)
+                {
+                    var amp = 4.0 * Math.Sqrt(Math.Abs(frequencies[iter].X));
+                    famps[iter] = (float)amp;
+                }
 
-           
+                Waveform = waveform;
+                FrequencyAmplitudes = famps;
+            }
+*/
             WaveType = SignalGeneratorType.Sin;
             Volume = 0.5;
             Attack = 0.01f;
@@ -530,6 +541,11 @@ namespace Synthesizer
         {
             result = true;
         }
+
+        partial void CanExecute_ExitInLoginWindowCommand(ref bool result)
+        {
+            result = true;
+        }
         #endregion
 
 
@@ -560,6 +576,11 @@ namespace Synthesizer
         partial void Execute_ExitCommand(object _window)
         {
             Window window = _window as Window;
+            window.Close();
+        }
+        partial void Execute_ExitInLoginWindowCommand(object _window)
+        {
+            Window window = _window as Window;
             StartWindow startWindow = new StartWindow();
             startWindow.Show();
             window.Close();
@@ -585,22 +606,24 @@ namespace Synthesizer
                 ChorusDelay = (float)SynthObject.ChorusDelay;
                 ChorusSweep = (float)SynthObject.ChorusSweep;
                 ChorusWidth = (float)SynthObject.ChorusWidth;
-                this.PhaserDry = (float)SynthObject.PhaserDry;
-                this.PhaserFeedback = (float)SynthObject.PhaserFeedback;
-                this.PhaserFreq = (float)SynthObject.PhaserFreq;
-                this.PhaserSweep = (float)SynthObject.PhaserSweep;
-                this.PhaserWet = (float)SynthObject.PhaserWet;
-                this.PhaserWidth = (float)SynthObject.PhaserWidth;
-                this.CutOff = (int)SynthObject.CutOff;
-                this.Sustain = (float)SynthObject.Sustain;
-                this.Q = (float)SynthObject.Q;
-                this.Release = (float)SynthObject.Release;
-                this.TremoloFreq = (int)SynthObject.TremoloFreq;
-                this.Volume = (double)SynthObject.Volume;
-                this.Tremolo = SynthObject.Tremolo;
-                this.EnableLpf = SynthObject.Filter;
-                this.EnableVibrato = SynthObject.Vibrato;
-                this.WaveForm = Convert.ToString(SynthObject.WaveForm);
+                PhaserDry = (float)SynthObject.PhaserDry;
+                PhaserFeedback = (float)SynthObject.PhaserFeedback;
+                PhaserFreq = (float)SynthObject.PhaserFreq;
+                PhaserSweep = (float)SynthObject.PhaserSweep;
+                PhaserWet = (float)SynthObject.PhaserWet;
+                PhaserWidth = (float)SynthObject.PhaserWidth;
+                CutOff = (int)SynthObject.CutOff;
+                Sustain = (float)SynthObject.Sustain;
+                Q = (float)SynthObject.Q;
+                Release = (float)SynthObject.Release;
+                TremoloFreq = (int)SynthObject.TremoloFreq;
+                Volume = (double)SynthObject.Volume;
+                TremoloGain = (float)SynthObject.TremoloGain;
+                
+              
+                LpfChecked = SynthObject.Filter;
+                EnableVibrato = SynthObject.Vibrato;
+                WaveForm = Convert.ToString(SynthObject.WaveForm);
 
 
 
@@ -625,8 +648,7 @@ namespace Synthesizer
                 wavetype = 3;
             if (WaveType == SignalGeneratorType.Pink)
                 wavetype = 4;
-            if (TremoloGain > 0.2f)
-               Tremolo = true;
+            
 
             
            
@@ -652,7 +674,7 @@ namespace Synthesizer
                     Release = this.Release,
                     TremoloFreq = this.TremoloFreq,
                     Volume = this.Volume,
-                    Tremolo = this.Tremolo,
+                    TremoloGain = this.TremoloGain,
                     Filter = EnableLpf,
                     Vibrato = EnableVibrato,
                     Date = DateTime.Now,
@@ -665,21 +687,16 @@ namespace Synthesizer
                 db.Syntheses.Add(SynthObject);
                 db.SaveChanges();
                 ValidateBlock = ("Сохранено!");
-
-                
-                // получаем объекты из бд и выводим на консоль
-                /* var users = db.Users;
-                 Console.WriteLine("Список объектов:");
-                 foreach (User u in users)
-                 {
-                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                 }*/
+                this.Name = "";
             }
             else
             {
                
             }
             SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
+            
+          
+          
 
 
         }
@@ -850,7 +867,7 @@ namespace Synthesizer
                 };
 
                 _player = waveOutEvent;
-                _player.Init(new SampleToWaveProvider(_phaser));
+                _player.Init(new SampleToWaveProvider(_lpf));
 
                 _player.Play();
             }

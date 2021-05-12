@@ -19,10 +19,7 @@ namespace Synthesizer
         private readonly StartWindowViewModel _viewModel;
         public StartWindow()
         {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-            {
-               
-            }
+            
             InitializeComponent();
             _viewModel = new StartWindowViewModel();
             DataContext = _viewModel;

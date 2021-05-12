@@ -49,8 +49,6 @@ namespace Synthesizer.DataLayer
 
         public bool Filter { get; set; }
 
-        public bool Tremolo { get; set; }
-
         public bool Vibrato { get; set; }
 
         public int? WaveForm { get; set; }
@@ -59,6 +57,8 @@ namespace Synthesizer.DataLayer
 
         [Column(TypeName = "smalldatetime")]
         public DateTime? Date { get; set; }
+
+        public float? TremoloGain { get; set; }
 
         public virtual factory factory { get; set; }
     }
