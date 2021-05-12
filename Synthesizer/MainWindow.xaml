@@ -136,16 +136,24 @@
             Grid.ColumnSpan="2" 
             VerticalAlignment="Top" Height="70" Margin="14.2,42.4,327.4,0"  />
 
-        <StackPanel Visibility="{Binding OctaveVisibility}" x:Name="Octave" Orientation="Horizontal"
+        <StackPanel  x:Name="Octave" Orientation="Horizontal"
                     VerticalAlignment="Top"
-                    Margin="89.4,103,199.4,0"
+                    Margin="100,103,199.4,0"
                 Grid.Row="4"
                 Grid.Column="2"
                HorizontalAlignment="Center" Grid.RowSpan="2">
+            <RadioButton x:Name="A1"
+                 Margin="5,0,-50,0"
+                GroupName="Octave"
+                          Style="{DynamicResource MyRadioButton}"
+                         IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=1}"
+                        
+                         VerticalAlignment="Center">
 
+            </RadioButton>
 
             <RadioButton x:Name="A2"
-                 Margin="15,0,0,0"
+                 Margin="55,0,0,0"
                 GroupName="Octave"
                           Style="{DynamicResource MyRadioButton}"
                          IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=2}"
@@ -155,23 +163,23 @@
             </RadioButton>
             <RadioButton x:Name="A3"
                           Style="{DynamicResource MyRadioButton}"
-                         Margin="15,0,0,0"
+                         Margin="-85,90,0,0"
                          GroupName="Octave"
                          IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=3}"
                          VerticalAlignment="Center">
 
             </RadioButton>
             <RadioButton x:Name="A4"
-                       Margin="15,0,0,0"
+                       Margin="-35,90,0,0"
                          GroupName="Octave"
                           Style="{DynamicResource MyRadioButton}"
                          IsChecked="{Binding Octave,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=4}"
                          VerticalAlignment="Center">
 
             </RadioButton>
-            <Label Content="0" Margin="-135,55,0,0"></Label>
-            <Label Content="12" Margin="-100,55,0,0"></Label>
-            <Label Content="24" Margin="-45,55,0,0"></Label>
+            <Label FontSize="15" Content="24-48" Margin="0,100,0,0"></Label>
+            <Label FontSize="15" Content="О-12" Margin="-57,50,0,0"></Label>
+            
 
         </StackPanel >
         <StackPanel Grid.Row="1" Grid.Column="2" Margin="0.4,21.6,0.4,27.6" Grid.RowSpan="2">
@@ -240,18 +248,18 @@
             <Label VerticalAlignment="Bottom" FontSize="20" Margin="-260,0,10,20" >ЧАСТОТА тремоло</Label>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Width="300" Height="95" Grid.ColumnSpan="2" Margin="55.8,22.4,56.2,62.6" >
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Width="300" Height="95" Grid.ColumnSpan="3" Margin="-20,22.4,56.2,62.6" >
             <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,-300,0" FontSize ="18" >Хорус</Label>
-            <controls:Knob  Width="60"  To="1.0" From="0.0" Margin="10,20,0,0" Value="{Binding ChorusSweep}"></controls:Knob>
-            <controls:Knob  Width="60"   To="1.0" From="0.0" Margin="50,20,0,0"  Value="{Binding ChorusDelay}" ></controls:Knob>
+            <controls:Knob  Width="60"  To="1.0" From="0.0" Margin="0,20,0,0" Value="{Binding ChorusSweep}"></controls:Knob>
+            <controls:Knob  Width="60"   To="1.0" From="0.0" Margin="60,20,0,0"  Value="{Binding ChorusDelay}" ></controls:Knob>
             <controls:Knob  Width="60"   To="1.0" From="0.0" Margin="50,20,0,0"  Value="{Binding ChorusWidth}" ></controls:Knob>
 
 
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Margin="39.8,72,29.2,108.2" Grid.RowSpan="2" >
-            <Label VerticalAlignment="Top" Margin="-10,0,0,0" HorizontalAlignment="Center"  FontSize ="17" >Смещение</Label>
-            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"  FontSize ="17" >Повторение</Label>
-            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="15,0,0,0"  FontSize ="17" >Ширина</Label>
+            <Label VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Center"  FontSize ="16" >Смещение</Label>
+            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"  FontSize ="16" >Повторение</Label>
+            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-5,0,0,0"  FontSize ="16" >Ширина</Label>
 
         </StackPanel>
 

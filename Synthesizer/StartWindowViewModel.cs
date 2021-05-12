@@ -15,7 +15,7 @@ namespace Synthesizer
 {
     public partial class StartWindowViewModel : INotifyPropertyChanged
     {
-        Dispatcher dispatcher;
+       
         private EDM db = new EDM();
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyChanged)
@@ -124,6 +124,7 @@ namespace Synthesizer
         public void Changed_LoginName(string prev, string current)
         {
             ResetCanExecute();
+            RegisterRepeat = "";
         }
         
 
@@ -159,6 +160,7 @@ namespace Synthesizer
         public void Changed_Password()
         {
             ResetCanExecute();
+            RegisterRepeat = "";
         }
 
         bool _Loading = default;

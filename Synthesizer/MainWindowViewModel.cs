@@ -51,7 +51,7 @@ namespace Synthesizer
         private TremoloSampleProvider _tremolo;
         private IWavePlayer _player;
 
-        public double BaseFrequency { get; set; } = 110.0;
+        public double BaseFrequency { get; set; } = 55.0;
         public SignalGeneratorType WaveType { get; set; } = SignalGeneratorType.Sin;
         public bool EnableLpf { get; set; }
         public bool EnableSubOsc { get; set; }
@@ -156,37 +156,14 @@ namespace Synthesizer
             ResetCanExecute();
         }
 
-        /*  public ObservableCollection<Syntheses> SynthesesList
-          {
-              get => _SynthesesList;
-          }*/
-        public EnBaseFrequency[] SelectableBaseFrequencies => EnumValues<EnBaseFrequency>();
-        public static T[] EnumValues<T>()
-        {
-            return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
-        }
-
-        public int KeyValueBase
-        {
-            get
-            {
-                switch (BaseFrequency)
-                {
-                    case (double)EnBaseFrequency.A2: return 33;
-                    case (double)EnBaseFrequency.A3: return 45;
-                    case (double)EnBaseFrequency.A4: return 57;
-                    default: return 33;
-                }
-            }
-        }
-
-
+    
+       
         public void KeyDown(KeyEventArgs e)
         {
             if (MidiEnabled) return;
 
             var keyVal = keyboard.IndexOf(e.Key);
-            var midiKeyVal = keyVal + KeyValueBase;
+            var midiKeyVal = keyVal ;
             NoteOn(keyVal, midiKeyVal);
         }
 
@@ -272,23 +249,25 @@ namespace Synthesizer
         // Construction event
         partial void Constructed()
         {
-           
 
-            for (var device = 0; device < NAudio.Midi.MidiIn.NumberOfDevices; device++)
+            if (_player == null)
             {
-                _MidiDevices.Add(NAudio.Midi.MidiIn.DeviceInfo(device).ProductName);
-            }
+                for (var device = 0; device < NAudio.Midi.MidiIn.NumberOfDevices; device++)
+                {
+                    _MidiDevices.Add(NAudio.Midi.MidiIn.DeviceInfo(device).ProductName);
+                }
 
-            if (_MidiDevices.Count > 0)
-            {
-                MidiDevice = MidiDevices[0];
-                MidiVisibility = Visibility.Visible;
+                if (_MidiDevices.Count > 0)
+                {
+                    MidiDevice = MidiDevices[0];
+                    MidiVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    MidiVisibility = Visibility.Collapsed;
+                }
             }
-            else
-            {
-                MidiVisibility = Visibility.Collapsed;
-            }
-            var waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
+                var waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
             _mixer = new MixingSampleProvider(waveFormat) { ReadFully = true }; // Always produce samples
             _volControl = new VolumeSampleProvider(_mixer)
             {
@@ -300,21 +279,7 @@ namespace Synthesizer
             _phaser = new PhaserSampleProvider(_chorus);
             _lpf = new LowPassFilterSampleProvider(_phaser, 20000);
 
-            /*_fftProvider = new FFTSampleProvider(8, (ss, cs) => Dispatch(() => UpdateRealTimeData(ss, cs)), _lpf);
-
-            void UpdateRealTimeData(float[] waveform, Complex[] frequencies)
-            {
-                var famps = new float[frequencies.Length / 2];
-                for (var iter = 0; iter < famps.Length; ++iter)
-                {
-                    var amp = 4.0 * Math.Sqrt(Math.Abs(frequencies[iter].X));
-                    famps[iter] = (float)amp;
-                }
-
-                Waveform = waveform;
-                FrequencyAmplitudes = famps;
-            }
-*/
+          
             WaveType = SignalGeneratorType.Sin;
             Volume = 0.5;
             Attack = 0.01f;
@@ -554,24 +519,33 @@ namespace Synthesizer
         partial void Execute_MidiOnCommand()
         {
             var selectedMidiDevice = MidiDevices.IndexOf(MidiDevice);
-            if (selectedMidiDevice >= 0)
-            {
-                OctaveVisibility = Visibility.Hidden;
-                MidiEnabled = true;
-                midiIn = new MidiIn(selectedMidiDevice);
-                midiIn.MessageReceived += MidiMessageReceived;
-                // midiIn.ErrorReceived += MidiErrorReceived;
-                midiIn.Start();
-                ResetCanExecute();
+            try {
+                if (selectedMidiDevice >= 0)
+                {
+                    OctaveVisibility = Visibility.Hidden;
+                    MidiEnabled = true;
+
+                    midiIn = new MidiIn(selectedMidiDevice);
+                    midiIn.MessageReceived += MidiMessageReceived;
+                    // midiIn.ErrorReceived += MidiErrorReceived;
+                    midiIn.Start();
+                    
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         partial void Execute_MidiOffCommand()
         {
+            OctaveVisibility = Visibility.Visible;
             MidiEnabled = false;
             midiIn.Stop();
             midiIn.Dispose();
-            ResetCanExecute();
+           
         }
         partial void Execute_ExitCommand(object _window)
         {
@@ -844,22 +818,9 @@ namespace Synthesizer
 
         public void Start()
         {
-            if (_player == null)
-            {
-                
-                    // создаем два объекта User
-                   /* List<Synthesis> list = db.Syntheses.ToList();
-                    foreach (var l in list)
-                        NamesOfPresets.Add(l.Name);
-*/
-                    // получаем объекты из бд и выводим на консоль
-                    /* var users = db.Users;
-                     Console.WriteLine("Список объектов:");
-                     foreach (User u in users)
-                     {
-                         Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                     }*/
-               
+           
+
+
                 var waveOutEvent = new WaveOutEvent
                 {
                     NumberOfBuffers = 2,
@@ -870,7 +831,7 @@ namespace Synthesizer
                 _player.Init(new SampleToWaveProvider(_lpf));
 
                 _player.Play();
-            }
+            
         }
     }
 }

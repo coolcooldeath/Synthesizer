@@ -277,7 +277,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mujbtDUXogIvfvCiApJQQKZ1QRKxVczDQ7x3CmJwBc8=</dsig:DigestValue>
+        <dsig:DigestValue>fehdcZNHcEY26KOEJb30XyHcuxSflIwvLf2DlGpwuzU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -401,13 +401,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Synthesizer.exe.config" size="4452">
+  <file name="Synthesizer.exe.config" size="4398">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>s9hxdzMw8GBkKKaefjIt60SfKNCD+coLcYNJK4VR81k=</dsig:DigestValue>
+      <dsig:DigestValue>TOu2IkjDHrq7YunKKnRqLJtbtgReWNBtwJthW7jmF80=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

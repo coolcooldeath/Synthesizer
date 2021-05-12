@@ -493,6 +493,8 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         public void Changed_Octave(string value)
         {
+            if (Convert.ToInt32(value) == 1)
+                BaseFrequency = 55.0;
             if (Convert.ToInt32(value) == 2)
                 BaseFrequency = 110.0;
             if (Convert.ToInt32(value) == 3)
@@ -523,13 +525,16 @@ namespace Synthesizer
 
                 _MidiEnabled = value;
 
-                Changed_MidiEnabled(prev, _MidiEnabled);
+                Changed_MidiEnabled();
 
                 Raise_MidiEnabled();
             }
         }
         // --------------------------------------------------------------------
-        partial void Changed_MidiEnabled(bool prev, bool current);
+        public void Changed_MidiEnabled()
+        {
+            ResetCanExecute();
+        }
         // --------------------------------------------------------------------
         // END_PROPERTY: MidiEnabled (bool)
         // --------------------------------------------------------------------
@@ -1941,15 +1946,14 @@ namespace Synthesizer
 
         void ResetCanExecute()
         {
-            /* _MidiOnCommand.RefreshCanExecute();
-             _MidiOffCommand.RefreshCanExecute();*//*
+            _MidiOnCommand.RefreshCanExecute();
             _DeletePatchCommand.RefreshCanExecute();
             _MidiOnCommand.RefreshCanExecute();
             _MidiOffCommand.RefreshCanExecute();
             _LoadPatchCommand.RefreshCanExecute();
             _CloseGuideCommand.RefreshCanExecute();
             _OpenUsersScrollCommand.RefreshCanExecute();
-            _ExitInLoginWindowCommand.RefreshCanExecute();*/
+            _ExitInLoginWindowCommand.RefreshCanExecute();
         }
 
         protected virtual void OnPropertyChanged(string propertyChanged)
