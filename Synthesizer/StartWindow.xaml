@@ -54,13 +54,14 @@
             <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock  Text="{Binding Password}"></TextBlock>
 
+            
             <PasswordBox Padding="10,0,0,0" Style="{StaticResource MaterialDesignFilledPasswordBox}" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1"  FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8">
                 <i:Interaction.Behaviors>
                     <helpers:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
-            </PasswordBox>
+                </PasswordBox>
 
-            <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Foreground="Red" Text="{Binding RegisterRepeat}"></TextBlock>
             <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
                 materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,0,0,10"   />

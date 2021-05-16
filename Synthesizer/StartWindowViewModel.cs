@@ -124,7 +124,10 @@ namespace Synthesizer
         public void Changed_LoginName(string prev, string current)
         {
             ResetCanExecute();
-            RegisterRepeat = "";
+            if (current.Length < 4)
+                RegisterRepeat = "Логин не может быть менее 4 символов";
+            else
+                RegisterRepeat = "";
         }
         
 
@@ -150,17 +153,20 @@ namespace Synthesizer
 
                 _Password = value;
 
-                Changed_Password();
+                Changed_Password(value);
 
                 Raise_LoginName();
             }
         }
         // --------------------------------------------------------------------
 
-        public void Changed_Password()
+        public void Changed_Password(string value)
         {
             ResetCanExecute();
-            RegisterRepeat = "";
+            if (value.Length < 5)
+                RegisterRepeat = "Пароль не может быть менее 5 символов";
+            else
+                RegisterRepeat = "";
         }
 
         bool _Loading = default;
@@ -350,6 +356,7 @@ namespace Synthesizer
         public void CanExecute_RegisterCommand(ref bool result)
         {
             if (LoginName != "" && LoginName != null && Password != "" && Password != null && UserName != "" && UserName != null)
+                if(LoginName.Length > 4 && Password.Length > 5)
                 result = true;
             else
                 result = false;
@@ -460,25 +467,7 @@ namespace Synthesizer
 
 
 
-            /*using (DataContext db = new DataContext())
-            {
-                // создаем два объекта User
-                Synthesis SynthObject = new Synthesis { Name = this.Name, Decay = this.Decay, Attack = this.Attack };
-
-                // добавляем их в бд
-
-                db.Syntheses.Add(SynthObject);
-                db.SaveChanges();
-                Console.WriteLine("Объекты успешно сохранены");
-
-                // получаем объекты из бд и выводим на консоль
-                *//* var users = db.Users;
-                 Console.WriteLine("Список объектов:");
-                 foreach (User u in users)
-                 {
-                     Console.WriteLine("{0}.{1} - {2}", u.Id, u.Name, u.Age);
-                 }*//*
-            }*/
+          
 
 
         }
@@ -538,8 +527,15 @@ namespace Synthesizer
 
         public StartWindowViewModel()
         {
+            users Admin = new users { name = "Admin", isadmin = true, login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
+            factory factory = new factory { factory_name = Admin.name, login = Admin.login };
+            if (db.users.FirstOrDefault(u => u.name == Admin.name && u.password == Admin.password && u.login == Admin.login) == null)
+            {
+                db.users.Add(Admin);
+                db.factory.Add(factory);
+                db.SaveChanges();
+            }
            
-            db.users.FindAsync(new users());
             _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
             _CloseLoginWindowCommand = new UserCommandWithParametrs(CanExecuteCloseLoginWindowCommand, ExecuteCloseLoginWindowCommand);
             _RegisterCommand = new UserCommandWithParametrs(CanExecuteRegisterCommand, ExecuteRegisterCommand);

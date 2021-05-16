@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Synthesizer.DataLayer;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -17,7 +19,7 @@ namespace Synthesizer
         public event PropertyChangedEventHandler PropertyChanged;
         #region Visibility
 
-        Visibility _MidiVisibility = default;
+        Visibility _MidiVisibility = Visibility.Visible;
 
         void Raise_MidiVisibility()
         {
@@ -581,12 +583,29 @@ namespace Synthesizer
 
         void Raise_MidiDevices()
         {
+            OnPropertyChanged("MidiDevices");
         }
 
         public ObservableCollection<string> MidiDevices
         {
             get { return _MidiDevices; }
+            set
+            {
+                if (_MidiDevices == value)
+                {
+                    return;
+                }
+
+                var prev = _MidiDevices;
+
+                _MidiDevices = value;
+
+                Changed_MidiDevices(prev, _MidiDevices);
+
+                Raise_MidiDevices();
+            }
         }
+        partial void Changed_MidiDevices(ObservableCollection<string> prev, ObservableCollection<string> current);
 
         #endregion
 
@@ -1650,6 +1669,7 @@ namespace Synthesizer
         partial void Execute_OkDeleteCommand();
 
 
+  
         private UserCommandWithParametrs _LoadPatchCommand;
 
         bool CanExecuteLoadPatchCommand()
@@ -1921,13 +1941,18 @@ namespace Synthesizer
 
         partial void Constructed();
 
+
+        public static int BaseFactoryId;
         public MainWindowViewModel()
         {
 
+            factory factory = db.factory.FirstOrDefault(p => p.login == "Admin");
+            BaseFactoryId = factory.id_factory;
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
             _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
             _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);
             _OkDeleteCommand = new UserCommand(CanExecuteOkDeleteCommand, ExecuteOkDeleteCommand);
+           
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);

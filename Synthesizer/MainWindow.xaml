@@ -182,7 +182,7 @@
             
 
         </StackPanel >
-        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0.4,21.6,0.4,27.6" Grid.RowSpan="2">
+        <StackPanel Grid.Row="0"  Grid.Column="2" Margin="0,75,0,0" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90"></ColumnDefinition>
@@ -191,18 +191,18 @@
                     <ColumnDefinition Width="90"></ColumnDefinition>
                     <ColumnDefinition Width="90"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
-                <Image Grid.Column="1" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
-                <Image  Grid.Column="2" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
-                <Image Grid.Column="3" Source="/resources/fun icon.png" Margin="0,0,0,0"  Width="30" Height="30" ></Image>
-                <Image  Grid.Column="4" Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="30" ></Image>
+                <Image Grid.Column="0" Source="/resources/noise.png" Margin="0,-2,0,0"  Width="70" Height="70" ></Image>
+                <Image Grid.Column="1" Source="/resources/sinewave.png" Margin="-10,-2,0,0"  Width="70" Height="70" ></Image>
+                <Image  Grid.Column="2" Source="/resources/sawtooth.png" Margin="-10,-2,0,0"  Width="70" Height="70" ></Image>
+                <Image Grid.Column="3" Source="/resources/squarewave.png" Margin="-10,0,0,0"  Width="70" Height="70" ></Image>
+                <Image  Grid.Column="4" Source="/resources/triangular.png" Margin="-20,-2,0,0"  Width="70" Height="70" ></Image>
             </Grid>
 
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                 Grid.Row="2"
                 Grid.Column="2"
-                    Margin="26.4,1.8,26.4,47"
+                    Margin="26.4,1.8,20.4,57"
                     HorizontalAlignment="Center" Grid.RowSpan="2">
             <RadioButton x:Name="Triangle"
                          Margin="0,0,0,0"
@@ -215,12 +215,12 @@
                           Style="{DynamicResource MyRadioButton}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="Sine"
-                         Margin="50,0,5,0"
+                         Margin="55,0,5,0"
                           Style="{DynamicResource MyRadioButton}"
                          IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=1}"
                          VerticalAlignment="Center" />
             <RadioButton x:Name="Square"
-                         Margin="50,5,5,5"
+                         Margin="55,5,5,5"
                           Style="{DynamicResource MyRadioButton}"
                          IsChecked="{Binding WaveForm,Converter={StaticResource ResourceKey=ValueConverter},ConverterParameter=2}"
                          VerticalAlignment="Center" />
@@ -232,18 +232,11 @@
 
         </StackPanel >
 
-        <!-- <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
-
-            <Label Content="Sub-Oscillator" Grid.Row="3" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="1" Grid.Column="2" FontWeight="Heavy" />
-            <CheckBox Grid.Row="3" Style="{DynamicResource MyCheckBox}"  HorizontalAlignment="Left" Margin="0,6,0,0" Grid.ColumnSpan="1" Grid.Column="2" FontWeight="Heavy" Checked="SubOscillator_Checked" Unchecked="SubOscillator_Unchecked"/>
+      
 
 
 
-        </StackPanel> -->
-
-
-
-        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="5" Margin="0,22.4,0.2,118.2" Grid.RowSpan="2" >
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="5" Margin="0,10.4,0.2,124.2" Grid.RowSpan="2" >
             <Label VerticalAlignment="Top" FontSize="20" Margin="0,20,0,0" >Громкость тремоло</Label>
             <Label VerticalAlignment="Bottom" FontSize="20" Margin="-260,0,10,20" >ЧАСТОТА тремоло</Label>
         </StackPanel>
@@ -256,10 +249,10 @@
 
 
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Margin="39.8,72,29.2,108.2" Grid.RowSpan="2" >
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Margin="30.8,72,29.2,108.2" Grid.RowSpan="2" >
             <Label VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Center"  FontSize ="16" >Смещение</Label>
-            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"  FontSize ="16" >Повторение</Label>
-            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-5,0,0,0"  FontSize ="16" >Ширина</Label>
+            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,0,0,0"  FontSize ="16" >Повторение</Label>
+            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,0,0,0"  FontSize ="16" >Ширина</Label>
 
         </StackPanel>
 
@@ -271,16 +264,25 @@
 
         </StackPanel>
 
-        <materialDesign:DialogHost Grid.Column="2" Grid.Row="2" IsOpen="{Binding Guide}" Grid.ColumnSpan="2" Margin="440.4,21.8,0.2,27" Grid.RowSpan="2">
+        <materialDesign:DialogHost  Grid.Column="2" Grid.Row="2" IsOpen="{Binding Guide}" Grid.ColumnSpan="2" Margin="440.4,21.8,0.2,27" Grid.RowSpan="2">
             <materialDesign:DialogHost.DialogContent>
-                <Button Grid.Column="6" Width="50" Background="#919191" Content="Закрыть" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding CloseGuideCommand}" >
-
-                </Button>
+               
+                    <StackPanel>
+                        
+                        <Image Margin="20" Source="/resources/Guide.png"></Image>
+                        <Button  Width="110"  Content="Закрыть" Background="Transparent" FontSize="20" Margin="20" FontFamily="Book Antiqua" BorderBrush="Transparent"  Height="35" Command="{Binding CloseGuideCommand}"   >
+                        
+                        </Button>
+                       
+                    </StackPanel>
+                
+               
+               
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
 
 
-        <materialDesign:DialogHost Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="4" Margin="49.8,22,0.2,27" IsOpen="{Binding IsDeleteOpen}">
+        <materialDesign:DialogHost  Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="4" Margin="49.8,22,0.2,27" IsOpen="{Binding IsDeleteOpen}">
             <materialDesign:DialogHost.DialogContent  >
                 <StackPanel Background="#b8b8b8" >
                     <Label Content="Вы уверены?" Foreground="Black" FontFamily="./resources/#Determination2" Margin="20"></Label>
@@ -293,19 +295,21 @@
         </materialDesign:DialogHost>
 
 
-        <Button Grid.Column="6" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ExitInLoginWindowCommand}" CommandParameter="{Binding ElementName=SynthWindow}" Margin="19.8,50,20.6,5.4" >
-            <Image Source="/resources/save icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
-        </Button>
-
-        <Button Grid.Column="6" Width="50" Grid.Row="3" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=SynthWindow}"  >
-            <Image Source="/resources/fun icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+        <Button Grid.Column="6" Width="50" Background="#ab0000" FontFamily="./resources/#Determination2" Height="35" Padding="0,0,0,0"  Content="X" FontSize="34" Command="{Binding ExitCommand}"  CommandParameter="{Binding ElementName=SynthWindow}" Margin="19.8,50,20.6,5.4" >
+           
         </Button>
 
 
 
+        <Button Grid.Column="6" Width="50" Grid.Row="3" Background="#ab0000" FontFamily="./resources/#Determination2" Height="35" Content="=>" FontSize="30" Padding="0"  Command="{Binding ExitInLoginWindowCommand}"  CommandParameter="{Binding ElementName=SynthWindow}"  >
+           
+        </Button>
 
-        <Button Grid.Column="6" Grid.Row="1" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding OpenGuideCommand}" Margin="19.8,36.6,20.6,43.6" Grid.RowSpan="2" >
-            <Image Source="/resources/users icon.png" Margin="-9,-2,0,0"  Width="30" Height="35" ></Image>
+
+
+
+        <Button Grid.Column="6" Grid.Row="1" Padding="0,-2,0,0" Width="50" Background="#4e9a00" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding OpenGuideCommand}" Content="?" FontSize="40" Margin="19.8,36.6,20.6,43.6" Grid.RowSpan="2" >
+            
         </Button>
         <Ellipse Grid.Column="6"
                 Grid.Row="4" Height="20" Margin="34.8,104,35.6,5.6"  Width="20"  Style="{DynamicResource Bulb}"/>

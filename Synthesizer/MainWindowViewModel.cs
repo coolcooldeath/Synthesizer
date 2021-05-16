@@ -14,16 +14,6 @@ using System.Windows.Input;
 namespace Synthesizer
 {
     
-    public enum EnBaseFrequency
-    {
-        A2 = 0,
-        A3 = 1,
-        A4 = 2,
-    }
-
-
-
-
     public partial class MainWindowViewModel
     {
 
@@ -41,7 +31,7 @@ namespace Synthesizer
         public factory factory = new factory();
         public List<string> NamesOfPresets { get; set; } = new List<string>();
         
-        private SynthWaveProvider[] _oscillators = new SynthWaveProvider[88];
+        private SynthWaveProvider[] _oscillators = new SynthWaveProvider[64];
         private VolumeSampleProvider _volControl;
         private MixingSampleProvider _mixer;
         private ChorusSampleProvider _chorus;
@@ -59,7 +49,7 @@ namespace Synthesizer
 
 
         private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>();
-        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses.Where(p => p.FactId == 19));
+        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses.Where(p => p.FactId == BaseFactoryId));
         private ObservableCollection<users> _UsersList = new ObservableCollection<users>((new EDM()).users.Where(p=>p.isadmin == false));
 
        
@@ -191,7 +181,7 @@ namespace Synthesizer
                         NoteOff(noteOffEvent.NoteNumber);
                  
                     break;
-                 
+               
 
             }
         }
@@ -203,7 +193,7 @@ namespace Synthesizer
 
         private void NoteOn(int keyVal, int midiKeyVal, float velocity = 1.0f)
         {
-            if (keyVal > -1 && keyVal < 88)
+            if (keyVal > -1 && keyVal < 64)
                 //var keyVal = keyboard.IndexOf(e.Key);
                 if (_oscillators[keyVal] is null)
                 {
@@ -231,7 +221,7 @@ namespace Synthesizer
 
         private void NoteOff(int keyVal)
         {
-            if (keyVal > -1 && keyVal < 88)
+            if (keyVal > -1 && keyVal < 64)
             {
                 //var keyVal = keyboard.IndexOf(e.Key);
                 if (_oscillators[keyVal] != null)
@@ -252,20 +242,7 @@ namespace Synthesizer
 
             if (_player == null)
             {
-                for (var device = 0; device < NAudio.Midi.MidiIn.NumberOfDevices; device++)
-                {
-                    _MidiDevices.Add(NAudio.Midi.MidiIn.DeviceInfo(device).ProductName);
-                }
-
-                if (_MidiDevices.Count > 0)
-                {
-                    MidiDevice = MidiDevices[0];
-                    MidiVisibility = Visibility.Visible;
-                }
-                else
-                {
-                    MidiVisibility = Visibility.Collapsed;
-                }
+                
             }
                 var waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
             _mixer = new MixingSampleProvider(waveFormat) { ReadFully = true }; // Always produce samples
@@ -511,6 +488,7 @@ namespace Synthesizer
         {
             result = true;
         }
+        
         #endregion
 
 
@@ -518,34 +496,59 @@ namespace Synthesizer
 
         partial void Execute_MidiOnCommand()
         {
+            _MidiDevices.Clear();
+            for (var device = 0; device < NAudio.Midi.MidiIn.NumberOfDevices; device++)
+            {
+
+                _MidiDevices.Add(NAudio.Midi.MidiIn.DeviceInfo(device).ProductName);
+            }
+            if (_MidiDevices.Count > 0)
+            {
+                MidiDevice = MidiDevices[0];
+               
+            }
             var selectedMidiDevice = MidiDevices.IndexOf(MidiDevice);
             try {
                 if (selectedMidiDevice >= 0)
                 {
-                    OctaveVisibility = Visibility.Hidden;
+                    
                     MidiEnabled = true;
 
                     midiIn = new MidiIn(selectedMidiDevice);
                     midiIn.MessageReceived += MidiMessageReceived;
-                    // midiIn.ErrorReceived += MidiErrorReceived;
+                    
                     midiIn.Start();
                     
                 }
             }
             catch (Exception)
             {
-
+                
             }
-            
+
+
         }
 
         partial void Execute_MidiOffCommand()
         {
-            OctaveVisibility = Visibility.Visible;
-            MidiEnabled = false;
-            midiIn.Stop();
-            midiIn.Dispose();
-           
+            try
+            {
+                
+                MidiEnabled = false;
+                midiIn.Stop();
+                midiIn.Dispose();
+            }
+            catch (Exception)
+            {
+                
+                for(int i = 0; i<64; i++)
+                if (_oscillators[i] != null)
+                {
+                    _oscillators[i].Stop();
+                    _oscillators[i] = null;
+                }
+            }
+
         }
         partial void Execute_ExitCommand(object _window)
         {
@@ -563,6 +566,7 @@ namespace Synthesizer
         partial void Execute_OpenGuideCommand()
         {
             Guide = true;
+           
         }
 
         partial void Execute_LoadPatchCommand(object _id)
@@ -622,52 +626,55 @@ namespace Synthesizer
                 wavetype = 3;
             if (WaveType == SignalGeneratorType.Pink)
                 wavetype = 4;
-            
-
-            
-           
-            if(db.Syntheses.FirstOrDefault(u => u.Name == this.Name) == null)
+            try {
+                if (db.Syntheses.FirstOrDefault(u => u.Name == this.Name) == null)
                 {
-                Syntheses SynthObject = new Syntheses
-                {
-                    Name = this.Name,
-                    Decay = this.Decay,
-                    Attack = this.Attack,
-                    ChorusDelay = this.ChorusDelay,
-                    ChorusSweep = this.ChorusSweep,
-                    ChorusWidth = this.ChorusWidth,
-                    PhaserDry = this.PhaserDry,
-                    PhaserFeedback = this.PhaserFeedback,
-                    PhaserFreq = this.PhaserFreq,
-                    PhaserSweep = this.PhaserSweep,
-                    PhaserWet = this.PhaserWet,
-                    PhaserWidth = this.PhaserWidth,
-                    CutOff = this.CutOff,
-                    Sustain = this.Sustain,
-                    Q = this.Q,
-                    Release = this.Release,
-                    TremoloFreq = this.TremoloFreq,
-                    Volume = this.Volume,
-                    TremoloGain = this.TremoloGain,
-                    Filter = EnableLpf,
-                    Vibrato = EnableVibrato,
-                    Date = DateTime.Now,
-                    WaveForm = wavetype,
-                    FactId = factory.id_factory
-                };
-               
-                // добавляем их в бд
+                    Syntheses SynthObject = new Syntheses
+                    {
+                        Name = this.Name,
+                        Decay = this.Decay,
+                        Attack = this.Attack,
+                        ChorusDelay = this.ChorusDelay,
+                        ChorusSweep = this.ChorusSweep,
+                        ChorusWidth = this.ChorusWidth,
+                        PhaserDry = this.PhaserDry,
+                        PhaserFeedback = this.PhaserFeedback,
+                        PhaserFreq = this.PhaserFreq,
+                        PhaserSweep = this.PhaserSweep,
+                        PhaserWet = this.PhaserWet,
+                        PhaserWidth = this.PhaserWidth,
+                        CutOff = this.CutOff,
+                        Sustain = this.Sustain,
+                        Q = this.Q,
+                        Release = this.Release,
+                        TremoloFreq = this.TremoloFreq,
+                        Volume = this.Volume,
+                        TremoloGain = this.TremoloGain,
+                        Filter = EnableLpf,
+                        Vibrato = EnableVibrato,
+                        Date = DateTime.Now,
+                        WaveForm = wavetype,
+                        FactId = factory.id_factory
+                    };
 
-                db.Syntheses.Add(SynthObject);
-                db.SaveChanges();
-                ValidateBlock = ("Сохранено!");
-                this.Name = "";
+                    // добавляем их в бд
+
+                    db.Syntheses.Add(SynthObject);
+                    db.SaveChanges();
+                    ValidateBlock = ("Сохранено!");
+                    this.Name = "";
+                }
+                else
+                {
+
+                }
+                SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
             }
-            else
+            catch (Exception)
             {
-               
+                MessageBox.Show("Отсутствует подключение к интернету");
             }
-            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
+            
             
           
           

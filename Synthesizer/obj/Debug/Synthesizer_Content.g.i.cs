@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("generated_viewmodel.tt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/guide.png")]
 
 
