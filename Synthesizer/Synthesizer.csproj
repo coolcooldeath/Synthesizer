@@ -68,7 +68,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Безымянный-1.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -180,32 +180,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChorusSampleProvider.cs" />
+    <Compile Include="Models\ChorusSampleProvider.cs" />
     <Compile Include="Controls\DependencyProperties.cs" />
     <Compile Include="DataLayer\EDM.cs" />
     <Compile Include="DataLayer\factory.cs" />
     <Compile Include="DataLayer\Syntheses.cs" />
     <Compile Include="DataLayer\users.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Generated_ViewModel.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="ViewModels\Generated_ViewModel.cs" />
     <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="Helpers\CleareFocus.cs" />
     <Compile Include="Helpers\PasswordBehavior.cs" />
     <Compile Include="Helpers\ValueConverter.cs" />
-    <Compile Include="HighPassFilterSampleProvider.cs" />
+    <Compile Include="Models\HighPassFilterSampleProvider.cs" />
     <Compile Include="Controls\Knob.cs" />
-    <Compile Include="LowPassFilterSampleProvider.cs" />
-    <Compile Include="PhaserSampleProvider.cs" />
-    <Compile Include="StartWindow.xaml.cs">
+    <Compile Include="Models\LowPassFilterSampleProvider.cs" />
+    <Compile Include="Models\PhaserSampleProvider.cs" />
+    <Compile Include="Views\StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartWindowViewModel.cs" />
-    <Compile Include="UserCommandWithParametrs.cs" />
-    <Compile Include="UserCommand.cs" />
-    <Compile Include="SynthSignalGenerator.cs" />
-    <Compile Include="SynthWaveProvider.cs" />
-    <Compile Include="TremoloSampleProvider.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="ViewModels\StartWindowViewModel.cs" />
+    <Compile Include="UserCommand\UserCommandWithParametrs.cs" />
+    <Compile Include="UserCommand\UserCommand.cs" />
+    <Compile Include="Models\SynthSignalGenerator.cs" />
+    <Compile Include="Models\SynthWaveProvider.cs" />
+    <Compile Include="Models\TremoloSampleProvider.cs" />
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -213,37 +213,37 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="StartWindow.xaml">
+    <Page Include="Views\StartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="styles\CheckBox.xaml">
+    <Page Include="Styles\CheckBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="styles\LoadButton.xaml">
+    <Page Include="Styles\LoadButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="styles\RadioButton.xaml">
+    <Page Include="Styles\RadioButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="styles\StartButton.xaml">
+    <Page Include="Styles\StartButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="styles\TextBox.xaml">
+    <Page Include="Styles\TextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -267,29 +267,26 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Synthesizer_TemporaryKey.pfx" />
-    <Resource Include="resources\18432.ttf" />
-    <Resource Include="resources\19888.ttf" />
-    <Resource Include="resources\19190.ttf" />
-    <Resource Include="resources\6445.ttf" />
-    <Resource Include="resources\Cony-Light.ttf" />
-    <Resource Include="resources\Web Serveroff.otf" />
-    <Resource Include="resources\AA-Spaceman.ttf" />
+    <Resource Include="Resources\18432.ttf" />
+    <Resource Include="Resources\19888.ttf" />
+    <Resource Include="Resources\19190.ttf" />
+    <Resource Include="Resources\6445.ttf" />
+    <Resource Include="Resources\AA-Spaceman.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\delete icon.png" />
-    <Resource Include="resources\fun icon.png" />
-    <Resource Include="resources\users icon.png" />
-    <Resource Include="resources\factory icon.png" />
-    <Resource Include="resources\load icon.png" />
-    <Resource Include="resources\save icon.png" />
-    <Resource Include="resources\adsr.png" />
-    <Resource Include="resources\pixelblacklogo.png" />
-    <Resource Include="resources\logo.png" />
-    <Resource Include="resources\back.jpg" />
+    <Resource Include="Resources\delete icon.png" />
+    <Resource Include="Resources\fun icon.png" />
+    <Resource Include="Resources\users icon.png" />
+    <Resource Include="Resources\factory icon.png" />
+    <Resource Include="Resources\load icon.png" />
+    <Resource Include="Resources\save icon.png" />
+    <Resource Include="Resources\adsr.png" />
+    <Resource Include="Resources\pixelblacklogo.png" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\back.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -307,23 +304,21 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\sawtooth.png" />
-    <Resource Include="resources\sinewave.png" />
-    <Resource Include="resources\squarewave.png" />
-    <Resource Include="resources\triangular.png" />
+    <Resource Include="Resources\sawtooth.png" />
+    <Resource Include="Resources\sinewave.png" />
+    <Resource Include="Resources\squarewave.png" />
+    <Resource Include="Resources\triangular.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\noise.png" />
+    <Resource Include="Resources\noise.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\Guide.png" />
+    <Resource Include="Resources\Guide.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Безымянный-1.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Synthesizer.exe.manifest" size="24360">
+    <dependentAssembly dependencyType="install" codebase="Synthesizer.exe.manifest" size="24324">
       <assemblyIdentity name="Synthesizer.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QcbJda4yccU/T7ei99+auGJvLLe9eiaVduCuV6CpyWw=</dsig:DigestValue>
+        <dsig:DigestValue>V3wClr5Fox4GUA20GW6xLrqyOLpW6Q37TspHo1ezcGI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
