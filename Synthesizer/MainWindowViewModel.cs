@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Synthesizer
 {
-    
+
     public partial class MainWindowViewModel
     {
 
@@ -30,13 +30,13 @@ namespace Synthesizer
         public users User = new users();
         public factory factory = new factory();
         public List<string> NamesOfPresets { get; set; } = new List<string>();
-        
+
         private SynthWaveProvider[] _oscillators = new SynthWaveProvider[64];
         private VolumeSampleProvider _volControl;
         private MixingSampleProvider _mixer;
         private ChorusSampleProvider _chorus;
         private PhaserSampleProvider _phaser;
-       
+
         private LowPassFilterSampleProvider _lpf;
         private TremoloSampleProvider _tremolo;
         private IWavePlayer _player;
@@ -49,8 +49,10 @@ namespace Synthesizer
 
 
         private ObservableCollection<Syntheses> _SynthesesList = new ObservableCollection<Syntheses>();
-        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>((new EDM()).Syntheses.Where(p => p.FactId == BaseFactoryId));
-        private ObservableCollection<users> _UsersList = new ObservableCollection<users>((new EDM()).users.Where(p=>p.isadmin == false));
+        
+        private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>();
+        private ObservableCollection<users> _UsersList = new ObservableCollection<users>();
+    
 
        
 
@@ -573,42 +575,49 @@ namespace Synthesizer
         {
             
             int ID = Convert.ToInt32(_id);
-            Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
-            if (SynthObject != null)
+            try
             {
-                
-
-                Name = SynthObject.Name;
-                Decay = (float)SynthObject.Decay;
-                Attack = (float)SynthObject.Attack;
-                ChorusDelay = (float)SynthObject.ChorusDelay;
-                ChorusSweep = (float)SynthObject.ChorusSweep;
-                ChorusWidth = (float)SynthObject.ChorusWidth;
-                PhaserDry = (float)SynthObject.PhaserDry;
-                PhaserFeedback = (float)SynthObject.PhaserFeedback;
-                PhaserFreq = (float)SynthObject.PhaserFreq;
-                PhaserSweep = (float)SynthObject.PhaserSweep;
-                PhaserWet = (float)SynthObject.PhaserWet;
-                PhaserWidth = (float)SynthObject.PhaserWidth;
-                CutOff = (int)SynthObject.CutOff;
-                Sustain = (float)SynthObject.Sustain;
-                Q = (float)SynthObject.Q;
-                Release = (float)SynthObject.Release;
-                TremoloFreq = (int)SynthObject.TremoloFreq;
-                Volume = (double)SynthObject.Volume;
-                TremoloGain = (float)SynthObject.TremoloGain;
-                
-              
-                LpfChecked = SynthObject.Filter;
-                EnableVibrato = SynthObject.Vibrato;
-                WaveForm = Convert.ToString(SynthObject.WaveForm);
+                Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
+                if (SynthObject != null)
+                {
 
 
+                    Name = SynthObject.Name;
+                    Decay = (float)SynthObject.Decay;
+                    Attack = (float)SynthObject.Attack;
+                    ChorusDelay = (float)SynthObject.ChorusDelay;
+                    ChorusSweep = (float)SynthObject.ChorusSweep;
+                    ChorusWidth = (float)SynthObject.ChorusWidth;
+                    PhaserDry = (float)SynthObject.PhaserDry;
+                    PhaserFeedback = (float)SynthObject.PhaserFeedback;
+                    PhaserFreq = (float)SynthObject.PhaserFreq;
+                    PhaserSweep = (float)SynthObject.PhaserSweep;
+                    PhaserWet = (float)SynthObject.PhaserWet;
+                    PhaserWidth = (float)SynthObject.PhaserWidth;
+                    CutOff = (int)SynthObject.CutOff;
+                    Sustain = (float)SynthObject.Sustain;
+                    Q = (float)SynthObject.Q;
+                    Release = (float)SynthObject.Release;
+                    TremoloFreq = (int)SynthObject.TremoloFreq;
+                    Volume = (double)SynthObject.Volume;
+                    TremoloGain = (float)SynthObject.TremoloGain;
 
+
+                    LpfChecked = SynthObject.Filter;
+                    EnableVibrato = SynthObject.Vibrato;
+                    WaveForm = Convert.ToString(SynthObject.WaveForm);
+
+
+
+                }
+                else
+                {
+                   
+                }
             }
-            else
+            catch (Exception)
             {
-               
+                NetworkError = true;
             }
 
         }
@@ -666,13 +675,13 @@ namespace Synthesizer
                 }
                 else
                 {
-
+                    ValidateBlock = ("Имя занято");
                 }
                 SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
             }
             catch (Exception)
             {
-                MessageBox.Show("Отсутствует подключение к интернету");
+                NetworkError = true;
             }
             
             
@@ -688,22 +697,28 @@ namespace Synthesizer
             memory = _id;
             IsDeleteOpen = true;
             int ID = Convert.ToInt32(_id);
-            Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
-            
-            if (SynthObject != null && IsDelete == true)
+            try
             {
-                
-                db.Syntheses.Remove(SynthObject);
-                db.SaveChanges();
-                
+                Syntheses SynthObject = db.Syntheses.FirstOrDefault(u => u.Id == ID);
+
+                if (SynthObject != null && IsDelete == true)
+                {
+
+                    db.Syntheses.Remove(SynthObject);
+                    db.SaveChanges();
+
+                }
+                else
+                {
+
+                }
+
+                SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
             }
-            else
+            catch
             {
-                
+                NetworkError = true;
             }
-            
-            SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
-            
         }
 
        
@@ -744,24 +759,31 @@ namespace Synthesizer
             memory = _id;
             IsDeleteOpen = true;
             string login = _id as String;
-            users user = db.users.FirstOrDefault(u => u.login == login);
-            factory factory = db.factory.FirstOrDefault(u => u.login == login);
-            
-            
-            if (user != null && factory!= null && IsDelete == true)
+            try
             {
-                db.Syntheses.RemoveRange(db.Syntheses.Where(x => x.FactId == factory.id_factory));
-                db.factory.Remove(factory);
-                db.users.Remove(user);
-                db.SaveChanges();
-                
-                
-            }
-            else
-            {
+                users user = db.users.FirstOrDefault(u => u.login == login);
+                factory factory = db.factory.FirstOrDefault(u => u.login == login);
 
+
+                if (user != null && factory != null && IsDelete == true)
+                {
+                    db.Syntheses.RemoveRange(db.Syntheses.Where(x => x.FactId == factory.id_factory));
+                    db.factory.Remove(factory);
+                    db.users.Remove(user);
+                    db.SaveChanges();
+
+
+                }
+                else
+                {
+
+                }
+                UsersList = new ObservableCollection<users>(db.users.Where(p => p.isadmin == false));
             }
-            UsersList = new ObservableCollection<users>(db.users.Where(p => p.isadmin == false));
+            catch
+            {
+                NetworkError = true;
+            }
             
         }
 

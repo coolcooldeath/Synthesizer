@@ -51,22 +51,38 @@
                HorizontalAlignment="Center" 
                Content="ПОЛИВОКС" HorizontalContentAlignment="Center" Padding="60,10,10,5"   FontSize="22" FontFamily="./resources/#AA Spaceman" Foreground="Black" Grid.ColumnSpan="2" Margin="0,-50,0,0"
                />
-            <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock  Text="{Binding Password}"></TextBlock>
+            <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="15" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterLoginTextBox" materialDesign:HintAssist.Hint="Логин" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Visibility="Collapsed"  Text="{Binding Password}"></TextBlock>
+            <TextBlock Foreground="Red" FontSize="13" Text="{Binding LoginValidate}"></TextBlock>
+               
+           
 
-            
-            <PasswordBox Padding="10,0,0,0" Style="{StaticResource MaterialDesignFilledPasswordBox}" InputScope="Password" Height="45"  Background="#363535" MaxLength="18" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1"  FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8">
+            <materialDesign:DialogHost  Grid.Column="0" Grid.ColumnSpan="2"  Grid.RowSpan="4" IsOpen="{Binding NetworkError}">
+                <materialDesign:DialogHost.DialogContent  >
+                    <StackPanel Background="#b8b8b8" >
+                        
+                        <Label Content="Нет интернет-подключения" Foreground="Black" FontSize="20" FontFamily="./resources/#Determination2" Margin="10"></Label>
+                        <Button  Width="50" Background="#919191" Content="Ок" FontFamily="./resources/#Determination2" Height="35" Margin="10"  Command="{Binding CloseNetworkErrorWindowCommand}" ></Button>
+                        </StackPanel>
+
+
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+
+
+            <PasswordBox Padding="10,0,0,0"  Style="{StaticResource MaterialDesignFilledPasswordBox}" InputScope="Password" Height="45"  Background="#363535" MaxLength="15" Width="280"  FontFamily="./resources/#Determination2" x:Name="EnterPasswordTextBox" materialDesign:HintAssist.Hint="Пароль" BorderThickness="1"  FontSize="20"  Foreground="#b8b8b8">
                 <i:Interaction.Behaviors>
                     <helpers:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
                 </PasswordBox>
+            <TextBlock Foreground="Red" FontSize="13" TextWrapping="Wrap" Width="280" Text="{Binding RegisterRepeat}" ></TextBlock>
+            <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="15" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="18" Width="280"   x:Name="Name" FontFamily="./resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="Имя" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Foreground="Red" Text="{Binding RegisterRepeat}"></TextBlock>
-            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
-                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,0,0,10"   />
-            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding Loading}" 
-                materialDesign:ButtonProgressAssist.IsIndeterminate="True" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=StartWin}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="Регистрация"  Margin="0,10,0,10" />
+            <TextBlock Foreground="Red" FontSize="13" Visibility="{Binding RegisterVisibility}"   Text="{Binding UserNameValidate}"></TextBlock>
+            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="./resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="Вход"  FontSize="16" Margin="0,0,0,10"   />
+            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" 
+        Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=StartWin}" FontFamily="./resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="Регистрация"  Margin="0,10,0,10" />
 
             <Button Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" CommandParameter="{Binding ElementName=StartWin}" Visibility="{Binding RegisterVisibility}"  FontFamily="./resources/#Determination2"  Margin="-155,0,0,0" Content="Есть аккаунт" Width="120"  FontSize="15"   />
             <Button Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}" CommandParameter="{Binding ElementName=StartWin}"  Visibility="{Binding LoginVisibility}" FontFamily="./resources/#Determination2"  Margin="-155,0,0,0" Content="Нет аккаунта" Width="120"  FontSize="15"   />

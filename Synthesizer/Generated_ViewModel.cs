@@ -541,6 +541,39 @@ namespace Synthesizer
         // END_PROPERTY: MidiEnabled (bool)
         // --------------------------------------------------------------------
 
+        bool _NetworkError = default;
+
+        void Raise_NetworkError()
+        {
+            OnPropertyChanged("NetworkError");
+        }
+
+        public bool NetworkError
+        {
+            get { return _NetworkError; }
+            set
+            {
+                if (_NetworkError == value)
+                {
+                    return;
+                }
+
+                var prev = _NetworkError;
+
+                _NetworkError = value;
+
+                Changed_NetworkError();
+
+                Raise_NetworkError();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_NetworkError()
+        {
+            ResetCanExecute();
+        }
+
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: MidiDevice (string)
         // --------------------------------------------------------------------
@@ -1586,6 +1619,33 @@ namespace Synthesizer
 
 
         #region Команды
+
+        readonly UserCommand _CloseNetworkErrorWindowCommand;
+
+        bool CanExecuteCloseNetworkErrorWindowCommand()
+        {
+            bool result = false;
+            CanExecute_CloseNetworkErrorWindowCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteCloseNetworkErrorWindowCommand()
+        {
+            Execute_CloseNetworkErrorWindowCommand();
+        }
+
+        public ICommand CloseNetworkErrorWindowCommand { get { return _CloseNetworkErrorWindowCommand; } }
+        // --------------------------------------------------------------------
+        public void CanExecute_CloseNetworkErrorWindowCommand(ref bool result)
+        {
+            result = true;
+        }
+        public void Execute_CloseNetworkErrorWindowCommand()
+        {
+            NetworkError = false;
+        }
+
         readonly UserCommand _MidiOnCommand;
 
         bool CanExecuteMidiOnCommand()
@@ -1952,7 +2012,7 @@ namespace Synthesizer
             _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
             _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);
             _OkDeleteCommand = new UserCommand(CanExecuteOkDeleteCommand, ExecuteOkDeleteCommand);
-           
+            _CloseNetworkErrorWindowCommand = new UserCommand(CanExecuteCloseNetworkErrorWindowCommand, ExecuteCloseNetworkErrorWindowCommand);
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);

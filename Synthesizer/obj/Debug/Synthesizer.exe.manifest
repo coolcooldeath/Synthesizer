@@ -270,14 +270,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Synthesizer.exe" size="2254296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Synthesizer.exe" size="2258904">
       <assemblyIdentity name="Synthesizer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>K12+xRpjJ67wzMO5t1XFK+J1rVCp0IStGZYO9ag3xlk=</dsig:DigestValue>
+        <dsig:DigestValue>kQHgBzM5uOtb6r63cULcCqB+yKO8UnUQL1UsBL7pUHk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -407,7 +407,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>yATpqSPjqXTD/wo/cDhV/HUFI5NfJMk3V8yMXA6ylsc=</dsig:DigestValue>
+      <dsig:DigestValue>Agos7uhONmirzBEDrSRNAC9NJ9nMfpDTTe9uFOrmW+4=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
