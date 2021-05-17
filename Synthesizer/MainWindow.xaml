@@ -578,7 +578,7 @@
                             </StackPanel>
                             <StackPanel Grid.Column="1"  >
 
-                                <Button Margin="-45,5,0,0" Width="50" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
+                                <Button Margin="10,5,0,0" Width="110" Background="#919191" FontFamily="./resources/#Determination2" Height="35"  Command="{Binding LoadPatchCommand}" DataContext="{Binding DataContext, ElementName=BaseScroll}" CommandParameter="{Binding ElementName=Id,Path=Text}" >
                                     <Image Source="/resources/load icon.png" Margin="-5,-3,0,0"  Width="25" Height="30" ></Image>
                                 </Button>
 
