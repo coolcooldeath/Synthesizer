@@ -86,7 +86,7 @@
 
             <Button Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" CommandParameter="{Binding ElementName=StartWin}" Visibility="{Binding RegisterVisibility}"  FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="Есть аккаунт" Width="120"  FontSize="15"   />
             <Button Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}" CommandParameter="{Binding ElementName=StartWin}"  Visibility="{Binding LoginVisibility}" FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="Нет аккаунта" Width="120"  FontSize="15"   />
-            <Button Content="Выход" FontSize="15" Background="#b8b8b8" Command="{Binding CloseLoginWindowCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="/Resources/#Determination2" Foreground="Red" Margin="155,-20,0,0"  Height="24"  Padding="0,0,0,0"  Width="120"></Button>
+            <Button Content="Выход" FontSize="15" Background="#b8b8b8" Command="{Binding CloseLoginWindowCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="/Resources/#Determination2" Foreground="Red" Margin="155,-24,0,0"  Height="24"  Padding="0,0,0,0"  Width="120"></Button>
 
         </StackPanel >
         

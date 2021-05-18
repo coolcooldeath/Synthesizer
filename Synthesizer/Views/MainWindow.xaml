@@ -138,10 +138,11 @@
 
         <StackPanel  x:Name="Octave" Orientation="Horizontal"
                     VerticalAlignment="Top"
-                    Margin="100,103,199.4,0"
+                    Margin="0,95,550,0"
                 Grid.Row="4"
                 Grid.Column="2"
-               HorizontalAlignment="Center" Grid.RowSpan="2">
+                    Grid.ColumnSpan="2"
+               HorizontalAlignment="Center" Grid.RowSpan="3">
             <RadioButton x:Name="A1"
                  Margin="5,0,-50,0"
                 GroupName="Octave"
@@ -177,8 +178,8 @@
                          VerticalAlignment="Center">
 
             </RadioButton>
-            <Label FontSize="15" Content="24-48" Margin="0,100,0,0"></Label>
-            <Label FontSize="15" Content="О-12" Margin="-57,50,0,0"></Label>
+            <Label FontSize="15" Content="Высота тона" Margin="-110,158,0,-10"></Label>
+           
             
 
         </StackPanel >
@@ -237,13 +238,14 @@
 
 
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="5" Margin="0,10.4,0.2,124.2" Grid.RowSpan="2" >
-            <Label VerticalAlignment="Top" FontSize="20" Margin="0,20,0,0" >Громкость тремоло</Label>
+            <Label VerticalAlignment="Top" FontSize="20" Margin="-50,20,0,0" >Громкость тремоло</Label>
             <Label VerticalAlignment="Bottom" FontSize="20" Margin="-260,0,10,20" >ЧАСТОТА тремоло</Label>
+           
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Width="300" Height="95" Grid.ColumnSpan="3" Margin="-20,22.4,56.2,62.6" >
+        <StackPanel Orientation="Horizontal" Panel.ZIndex="10" HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Width="300" Height="95" Grid.ColumnSpan="3" Margin="-20,22.4,56.2,62.6" >
             <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,-300,0" FontSize ="18" >Хорус</Label>
-            <controls:Knob  Width="60"  To="1.0" From="0.0" Margin="0,20,0,0" Value="{Binding ChorusSweep}"></controls:Knob>
+            <controls:Knob    Width="60"  To="1.0" From="0.0" Margin="0,20,0,0" Value="{Binding ChorusSweep}"></controls:Knob>
             <controls:Knob  Width="60"   To="1.0" From="0.0" Margin="60,20,0,0"  Value="{Binding ChorusDelay}" ></controls:Knob>
             <controls:Knob  Width="60"   To="1.0" From="0.0" Margin="50,20,0,0"  Value="{Binding ChorusWidth}" ></controls:Knob>
 
@@ -256,8 +258,8 @@
 
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Margin="500.6,2.4,0.2,118.2" Grid.RowSpan="2">
-            <CheckBox Style="{DynamicResource MyCheckBox}" HorizontalAlignment="Left" Margin="20,30,-5,10"  IsChecked="{Binding VibratoChecked}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Margin="510,5,0.2,118.2" Grid.RowSpan="2">
+            
 
             <controls:Knob  Width="60"  Margin="15,-75,0,0" From="1"  To="10" Value="{Binding TremoloFreq}"></controls:Knob>
             <controls:Knob  Width="60"   From="0.0" To="0.5"   Margin="-60,70,20,0" Value="{Binding TremoloGain}" />
@@ -358,7 +360,8 @@
             <Label Content="Ширина" FontSize="12" Margin="0,0,0,0"></Label>
 
         </StackPanel>
-
+        <CheckBox Grid.Row="4" Grid.Column="3" Panel.ZIndex="4" Style="{DynamicResource MyCheckBox}" HorizontalAlignment="Left" Margin="440,10,0,0"  IsChecked="{Binding VibratoChecked}"/>
+        <Label Grid.Row="4" Grid.Column="4" Content="Вибрато" FontSize="20"  Margin="-175,10,0,0"></Label>
         <Image Grid.Column="3" Source="/resources/adsr.png" Grid.RowSpan="5" Margin="4.6,1.8,5.2,42.2" Grid.Row="2" />
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
@@ -366,10 +369,10 @@
                     VerticalAlignment="Bottom"
                 Grid.Column="3" Margin="14.6,0,10.2,138.2" Width="476" Grid.RowSpan="2">
 
-
+           
 
             <StackPanel  Orientation="Horizontal" Grid.Row="5" Grid.Column="2" Height="77" VerticalAlignment="Top">
-
+                
                 <controls:Knob  Width="60" HorizontalAlignment="Center" Margin="40,0,0,0" From="0.0" To="2.0" Value="{Binding Attack}"/>
                 <controls:Knob  Width="60" HorizontalAlignment="Center" Margin="50,0,0,0" From="0.0" To="2.0" Value="{Binding Decay}"/>
                 <controls:Knob  Width="60" HorizontalAlignment="Center" Margin="50,0,0,0" From="0.0" To="1.0" Value="{Binding Sustain}"/>

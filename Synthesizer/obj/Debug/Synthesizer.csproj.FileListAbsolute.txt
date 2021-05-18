@@ -119,3 +119,4 @@ D:\source\Synthesizer\Synthesizer\obj\Debug\Views\MainWindow.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\Views\StartWindow.g.cs
 D:\source\Synthesizer\Synthesizer\obj\Debug\Views\MainWindow.baml
 D:\source\Synthesizer\Synthesizer\obj\Debug\Views\StartWindow.baml
+D:\source\Synthesizer\Synthesizer\obj\Debug\Synthesizer.csprojAssemblyReference.cache

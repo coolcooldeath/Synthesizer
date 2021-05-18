@@ -540,16 +540,27 @@ namespace Synthesizer
                 MidiEnabled = false;
                 midiIn.Stop();
                 midiIn.Dispose();
+                for (int i = 0; i < 64; i++)
+
+                    if (_oscillators[i] != null)
+                    {
+                        _oscillators[i].Stop();
+                        _oscillators[i] = null;
+                    }
+
             }
             catch (Exception)
             {
                 
                 for(int i = 0; i<64; i++)
-                if (_oscillators[i] != null)
-                {
-                    _oscillators[i].Stop();
-                    _oscillators[i] = null;
-                }
+                
+                    if (_oscillators[i] != null)
+                    {
+                        _oscillators[i].Stop();
+                        _oscillators[i] = null;
+                    }
+                
+                
             }
 
         }
