@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -15,7 +16,7 @@ namespace Synthesizer
     public partial class MainWindowViewModel : INotifyPropertyChanged
     {
 
-
+        public bool IsEng = false;
         public event PropertyChangedEventHandler PropertyChanged;
         #region Visibility
 
@@ -47,6 +48,70 @@ namespace Synthesizer
         }
         // --------------------------------------------------------------------
         public void Changed_MidiVisibility()
+        {
+            ResetCanExecute();
+        }
+
+        Visibility _EngGuideVisibility = Visibility.Collapsed;
+
+        void Raise_EngGuideVisibility()
+        {
+            OnPropertyChanged("EngGuideVisibility");
+        }
+
+        public Visibility EngGuideVisibility
+        {
+            get { return _EngGuideVisibility; }
+            set
+            {
+                if (_EngGuideVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _EngGuideVisibility;
+
+                _EngGuideVisibility = value;
+
+                Changed_EngGuideVisibility();
+
+                Raise_EngGuideVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_EngGuideVisibility()
+        {
+            ResetCanExecute();
+        }
+
+        Visibility _RusGuideVisibility = Visibility.Visible;
+
+        void Raise_RusGuideVisibility()
+        {
+            OnPropertyChanged("RusGuideVisibility");
+        }
+
+        public Visibility RusGuideVisibility
+        {
+            get { return _RusGuideVisibility; }
+            set
+            {
+                if (_RusGuideVisibility == value)
+                {
+                    return;
+                }
+
+                var prev = _RusGuideVisibility;
+
+                _RusGuideVisibility = value;
+
+                Changed_RusGuideVisibility();
+
+                Raise_RusGuideVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
+        public void Changed_RusGuideVisibility()
         {
             ResetCanExecute();
         }
@@ -678,40 +743,7 @@ namespace Synthesizer
         // END_PROPERTY: Volume (double)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: VolumeLabel (string)
-        // --------------------------------------------------------------------
-        string _VolumeLabel = default;
-
-        void Raise_VolumeLabel()
-        {
-            OnPropertyChanged("VolumeLabel");
-        }
-
-        public string VolumeLabel
-        {
-            get { return _VolumeLabel; }
-            set
-            {
-                if (_VolumeLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _VolumeLabel;
-
-                _VolumeLabel = value;
-
-                Changed_VolumeLabel(prev, _VolumeLabel);
-
-                Raise_VolumeLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_VolumeLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: VolumeLabel (string)
-        // --------------------------------------------------------------------
+       
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: FrequencyAmplitudes (float[])
@@ -855,40 +887,7 @@ namespace Synthesizer
         // END_PROPERTY: Decay (float)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: DecayLabel (string)
-        // --------------------------------------------------------------------
-        string _DecayLabel = default;
-
-        void Raise_DecayLabel()
-        {
-            OnPropertyChanged("DecayLabel");
-        }
-
-        public string DecayLabel
-        {
-            get { return _DecayLabel; }
-            set
-            {
-                if (_DecayLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _DecayLabel;
-
-                _DecayLabel = value;
-
-                Changed_DecayLabel(prev, _DecayLabel);
-
-                Raise_DecayLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_DecayLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: DecayLabel (string)
-        // --------------------------------------------------------------------
+       
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: Sustain (float)
@@ -925,40 +924,7 @@ namespace Synthesizer
         // END_PROPERTY: Sustain (float)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: SustainLabel (string)
-        // --------------------------------------------------------------------
-        string _SustainLabel = default;
-
-        void Raise_SustainLabel()
-        {
-            OnPropertyChanged("SustainLabel");
-        }
-
-        public string SustainLabel
-        {
-            get { return _SustainLabel; }
-            set
-            {
-                if (_SustainLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _SustainLabel;
-
-                _SustainLabel = value;
-
-                Changed_SustainLabel(prev, _SustainLabel);
-
-                Raise_SustainLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_SustainLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: SustainLabel (string)
-        // --------------------------------------------------------------------
+      
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: Release (float)
@@ -995,40 +961,6 @@ namespace Synthesizer
         // END_PROPERTY: Release (float)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: ReleaseLabel (string)
-        // --------------------------------------------------------------------
-        string _ReleaseLabel = default;
-
-        void Raise_ReleaseLabel()
-        {
-            OnPropertyChanged("ReleaseLabel");
-        }
-
-        public string ReleaseLabel
-        {
-            get { return _ReleaseLabel; }
-            set
-            {
-                if (_ReleaseLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _ReleaseLabel;
-
-                _ReleaseLabel = value;
-
-                Changed_ReleaseLabel(prev, _ReleaseLabel);
-
-                Raise_ReleaseLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_ReleaseLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: ReleaseLabel (string)
-        // --------------------------------------------------------------------
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: CutOff (int)
@@ -1065,41 +997,7 @@ namespace Synthesizer
         // END_PROPERTY: CutOff (int)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: CutOffLabel (string)
-        // --------------------------------------------------------------------
-        string _CutOffLabel = default;
-
-        void Raise_CutOffLabel()
-        {
-            OnPropertyChanged("CutOffLabel");
-        }
-
-        public string CutOffLabel
-        {
-            get { return _CutOffLabel; }
-            set
-            {
-                if (_CutOffLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _CutOffLabel;
-
-                _CutOffLabel = value;
-
-                Changed_CutOffLabel(prev, _CutOffLabel);
-
-                Raise_CutOffLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_CutOffLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: CutOffLabel (string)
-        // --------------------------------------------------------------------
-
+      
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: Q (float)
         // --------------------------------------------------------------------
@@ -1135,40 +1033,7 @@ namespace Synthesizer
         // END_PROPERTY: Q (float)
         // --------------------------------------------------------------------
 
-        // --------------------------------------------------------------------
-        // BEGIN_PROPERTY: QLabel (string)
-        // --------------------------------------------------------------------
-        string _QLabel = default;
-
-        void Raise_QLabel()
-        {
-            OnPropertyChanged("QLabel");
-        }
-
-        public string QLabel
-        {
-            get { return _QLabel; }
-            set
-            {
-                if (_QLabel == value)
-                {
-                    return;
-                }
-
-                var prev = _QLabel;
-
-                _QLabel = value;
-
-                Changed_QLabel(prev, _QLabel);
-
-                Raise_QLabel();
-            }
-        }
-        // --------------------------------------------------------------------
-        partial void Changed_QLabel(string prev, string current);
-        // --------------------------------------------------------------------
-        // END_PROPERTY: QLabel (string)
-        // --------------------------------------------------------------------
+       
 
         // --------------------------------------------------------------------
         // BEGIN_PROPERTY: TremoloFreq (int)
@@ -1247,10 +1112,10 @@ namespace Synthesizer
         void Raise_TremoloFreqMult()
         {
             OnPropertyChanged("TremoloFreqMult");
-            OnPropertyChanged("TremoloFreqMultLabel");
+            
         }
 
-        public string TremoloFreqMultLabel => $"x{TremoloFreqMult}";
+  
 
         public int TremoloFreqMult
         {
@@ -1282,10 +1147,10 @@ namespace Synthesizer
         void Raise_ChorusWidth()
         {
             OnPropertyChanged("ChorusWidth");
-            OnPropertyChanged("ChorusWidthLabel");
+         
         }
 
-        public string ChorusWidthLabel => $"{((int)(ChorusWidth * 100.0f) / 100.0f)}";
+
 
         public float ChorusWidth
         {
@@ -1320,10 +1185,10 @@ namespace Synthesizer
         void Raise_ChorusSweep()
         {
             OnPropertyChanged("ChorusSweep");
-            OnPropertyChanged("ChorusSweepLabel");
+     
         }
 
-        public string ChorusSweepLabel => $"{((int)(ChorusSweep * 100.0f) / 100.0f)}";
+
 
         public float ChorusSweep
         {
@@ -1358,10 +1223,10 @@ namespace Synthesizer
         void Raise_ChorusDelay()
         {
             OnPropertyChanged("ChorusDelay");
-            OnPropertyChanged("ChorusDelayLabel");
+           
         }
 
-        public string ChorusDelayLabel => $"{((int)(ChorusDelay * 100.0f) / 100.0f)}";
+        
 
         public float ChorusDelay
         {
@@ -1395,10 +1260,9 @@ namespace Synthesizer
         void Raise_PhaserDry()
         {
             OnPropertyChanged("PhaserDry");
-            OnPropertyChanged("PhaserDryLabel");
+    
         }
 
-        public string PhaserDryLabel => $"{((int)(PhaserDry * 100.0f) / 100.0f)}";
 
         public float PhaserDry
         {
@@ -1433,10 +1297,10 @@ namespace Synthesizer
         void Raise_PhaserWet()
         {
             OnPropertyChanged("PhaserWet");
-            OnPropertyChanged("PhaserWetLabel");
+    
         }
 
-        public string PhaserWetLabel => $"{((int)(PhaserWet * 100.0f) / 100.0f)}";
+   
 
         public float PhaserWet
         {
@@ -1471,10 +1335,10 @@ namespace Synthesizer
         void Raise_PhaserFeedback()
         {
             OnPropertyChanged("PhaserFeedback");
-            OnPropertyChanged("PhaserFeedbackLabel");
+        
         }
 
-        public string PhaserFeedbackLabel => $"{((int)(PhaserFeedback * 100.0f) / 100.0f)}";
+     
 
         public float PhaserFeedback
         {
@@ -1509,10 +1373,10 @@ namespace Synthesizer
         void Raise_PhaserFreq()
         {
             OnPropertyChanged("PhaserFreq");
-            OnPropertyChanged("PhaserFreqLabel");
+            
         }
 
-        public string PhaserFreqLabel => $"{((int)(PhaserFreq * 100.0f) / 100.0f)}";
+      
 
         public float PhaserFreq
         {
@@ -1547,10 +1411,10 @@ namespace Synthesizer
         void Raise_PhaserWidth()
         {
             OnPropertyChanged("PhaserWidth");
-            OnPropertyChanged("PhaserWidthLabel");
+           
         }
 
-        public string PhaserWidthLabel => $"{((int)(PhaserWidth * 100.0f) / 100.0f)}";
+       
 
         public float PhaserWidth
         {
@@ -1585,10 +1449,10 @@ namespace Synthesizer
         void Raise_PhaserSweep()
         {
             OnPropertyChanged("PhaserSweep");
-            OnPropertyChanged("PhaserSweepLabel");
+           
         }
 
-        public string PhaserSweepLabel => $"{((int)(PhaserSweep * 100.0f) / 100.0f)}";
+      
 
         public float PhaserSweep
         {
@@ -1645,6 +1509,8 @@ namespace Synthesizer
         {
             NetworkError = false;
         }
+
+      
 
         readonly UserCommand _MidiOnCommand;
 
@@ -2013,6 +1879,7 @@ namespace Synthesizer
             _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);
             _OkDeleteCommand = new UserCommand(CanExecuteOkDeleteCommand, ExecuteOkDeleteCommand);
             _CloseNetworkErrorWindowCommand = new UserCommand(CanExecuteCloseNetworkErrorWindowCommand, ExecuteCloseNetworkErrorWindowCommand);
+          
             _LoadPatchCommand = new UserCommandWithParametrs(CanExecuteLoadPatchCommand, ExecuteLoadPatchCommand);
             _SavePatchCommand = new UserCommand(CanExecuteSavePatchCommand, ExecuteSavePatchCommand);
             _CloseGuideCommand = new UserCommand(CanExecuteCloseGuideCommand, ExecuteCloseGuideCommand);
@@ -2032,6 +1899,7 @@ namespace Synthesizer
         void ResetCanExecute()
         {
             _MidiOnCommand.RefreshCanExecute();
+            _SavePatchCommand.RefreshCanExecute();
             _DeletePatchCommand.RefreshCanExecute();
             _MidiOnCommand.RefreshCanExecute();
             _MidiOffCommand.RefreshCanExecute();
@@ -2068,10 +1936,14 @@ namespace Synthesizer
                 _Name = value;
 
                 EditName();
-                Changed_Name(prev, _Name);
+                Changed_Name();
 
 
             }
+        }
+        public void Changed_Name()
+        {
+            ResetCanExecute();
         }
 
         string _LoginName = default;

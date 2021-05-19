@@ -51,9 +51,7 @@ namespace Synthesizer
 
         private double lfoSample(int n)
         {
-            //`
-            //` <formula S_n = A_l \cdot sin(\frac{2\pi \cdot f_l \cdot n}{sr})>
-            //`
+           
             if (LfoGain == 0.0)
             {
                 return 0.0;
@@ -67,7 +65,7 @@ namespace Synthesizer
         {
             int outIndex = offset;
 
-            // Generator current value
+          
             double multiple;
             double sampleValue;
             double sampleSaw;
@@ -79,7 +77,7 @@ namespace Synthesizer
                 {
                     case SignalGeneratorType.Sin:
 
-                        // Sinus Generator
+                        
 
                         multiple = TwoPi * Frequency / waveFormat.SampleRate;
 

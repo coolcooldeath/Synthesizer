@@ -11,12 +11,13 @@ using System.Windows.Input;
 using Synthesizer.Helpers;
 using System.Windows.Threading;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Synthesizer
 {
     public partial class StartWindowViewModel : INotifyPropertyChanged
     {
-       
+        private bool IsEng = false;
         private EDM db = new EDM();
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyChanged)
@@ -125,10 +126,21 @@ namespace Synthesizer
         public void Changed_LoginName(string prev, string current)
         {
             ResetCanExecute();
-            if (current.Length < 4)
-                LoginValidate = "Логин не может быть менее 4 символов";
+            if (current.Length < 4) {
+                if (!IsEng)
+                    LoginValidate = "Логин не может быть менее 4 символов";
+                else
+                    LoginValidate = "Login cannot be less than 4 characters";
+            }
+
             else if (!new Regex("^[a-zA-Z0-9]+$").IsMatch(current))
-                LoginValidate = "Логин может содержать только латиницу и цифры";
+            {
+                if (!IsEng)
+                    LoginValidate = "Логин может содержать только латиницу и цифры";
+                else
+                    LoginValidate = "Login can contain only eng. letters and numbers";
+            }
+                
            
             else
                 LoginValidate = "";
@@ -168,10 +180,23 @@ namespace Synthesizer
         {
             ResetCanExecute();
             if (value.Length < 5)
-                RegisterRepeat = "Пароль не может быть менее 5 символов";
+            {
+            if(!IsEng)
+                    RegisterRepeat = "Пароль не может быть менее 5 символов";
+            else
+                    RegisterRepeat = "Password cannot be less than 5 characters";
+            }
+                
             else if (!new Regex("^[a-zA-Z0-9!?.@]+$").IsMatch(Password))
-                RegisterRepeat = "Пароль может содержать только латиницу, цифры и специальные символы('!', '?', '.', '@')";
-            
+            {
+                if (!IsEng)
+                    RegisterRepeat = "Пароль может содержать только латиницу, цифры и специальные символы('!', '?', '.', '@')";
+                else
+                    RegisterRepeat = "Password can contain only eng. letters, numbers and special characters('!', '?', '.', '@')";
+
+            }
+
+
             else
                 RegisterRepeat = "";
         }
@@ -242,9 +267,21 @@ namespace Synthesizer
         {
             ResetCanExecute();
             if (value.Length < 2)
-                UserNameValidate = "Имя не может быть меньше 2 символов";
+            {
+                if(!IsEng)
+                    UserNameValidate = "Имя не может быть меньше 2 символов";
+                else
+                    UserNameValidate = "The name cannot be less than 2 characters";
+            }
+               
             else if (!new Regex("^[a-zA-Zа-яА-я]+$").IsMatch(value))
-                UserNameValidate = "Имя может содержать латиницу и русский алфавит";
+            {
+                if (!IsEng)
+                    UserNameValidate = "Имя может содержать латиницу и русский алфавит";
+                else
+                    UserNameValidate = "Name can contain only eng. and rus. letters ";
+            }
+               
             else
                 UserNameValidate = "";
         }
@@ -333,6 +370,43 @@ namespace Synthesizer
 
 
         #region Команды
+
+        readonly UserCommand _SwitchLangCommand;
+
+        bool CanExecuteSwitchLangCommand()
+        {
+            bool result = false;
+            CanExecute_SwitchLangCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteSwitchLangCommand()
+        {
+            Execute_SwitchLangCommand();
+        }
+
+        public ICommand SwitchLangCommand { get { return _SwitchLangCommand; } }
+        // --------------------------------------------------------------------
+        public void CanExecute_SwitchLangCommand(ref bool result)
+        {
+            result = true;
+        }
+        public void Execute_SwitchLangCommand()
+        {
+            if (IsEng)
+            {
+                App.Language = new CultureInfo("ru-RU");
+                IsEng = false;
+            }
+            else
+            {
+                App.Language = new CultureInfo("en-US");
+                IsEng = true;
+            }
+        }
+
+
         readonly UserCommandWithParametrs _LoginCommand;
 
         bool CanExecuteLoginCommand()
@@ -561,6 +635,7 @@ namespace Synthesizer
                     }
                     else
                         viewModel.AdminVisibility = Visibility.Collapsed;
+                    viewModel.IsEng = IsEng;
                     viewModel.UserVisibility = Visibility.Visible;
                     MainWindow mainWindow = new MainWindow(viewModel);
                     mainWindow.Show();
@@ -569,7 +644,9 @@ namespace Synthesizer
                 }
                 else
                 {
-                    LoginValidate = "Неверный логин или пароль";
+                    if (IsEng) LoginValidate = "Invalid login or password";
+                    else
+                        LoginValidate = "Неверный логин или пароль";
                 }
             }
             catch (Exception)
@@ -579,13 +656,9 @@ namespace Synthesizer
             
 
             ResetCanExecute();
-
-
-
-          
-
-
         }
+
+
         public void Execute_RegisterCommand(object _window)
         {
 
@@ -605,7 +678,11 @@ namespace Synthesizer
 
 
                 }
-                else { LoginValidate = "Логин занят"; }
+                else {  if (IsEng) LoginValidate = "Login is not available";
+                        else
+                        LoginValidate = "Логин занят";
+                        
+                }
             }
             catch (Exception)
             {
@@ -614,11 +691,9 @@ namespace Synthesizer
 
             ResetCanExecute();
 
-
-            
-
-
         }
+
+
         async void DataBaseAsync()
         {
             await Task.Run(() => {
@@ -637,7 +712,7 @@ namespace Synthesizer
         public void Execute_OpenRegisterCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height =420;
+            window.Height =460;
 
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
@@ -646,7 +721,7 @@ namespace Synthesizer
         public void Execute_OpenLoginCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height = 350;
+            window.Height = 380;
             
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;
@@ -677,7 +752,7 @@ namespace Synthesizer
             }
             catch (Exception)
             {
-                MessageBox.Show("Сасать");
+                
             }*/
 
             DataBaseAsync();
@@ -687,6 +762,7 @@ namespace Synthesizer
             _RegisterCommand = new UserCommandWithParametrs(CanExecuteRegisterCommand, ExecuteRegisterCommand);
             _OpenRegisterCommand = new UserCommandWithParametrs(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
             _OpenLoginCommand = new UserCommandWithParametrs(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);
+            _SwitchLangCommand = new UserCommand(CanExecuteSwitchLangCommand, ExecuteSwitchLangCommand);
 
         }
 

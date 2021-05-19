@@ -26,6 +26,7 @@ namespace Synthesizer
             Key.OemPeriod, Key.OemQuestion,
         };
         public bool Tremolo { get; set; }
+        
         private EDM db = new EDM();
         private MidiIn midiIn;
         public users User = new users();
@@ -39,6 +40,7 @@ namespace Synthesizer
         private PhaserSampleProvider _phaser;
 
         private LowPassFilterSampleProvider _lpf;
+       
         private TremoloSampleProvider _tremolo;
         private IWavePlayer _player;
 
@@ -53,10 +55,10 @@ namespace Synthesizer
         
         private ObservableCollection<Syntheses> _BaseSynthesesList = new ObservableCollection<Syntheses>();
         private ObservableCollection<users> _UsersList = new ObservableCollection<users>();
-    
 
-       
 
+
+        #region List
         void Raise_SynthesesList()
         {
             OnPropertyChanged("SynthesesList");
@@ -149,8 +151,8 @@ namespace Synthesizer
             ResetCanExecute();
         }
 
-    
-       
+        #endregion
+
         public void KeyDown(KeyEventArgs e)
         {
             if (MidiEnabled) return;
@@ -239,19 +241,15 @@ namespace Synthesizer
 
        
 
-        // Construction event
+        
         partial void Constructed()
         {
 
-            if (_player == null)
-            {
-                
-            }
-                var waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
-            _mixer = new MixingSampleProvider(waveFormat) { ReadFully = true }; // Always produce samples
+             var waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
+            _mixer = new MixingSampleProvider(waveFormat) { ReadFully = true }; 
             _volControl = new VolumeSampleProvider(_mixer)
             {
-                Volume = 0.25f,
+                Volume = 0.5f,
             };
 
             _tremolo = new TremoloSampleProvider(_volControl, TremoloFreq, TremoloGain);
@@ -288,35 +286,12 @@ namespace Synthesizer
         partial void Changed_Volume(double prev, double current)
         {
             _volControl.Volume = (float)current;
-            VolumeLabel = $"{(int)(Volume * 100.0)}%";
+            
         }
 
         
 
-        partial void Changed_Decay(float prev, float current)
-        {
-            DecayLabel = $"{(int)(Decay * 1000.0)} ms";
-        }
-
-        partial void Changed_Sustain(float prev, float current)
-        {
-            SustainLabel = $"{(int)(Sustain * 100.0)}%";
-        }
-
-        partial void Changed_Release(float prev, float current)
-        {
-            ReleaseLabel = $"{(int)(Release * 1000.0)} ms";
-        }
-
-        partial void Changed_CutOff(int prev, int current)
-        {
-            CutOffLabel = $"{CutOff} Hz";
-        }
-
-        partial void Changed_Q(float prev, float current)
-        {
-            QLabel = $"{((int)(Q * 100.0f)) / 100.0f}";
-        }
+       
 
     
 
@@ -440,6 +415,7 @@ namespace Synthesizer
 
         partial void CanExecute_SavePatchCommand(ref bool result)
         {
+            if(Name!=null && Name.Length>0)
             result = true;
         }
 
@@ -579,6 +555,16 @@ namespace Synthesizer
 
         partial void Execute_OpenGuideCommand()
         {
+            if (IsEng)
+            {
+                RusGuideVisibility = Visibility.Collapsed;
+                EngGuideVisibility = Visibility.Visible;
+            }
+            else
+            {
+                RusGuideVisibility = Visibility.Visible;
+                EngGuideVisibility = Visibility.Collapsed;
+            }
             Guide = true;
            
         }
@@ -677,17 +663,20 @@ namespace Synthesizer
                         WaveForm = wavetype,
                         FactId = factory.id_factory
                     };
-
-                    // добавляем их в бд
-
                     db.Syntheses.Add(SynthObject);
                     db.SaveChanges();
+                    if(!IsEng)
                     ValidateBlock = ("Сохранено!");
+                    else
+                    ValidateBlock = ("Saved!");
                     this.Name = "";
                 }
                 else
                 {
-                    ValidateBlock = ("Имя занято");
+                    if (!IsEng)
+                        ValidateBlock = ("Имя занято");
+                    else
+                        ValidateBlock = ("Is not available");
                 }
                 SynthesesList = new ObservableCollection<Syntheses>(db.Syntheses.Where(p => p.FactId == factory.id_factory));
             }
@@ -695,11 +684,6 @@ namespace Synthesizer
             {
                 NetworkError = true;
             }
-            
-            
-          
-          
-
 
         }
 

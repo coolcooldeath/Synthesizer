@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="./Styles/LoadButton.xaml"/>
                 <ResourceDictionary Source="./Styles/RadioButton.xaml"/>
                 <ResourceDictionary Source="./Styles/CheckBox.xaml"/>
+                <ResourceDictionary Source="Resources/Lang.ru-RU.xaml" />
+              
                 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
