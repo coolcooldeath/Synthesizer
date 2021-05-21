@@ -6,9 +6,7 @@ namespace Synthesizer
     public class UserCommandWithParametrs : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private readonly Func<bool> _canExecute;
-        private readonly Action _execute;
-        
+        private readonly Func<bool> _canExecute; 
         private Action<object> _executeLoadPatchCommand;
 
         

@@ -30,9 +30,10 @@
     <TargetCulture>ru</TargetCulture>
     <ProductName>PolivoksSynthesizer</ProductName>
     <PublisherName>coolcooldeath</PublisherName>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -73,9 +74,8 @@
   <PropertyGroup>
     <ApplicationIcon>Безымянный-1.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -194,7 +194,6 @@
     <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="Helpers\PasswordBehavior.cs" />
     <Compile Include="Helpers\ValueConverter.cs" />
-    <Compile Include="Models\HighPassFilterSampleProvider.cs" />
     <Compile Include="Controls\Knob.cs" />
     <Compile Include="Models\LowPassFilterSampleProvider.cs" />
     <Compile Include="Models\PhaserSampleProvider.cs" />
@@ -271,7 +270,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1 - Копировать.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="Диаграмма.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

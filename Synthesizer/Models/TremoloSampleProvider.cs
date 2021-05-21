@@ -25,7 +25,7 @@ namespace Synthesizer
         {
             _lfo = new SignalGenerator(_source.WaveFormat.SampleRate, _source.WaveFormat.Channels)
             {
-                Type = SignalGeneratorType.Sin,
+                Type = SignalGeneratorType.Triangle,
                 Frequency = LfoFrequency,
                 Gain = LfoGain,
             };

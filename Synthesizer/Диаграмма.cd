@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Synthesizer.ChorusSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAMAEAAEAhAAAAyQAAAEggAAAIAIACBAAAARAAACA=</HashCode>
+      <FileName>Models\ChorusSampleProvider.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_source" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.MainWindowViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="6" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>O92z+/aq93x67/s95f/HePUd3PzPW9zuv2/rm/+7Z90=</HashCode>
+      <FileName>ViewModels\Generated_ViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_MidiDevices" />
+      <Field Name="User" />
+      <Field Name="factory" />
+      <Field Name="_volControl" />
+      <Field Name="_mixer" />
+      <Field Name="_chorus" />
+      <Field Name="_phaser" />
+      <Field Name="_lpf" />
+      <Field Name="_tremolo" />
+      <Field Name="_player" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_oscillators" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.259" />
+  </Class>
+  <Class Name="Synthesizer.LowPassFilterSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAEAAAAAAAAAAAAAgAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\LowPassFilterSampleProvider.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_source" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.PhaserSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoACEAEAAkCBAABAQwACAGB4hwAAEAAACAAQAAQAACA=</HashCode>
+      <FileName>Models\PhaserSampleProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.SynthWaveProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADQQEAAAAEIAAAQAKCAEAAAgwIIAAACAKAAAiAAUQAA=</HashCode>
+      <FileName>Models\SynthWaveProvider.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_source" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.TremoloSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAEAAAABAACAAAAAgQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TremoloSampleProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.DataLayer.factory" Collapsed="true">
+    <Position X="10" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAEAA=</HashCode>
+      <FileName>DataLayer\factory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Synthesizer.DataLayer.users" Collapsed="true">
+    <Position X="10" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAEAAgAAAAAAwAAEAA=</HashCode>
+      <FileName>DataLayer\users.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Collections.ObjectModel.ObservableCollection&lt;T&gt;" Collapsed="true">
+    <Position X="13" Y="2" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NAudio.Wave.SampleProviders.MixingSampleProvider" Collapsed="true">
+    <Position X="14" Y="6" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NAudio.Wave.SampleProviders.VolumeSampleProvider" Collapsed="true">
+    <Position X="7" Y="4" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.SynthSignalGenerator" Collapsed="true">
+    <Position X="7" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAABAAAAAAACABoAAgQIABAEQACQUgEAAAAAA=</HashCode>
+      <FileName>Models\SynthSignalGenerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="NAudio.Wave.IWavePlayer" Collapsed="true">
+    <Position X="10" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="NAudio.Wave.ISampleProvider" Collapsed="true">
+    <Position X="7" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

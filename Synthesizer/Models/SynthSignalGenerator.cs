@@ -83,7 +83,7 @@ namespace Synthesizer
 
                         if (EnableSubOsc)
                         {
-                            var subOsc = Math.Sin(nSample * (TwoPi * SubOscillaorFrequency / waveFormat.SampleRate)
+                            var subOsc = Math.Sin(nSample * (TwoPi * /*SubOscillaorFrequency/*/ waveFormat.SampleRate)
                                 + lfoSample(nSample));
                             sampleValue = Gain * Math.Sin(nSample * multiple + lfoSample(nSample)
                                 + (0.5 * Gain * subOsc));

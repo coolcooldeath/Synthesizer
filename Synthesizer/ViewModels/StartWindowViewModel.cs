@@ -12,6 +12,8 @@ using Synthesizer.Helpers;
 using System.Windows.Threading;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Net.Mail;
+using System.Net;
 
 namespace Synthesizer
 {
@@ -27,7 +29,14 @@ namespace Synthesizer
 
 
         #region Свойства
+
+        public string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+            + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+            + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
         Visibility _RegisterVisibility = Visibility.Collapsed;
+
+
 
         void Raise_RegisterVisibility()
         {
@@ -56,6 +65,36 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         partial void Changed_RegisterVisibility(Visibility prev, Visibility current);
 
+
+        bool _RestoreVisibility = false;
+
+
+
+        void Raise_RestoreVisibility()
+        {
+            OnPropertyChanged("RestoreVisibility");
+        }
+
+        public bool RestoreVisibility
+        {
+            get { return _RestoreVisibility; }
+            set
+            {
+                if (_RestoreVisibility == value)
+                {
+                    return;
+                }
+                var prev = _RestoreVisibility;
+
+                _RestoreVisibility = value;
+
+
+
+
+                Raise_RestoreVisibility();
+            }
+        }
+        // --------------------------------------------------------------------
 
         Visibility _LoginVisibility = Visibility.Visible;
 
@@ -171,7 +210,7 @@ namespace Synthesizer
 
                 Changed_Password(value);
 
-                Raise_LoginName();
+                Raise_Password();
             }
         }
         // --------------------------------------------------------------------
@@ -195,8 +234,58 @@ namespace Synthesizer
                     RegisterRepeat = "Password can contain only eng. letters, numbers and special characters('!', '?', '.', '@')";
 
             }
+            else
+                RegisterRepeat = "";
+        }
 
+        string _Gmail = default;
 
+        void Raise_Gmail()
+        {
+            OnPropertyChanged("Gmail");
+        }
+
+        public string Gmail
+        {
+            get { return _Gmail; }
+            set
+            {
+                if (_Gmail == value)
+                {
+                    return;
+                }
+
+                var prev = _Gmail;
+
+                _Gmail = value;
+
+                Changed_Gmail(value);
+
+                Raise_Password();
+            }
+        }
+        // --------------------------------------------------------------------
+
+        public void Changed_Gmail(string value)
+        {
+             
+            ResetCanExecute();
+            if (value.Length < 5)
+            {
+                if (!IsEng)
+                    MailValidate = "Почта не может быть менее 5 символов";
+                else
+                    MailValidate = "Mail cannot be less than 5 characters";
+            }
+            
+            else if (new Regex(validEmailPattern).IsMatch(value))
+            {
+                if (!IsEng)
+                    MailValidate = "Некорректный формат почты";
+                else
+                    MailValidate = "Mail is not correct";
+
+            }
             else
                 RegisterRepeat = "";
         }
@@ -287,8 +376,34 @@ namespace Synthesizer
         }
 
         string  _RegisterRepeat = default;
+        string  _MailValidate = default;
         string _LoginValidate = default;
         string _UserNameValidate = default;
+
+        void Raise_MailValidate()
+        {
+            OnPropertyChanged("MailValidate");
+        }
+
+        public string MailValidate
+        {
+            get { return _MailValidate; }
+            set
+            {
+                if (_MailValidate == value)
+                {
+                    return;
+                }
+
+                var prev = _MailValidate;
+
+                _MailValidate = value;
+
+
+
+                Raise_MailValidate();
+            }
+        }
 
         void Raise_RegisterRepeat()
         {
@@ -406,6 +521,88 @@ namespace Synthesizer
             }
         }
 
+        readonly UserCommand _SendPasswordCommand;
+
+        bool CanExecuteSendPasswordCommand()
+        {
+            bool result = false;
+            CanExecute_SendPasswordCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteSendPasswordCommand()
+        {
+            Execute_SendPasswordCommand();
+        }
+
+        public ICommand SendPasswordCommand { get { return _SendPasswordCommand; } }
+        // --------------------------------------------------------------------
+        public void CanExecute_SendPasswordCommand(ref bool result)
+        {
+           /* if (LoginName != "" && LoginName != null && Gmail != null && Gmail != "")
+            {
+                if (LoginName.Length > 3  && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
+                    result = true;
+                else
+                    result = false;
+            }
+
+            else */result = true;
+        }
+        public void Execute_SendPasswordCommand()
+        {
+            try
+            {
+                MailAddress from = new MailAddress("strangergear@gmail.com", "PolivoksSynthesizer");
+                MailAddress to = new MailAddress(Gmail);
+                MailMessage message = new MailMessage(from, to);
+                message.Subject = "Новый пароль";
+                message.Body = "12345678";
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential("strangergear@gmail.com", "12345678stranger");
+                smtp.EnableSsl = true;
+                smtp.SendMailAsync(message);
+            }
+            catch { MessageBox.Show(" "); }
+            RestoreVisibility = false;
+        }
+
+        readonly UserCommand _OpenRestorePasswordCommand;
+
+        bool CanExecuteOpenRestorePasswordCommand()
+        {
+            bool result = false;
+            CanExecute_OpenRestorePasswordCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteOpenRestorePasswordCommand()
+        {
+            Execute_OpenRestorePasswordCommand();
+        }
+
+        public ICommand OpenRestorePasswordCommand { get { return _OpenRestorePasswordCommand; } }
+        // --------------------------------------------------------------------
+        public void CanExecute_OpenRestorePasswordCommand(ref bool result)
+        {
+            /* if (LoginName != "" && LoginName != null && Gmail != null && Gmail != "")
+             {
+                 if (LoginName.Length > 3  && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
+                     result = true;
+                 else
+                     result = false;
+             }
+
+             else */
+            result = true;
+        }
+        public void Execute_OpenRestorePasswordCommand()
+        {
+            MessageBox.Show("Хочу умеерть");
+            RestoreVisibility = true;
+        }
 
         readonly UserCommandWithParametrs _LoginCommand;
 
@@ -530,8 +727,8 @@ namespace Synthesizer
 
         public void CanExecute_RegisterCommand(ref bool result)
         {
-            if (LoginName != "" && LoginName != null && Password != "" && Password != null && UserName != "" && UserName != null) {
-                if (LoginName.Length > 3 && Password.Length > 4 && new Regex("^[a-zA-Zа-яА-я]+$").IsMatch(UserName) && new Regex("^[a-zA-Z0-9!?.@]+$").IsMatch(Password) && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName))
+            if (LoginName != "" && LoginName != null && Password != "" && Password != null && UserName != "" && UserName != null && Gmail!=null && Gmail!="") {
+                if (LoginName.Length > 3 && Password.Length > 4 && new Regex("^[a-zA-Zа-яА-я]+$").IsMatch(UserName) && new Regex("^[a-zA-Z0-9!?.@]+$").IsMatch(Password) && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
                     result = true;
                 else
                     result = false;
@@ -712,7 +909,7 @@ namespace Synthesizer
         public void Execute_OpenRegisterCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height =460;
+            window.Height =500;
 
             RegisterVisibility = Visibility.Visible;
             LoginVisibility = Visibility.Collapsed;
@@ -721,7 +918,7 @@ namespace Synthesizer
         public void Execute_OpenLoginCommand(object _window)
         {
             Window window = _window as Window;
-            window.Height = 380;
+            window.Height = 400;
             
             RegisterVisibility = Visibility.Collapsed;
             LoginVisibility = Visibility.Visible;
@@ -737,7 +934,9 @@ namespace Synthesizer
 
         public StartWindowViewModel()
         {
-
+            
+                
+            
 
             /*users Admin = new users { name = "Admin", isadmin = true, login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
             factory factory = new factory { factory_name = Admin.name, login = Admin.login };
@@ -763,11 +962,15 @@ namespace Synthesizer
             _OpenRegisterCommand = new UserCommandWithParametrs(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);
             _OpenLoginCommand = new UserCommandWithParametrs(CanExecuteOpenLoginCommand, ExecuteOpenLoginCommand);
             _SwitchLangCommand = new UserCommand(CanExecuteSwitchLangCommand, ExecuteSwitchLangCommand);
+            _SendPasswordCommand = new UserCommand(CanExecuteSendPasswordCommand, ExecuteSendPasswordCommand);
+            _OpenRestorePasswordCommand = new UserCommand(CanExecuteOpenRestorePasswordCommand, ExecuteOpenRestorePasswordCommand);
 
         }
 
         void ResetCanExecute()
         {
+            _SendPasswordCommand.RefreshCanExecute();
+            _OpenRestorePasswordCommand.RefreshCanExecute();
             _RegisterCommand.RefreshCanExecute();
             _LoginCommand.RefreshCanExecute();
             _OpenLoginCommand.RefreshCanExecute();

@@ -98,11 +98,11 @@ namespace Synthesizer
                 emptyingPointer &= (BufferSize - 1);
                 var delayedSample = _circularBuffer[emptyingPointer];
 
-                // Mix wet and dry signals, ensuring amplitude does not exceed +/-1.0...
+             
                 var mixedSignal = 0.5f * inputSample + 0.5f * delayedSample;
                 buffer[offset + i] = Constrain(mixedSignal, -0.99f, 0.99f);
 
-                // Step the sweep...
+            
                 _sweep += _step;
 
                 if (_sweep >= _maxSweepSamples || _sweep <= _minSweepSamples)
