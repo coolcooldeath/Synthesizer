@@ -526,7 +526,7 @@
                             <Rectangle Fill="#919191"   Grid.Column="0" ></Rectangle>
 
                             <StackPanel Grid.Column="0" >
-                                <TextBlock Padding="10,0,0,0" Margin="10,5,10,0" FontFamily="/Resources/#Determination2" Height="20"  Text="{Binding name}" FontSize="20"/>
+                                <TextBlock Padding="10,0,0,0" Margin="10,5,10,0" FontFamily="/Resources/#Determination2" Height="20"  Text="{Binding login}" FontSize="20"/>
                                 <TextBlock Padding="10,5,0,0" Margin="10,-5,0,0" FontFamily="/Resources/#Determination2" Height="20"  Text="{Binding date }" FontSize="15"/>
 
                                 <TextBlock  Visibility="Collapsed" x:Name="Id" FontFamily="/Resources/#Determination2" Height="30"  Text="{Binding login}" FontSize="20"/>

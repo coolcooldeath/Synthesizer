@@ -33,8 +33,15 @@ namespace Synthesizer
 
         public void RefreshCanExecute()
         {
-            if (CanExecuteChanged != null)
-                CanExecuteChanged(this, new EventArgs());
+            try {
+                if (CanExecuteChanged != null)
+                    CanExecuteChanged(this, new EventArgs());
+            }
+            catch
+            {
+
+            }
+            
         }
 
     }

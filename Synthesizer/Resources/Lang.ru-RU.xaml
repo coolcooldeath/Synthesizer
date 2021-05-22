@@ -46,5 +46,9 @@
     <v:String x:Key="m_register">Регистрация</v:String>
     <v:String x:Key="m_loginin">Вход</v:String>
     <v:String x:Key="m_close">Закрыть</v:String>
+    <v:String x:Key="m_mail">Почта</v:String>
+    <v:String x:Key="m_restore">Восстановить</v:String>
+    <v:String x:Key="m_waitpass">Через некоторое время,вам на почту придет новый пароль</v:String>
+    <v:String x:Key="m_forgetpass">Забыли пароль?</v:String>
     
 </ResourceDictionary>

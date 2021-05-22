@@ -46,5 +46,9 @@
     <v:String x:Key="m_register">Registration</v:String>
     <v:String x:Key="m_loginin">Enter</v:String>
     <v:String x:Key="m_close">Close</v:String>
+    <v:String x:Key="m_mail">Gmail</v:String>
+    <v:String x:Key="m_restore">Restore</v:String>
+    <v:String x:Key="m_waitpass">After a while, you will receive a new password in your mail.</v:String>
+    <v:String x:Key="m_forgetpass">Forgot a password?</v:String>
 
 </ResourceDictionary>

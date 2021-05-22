@@ -30,8 +30,8 @@
         <Grid.RowDefinitions>
 
 
-            <RowDefinition Height="0"></RowDefinition>
-            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
@@ -76,12 +76,15 @@
             <materialDesign:DialogHost Grid.Column="0" Grid.ColumnSpan="2"  Grid.RowSpan="6"  IsOpen="{Binding RestoreVisibility}">
                 <materialDesign:DialogHost.DialogContent  >
                     <StackPanel Background="#b8b8b8" >
-                        <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="15" Width="280"  FontFamily="/Resources/#Determination2" x:Name="EnterLoginTextBoxRestore" materialDesign:HintAssist.Hint="{DynamicResource m_login}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,20,0,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label FontSize="12" Margin="20,10,0,10" Content="{DynamicResource m_waitpass}" FontFamily="/Resources/#Determination2"></Label>
+                       
+                        <TextBox Padding="10,0,0,0" InputScope="LogOnName"  Height="45" Background="#363535"  MaxLength="15" Width="280"  FontFamily="/Resources/#Determination2" x:Name="EnterLoginTextBoxRestore" materialDesign:HintAssist.Hint="{DynamicResource m_login}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="20,0,20,0"  Foreground="#b8b8b8" Text="{Binding LoginName, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Foreground="Red" FontSize="13" Width="280" Text="{Binding LoginValidate}"></TextBlock>
-                        <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="25" Width="280"   x:Name="GmailRestore" FontFamily="/Resources/#Determination2"   materialDesign:HintAssist.Hint="{DynamicResource m_name}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding Gmail, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Foreground="Red" FontSize="13"   Text="{Binding MailValidate}"></TextBlock>
+                        <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="25" Width="280"   x:Name="GmailRestore" FontFamily="/Resources/#Determination2"   materialDesign:HintAssist.Hint="{DynamicResource m_mail}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="20,0,20,0"  Foreground="#b8b8b8"  Text="{Binding Gmail, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Foreground="Red" FontSize="13" Margin="20,5,0,5"   Text="{Binding MailValidate}"></TextBlock>
 
-                        <Button  Width="100" Background="#919191" Content="Восстановить" FontFamily="/Resources/#Determination2" Height="35" Margin="10"  Command="{Binding SendPasswordCommand}" ></Button>
+                        <Button  Width="120" Background="#919191" Content="{DynamicResource m_close}" FontFamily="/Resources/#Determination2" Height="35" Margin="160,0,0,0"  Command="{Binding CloseRestorePasswordWindowCommand}" ></Button>
+                        <Button  Width="120" Background="#919191" Content="{DynamicResource  m_restore}" FontFamily="/Resources/#Determination2" Height="35" Margin="0,-35,160,30"  Command="{Binding SendPasswordCommand}" ></Button>
                     </StackPanel>
 
 
@@ -97,18 +100,17 @@
             <TextBlock Foreground="Red" FontSize="13" TextWrapping="Wrap" Width="280" Text="{Binding RegisterRepeat}" ></TextBlock>
             <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="15" Width="280"   x:Name="Name" FontFamily="/Resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="{DynamicResource m_name}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Foreground="Red" FontSize="13" Visibility="{Binding RegisterVisibility}"   Text="{Binding UserNameValidate}"></TextBlock>
-            <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="25" Width="280"   x:Name="Gmail" FontFamily="/Resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="{DynamicResource m_name}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding Gmail, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Foreground="Red" FontSize="13" Visibility="{Binding RegisterVisibility}"   Text="{Binding UserNameValidate}"></TextBlock>
+            <TextBox Padding="10,0,0,0"  Height="45" Background="#363535"  MaxLength="25" Width="280"   x:Name="Gmail" FontFamily="/Resources/#Determination2"  Visibility="{Binding RegisterVisibility}" materialDesign:HintAssist.Hint="{DynamicResource m_mail}" BorderThickness="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" Margin="0,0,0,0"  Foreground="#b8b8b8"  Text="{Binding Gmail, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Foreground="Red" FontSize="13" Visibility="{Binding RegisterVisibility}"   Text="{Binding MailValidate}"></TextBlock>
             <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" 
                 Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="/Resources/#AnotherCastle3" Visibility="{Binding LoginVisibility}" Content="{DynamicResource m_loginin}"  FontSize="16" Margin="0,0,0,10"   />
-            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" 
-        Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=StartWin}" FontFamily="/Resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="{DynamicResource m_register}"  Margin="0,0,0,10" />
+            <Button Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Background="#363535" BorderThickness="1" Foreground="#b8b8b8" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=StartWin}" FontFamily="/Resources/#AnotherCastle3" Visibility="{Binding RegisterVisibility}"  FontSize="16" Content="{DynamicResource m_register}"  Margin="0,0,0,10" />
 
-            <Button Panel.ZIndex="2" Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" CommandParameter="{Binding ElementName=StartWin}" Visibility="{Binding RegisterVisibility}"  FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="{DynamicResource m_account}" Width="125"  FontSize="15"   />
-            <Button Panel.ZIndex="2" Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}" CommandParameter="{Binding ElementName=StartWin}"  Visibility="{Binding LoginVisibility}" FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="{DynamicResource m_noaccount}" Width="125"  FontSize="15"   />
-            <Button Panel.ZIndex="2"  Content="{DynamicResource m_exit}" FontSize="15" Background="#b8b8b8" Command="{Binding CloseLoginWindowCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="/Resources/#Determination2" Foreground="Red" Margin="155,-24,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
-            <Button  Content="{DynamicResource m_switch_lang}"  FontSize="15" Background="#b8b8b8" Command="{Binding SwitchLangCommand}" FontFamily="/Resources/#Determination2" Foreground="Blue" Margin="-155,0,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
-            <Button  Content="{DynamicResource m_switch_lang}"  FontSize="15" Background="#b8b8b8" Command="{Binding OpenRestorePasswordCommand}"   FontFamily="/Resources/#Determination2" Foreground="Blue" Margin="155,-24,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
+            <Button  Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenLoginCommand}" CommandParameter="{Binding ElementName=StartWin}" Visibility="{Binding RegisterVisibility}"  FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="{DynamicResource m_account}" Width="125"  FontSize="15"   />
+            <Button  Height="24" Background="#b8b8b8"  Foreground="Blue" Command="{Binding OpenRegisterCommand}" CommandParameter="{Binding ElementName=StartWin}"  Visibility="{Binding LoginVisibility}" FontFamily="/Resources/#Determination2"  Margin="-155,0,0,0" Content="{DynamicResource m_noaccount}" Width="125"  FontSize="15"   />
+            <Button  Content="{DynamicResource m_exit}" FontSize="15" Background="#b8b8b8" Command="{Binding CloseLoginWindowCommand}" CommandParameter="{Binding ElementName=StartWin}"  FontFamily="/Resources/#Determination2" Foreground="Red" Margin="155,-24,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
+            <Button  Content="{DynamicResource m_switch_lang}"  FontSize="15" Background="#b8b8b8" Command="{Binding SwitchLangCommand}" FontFamily="/Resources/#Determination2" Foreground="Blue" Margin="-155,10,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
+            <Button  Content="{DynamicResource m_forgetpass}"  FontSize="15" Background="#b8b8b8" Command="{Binding OpenRestorePasswordCommand}"   FontFamily="/Resources/#Determination2" Foreground="Blue" Margin="155,-24,0,0"  Height="24"  Padding="0,0,0,0"  Width="125"></Button>
            
         </StackPanel >
         

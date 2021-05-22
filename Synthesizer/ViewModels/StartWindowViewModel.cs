@@ -278,7 +278,7 @@ namespace Synthesizer
                     MailValidate = "Mail cannot be less than 5 characters";
             }
             
-            else if (new Regex(validEmailPattern).IsMatch(value))
+            else if (!new Regex(validEmailPattern).IsMatch(value))
             {
                 if (!IsEng)
                     MailValidate = "Некорректный формат почты";
@@ -287,7 +287,7 @@ namespace Synthesizer
 
             }
             else
-                RegisterRepeat = "";
+                MailValidate = "";
         }
 
         bool _NetworkError = default;
@@ -540,32 +540,54 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         public void CanExecute_SendPasswordCommand(ref bool result)
         {
-           /* if (LoginName != "" && LoginName != null && Gmail != null && Gmail != "")
+            if (LoginName != "" && LoginName != null && Gmail != null && Gmail != "")
             {
-                if (LoginName.Length > 3  && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
+                if (LoginName.Length > 3 && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
                     result = true;
                 else
                     result = false;
             }
 
-            else */result = true;
+            else result = false;
         }
         public void Execute_SendPasswordCommand()
         {
             try
             {
-                MailAddress from = new MailAddress("strangergear@gmail.com", "PolivoksSynthesizer");
-                MailAddress to = new MailAddress(Gmail);
-                MailMessage message = new MailMessage(from, to);
-                message.Subject = "Новый пароль";
-                message.Body = "12345678";
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential("strangergear@gmail.com", "12345678stranger");
-                smtp.EnableSsl = true;
-                smtp.SendMailAsync(message);
+                users user = db.users.FirstOrDefault(u => u.login == LoginName);
+                if (user != null)
+                {
+                    if(user.gmail == Gmail)
+                    {
+                        string password = Helpers.Random.RandomPassword(8);
+                        MailAddress from = new MailAddress("strangergear@gmail.com", "PolivoksSynthesizer");
+                        MailAddress to = new MailAddress(Gmail);
+                        MailMessage message = new MailMessage(from, to);
+                        message.Subject = "Восстановление пароля";
+                        message.Body = "Здравствуйте, ваш новый пароль - " + password +  ". С уважением,команда Polivoks";
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("strangergear@gmail.com", "12345678stranger");
+                        smtp.EnableSsl = true;
+                        smtp.SendMailAsync(message);
+                        user.password = HelperClass.getHash(password);
+                        db.SaveChangesAsync();
+                        
+                    }
+                        
+                    
+                   
+                }
+                else
+                {
+                    if (IsEng)
+                        MailValidate = "Введены неверные данные";
+                    else
+                        MailValidate = "Invalid data entered";
+                }
+               
             }
-            catch { MessageBox.Show(" "); }
-            RestoreVisibility = false;
+            catch { }
+            ExecuteCloseRestorePasswordWindowCommand();
         }
 
         readonly UserCommand _OpenRestorePasswordCommand;
@@ -587,20 +609,11 @@ namespace Synthesizer
         // --------------------------------------------------------------------
         public void CanExecute_OpenRestorePasswordCommand(ref bool result)
         {
-            /* if (LoginName != "" && LoginName != null && Gmail != null && Gmail != "")
-             {
-                 if (LoginName.Length > 3  && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
-                     result = true;
-                 else
-                     result = false;
-             }
-
-             else */
             result = true;
         }
         public void Execute_OpenRestorePasswordCommand()
         {
-            MessageBox.Show("Хочу умеерть");
+          
             RestoreVisibility = true;
         }
 
@@ -669,6 +682,38 @@ namespace Synthesizer
         public void Execute_CloseNetworkErrorWindowCommand()
         {
             NetworkError = false;
+            RestoreVisibility = false;
+        }
+
+        readonly UserCommand _CloseRestorePasswordWindowCommand;
+
+        bool CanExecuteCloseRestorePasswordWindowCommand()
+        {
+            bool result = false;
+            CanExecute_CloseRestorePasswordWindowCommand(ref result);
+
+            return result;
+        }
+
+        void ExecuteCloseRestorePasswordWindowCommand()
+        {
+            Execute_CloseRestorePasswordWindowCommand();
+        }
+
+        public ICommand CloseRestorePasswordWindowCommand { get { return _CloseRestorePasswordWindowCommand; } }
+        // --------------------------------------------------------------------
+        public void CanExecute_CloseRestorePasswordWindowCommand(ref bool result)
+        {
+            result = true;
+        }
+        public void Execute_CloseRestorePasswordWindowCommand()
+        {
+            LoginName = "";
+            Gmail = "";
+            LoginValidate = "";
+            MailValidate = "";
+            
+            RestoreVisibility = false;
         }
 
         readonly UserCommandWithParametrs _CloseLoginWindowCommand;
@@ -728,7 +773,7 @@ namespace Synthesizer
         public void CanExecute_RegisterCommand(ref bool result)
         {
             if (LoginName != "" && LoginName != null && Password != "" && Password != null && UserName != "" && UserName != null && Gmail!=null && Gmail!="") {
-                if (LoginName.Length > 3 && Password.Length > 4 && new Regex("^[a-zA-Zа-яА-я]+$").IsMatch(UserName) && new Regex("^[a-zA-Z0-9!?.@]+$").IsMatch(Password) && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
+                if (LoginName.Length > 3 && Password.Length > 4 && UserName.Length>1 && new Regex("^[a-zA-Zа-яА-я]+$").IsMatch(UserName) && new Regex("^[a-zA-Z0-9!?.@]+$").IsMatch(Password) && new Regex("^[a-zA-Z0-9]+$").IsMatch(LoginName) && new Regex(validEmailPattern).IsMatch(Gmail))
                     result = true;
                 else
                     result = false;
@@ -864,13 +909,22 @@ namespace Synthesizer
             {
                 if (db.users.FirstOrDefault(u => u.login == LoginName) == null)
                 {
-
-                    users user = new users { name = this.UserName, password = HelperClass.getHash(Password), login = this.LoginName, date = DateTime.Now, isadmin = false };
-                    factory factory = new factory { factory_name = this.UserName, login = this.LoginName };
-                    db.users.Add(user);
-                    db.factory.Add(factory);
-                    db.SaveChangesAsync();
-                    Execute_OpenLoginCommand(_window);
+                    if(db.users.FirstOrDefault(u => u.gmail == Gmail) == null) 
+                    {
+                        users user = new users { name = this.UserName, gmail = Gmail, password = HelperClass.getHash(Password), login = this.LoginName, date = DateTime.Now, isadmin = false };
+                        factory factory = new factory { factory_name = this.UserName, login = this.LoginName };
+                        db.users.Add(user);
+                        db.factory.Add(factory);
+                        db.SaveChangesAsync();
+                        Execute_OpenLoginCommand(_window);
+                    }
+                    else
+                    {
+                        if (IsEng) MailValidate = "Maill is not available";
+                        else
+                            MailValidate = "Почта занята";
+                    }
+                   
 
 
 
@@ -934,11 +988,11 @@ namespace Synthesizer
 
         public StartWindowViewModel()
         {
-            
-                
-            
 
-            /*users Admin = new users { name = "Admin", isadmin = true, login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
+
+
+
+            users Admin = new users { name = "Admin", isadmin = true, gmail="dobre4ko@gmail.com",login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
             factory factory = new factory { factory_name = Admin.name, login = Admin.login };
             try
             {
@@ -951,12 +1005,13 @@ namespace Synthesizer
             }
             catch (Exception)
             {
-                
-            }*/
+
+            }
 
             DataBaseAsync();
             _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
             _CloseNetworkErrorWindowCommand = new UserCommand(CanExecuteCloseNetworkErrorWindowCommand, ExecuteCloseNetworkErrorWindowCommand);
+            _CloseRestorePasswordWindowCommand = new UserCommand(CanExecuteCloseRestorePasswordWindowCommand, ExecuteCloseRestorePasswordWindowCommand);
             _CloseLoginWindowCommand = new UserCommandWithParametrs(CanExecuteCloseLoginWindowCommand, ExecuteCloseLoginWindowCommand);
             _RegisterCommand = new UserCommandWithParametrs(CanExecuteRegisterCommand, ExecuteRegisterCommand);
             _OpenRegisterCommand = new UserCommandWithParametrs(CanExecuteOpenRegisterCommand, ExecuteOpenRegisterCommand);

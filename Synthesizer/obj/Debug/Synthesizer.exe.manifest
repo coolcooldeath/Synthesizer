@@ -271,14 +271,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Synthesizer.exe" size="7568344">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Synthesizer.exe" size="7571928">
       <assemblyIdentity name="Synthesizer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>48U5Du5KXrr26BlZdxchpOR1EelAgzy1zyJmHfgCJQw=</dsig:DigestValue>
+        <dsig:DigestValue>BGZC/Ui7vAGWdPg5+sATZPoT2vOGo9JCl0iQ0reBGS0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -402,13 +402,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Synthesizer.exe.config" size="4398">
+  <file name="Synthesizer.exe.config" size="4395">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>5RLAnespu4W5gnAh3/D7KbHQ4FBu98E5uJnoX3dLesY=</dsig:DigestValue>
+      <dsig:DigestValue>eRhMWfGDF5Bd8FTzLCWVtSxKsttFi3DMXilM7TUdR28=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Безымянный-1.ico" size="74814">
