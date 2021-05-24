@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Synthesizer.ChorusSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="7" Y="6" Width="1.5" />
+    <Position X="14.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAMAEAAEAhAAAAyQAAAEggAAAIAIACBAAAARAAACA=</HashCode>
       <FileName>Models\ChorusSampleProvider.cs</FileName>
@@ -12,7 +12,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.MainWindowViewModel" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="10" Y="6" Width="2.5" />
+    <Position X="11.5" Y="4.5" Width="2.5" />
     <Compartments>
       <Compartment Name="Properties" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -23,6 +23,8 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="_MidiDevices" />
+      <Field Name="_MidiOffCommand" />
+      <Field Name="_DeleteUserCommand" />
       <Field Name="User" />
       <Field Name="factory" />
       <Field Name="_volControl" />
@@ -39,7 +41,7 @@
     <Lollipop Position="0.259" />
   </Class>
   <Class Name="Synthesizer.LowPassFilterSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13" Y="4" Width="1.5" />
+    <Position X="8.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAEAAAAAAAAAAAAAgAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\LowPassFilterSampleProvider.cs</FileName>
@@ -50,7 +52,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.PhaserSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13" Y="8" Width="1.5" />
+    <Position X="14.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AoACEAEAAkCBAABAQwACAGB4hwAAEAAACAAQAAQAACA=</HashCode>
       <FileName>Models\PhaserSampleProvider.cs</FileName>
@@ -58,7 +60,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.SynthWaveProvider" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="7" Y="8" Width="1.5" />
+    <Position X="8.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ADQQEAAAAEIAAAQAKCAEAAAgwIIAAACAKAAAiAAUQAA=</HashCode>
       <FileName>Models\SynthWaveProvider.cs</FileName>
@@ -69,7 +71,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.TremoloSampleProvider" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="10" Y="8" Width="1.5" />
+    <Position X="14.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAEAAAABAACAAAAAgQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\TremoloSampleProvider.cs</FileName>
@@ -77,48 +79,87 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.DataLayer.factory" Collapsed="true">
-    <Position X="10" Y="2" Width="1.5" />
+    <Position X="14.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IEAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAEAA=</HashCode>
       <FileName>DataLayer\factory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Synthesizer.DataLayer.users" Collapsed="true">
-    <Position X="10" Y="10" Width="1.5" />
+    <Position X="8" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAEAAgAAAAAAwAAEAA=</HashCode>
+      <HashCode>AAAAgAAAAAAgAAAAAAAAAAAAAAAEAAgAAAAAAwAAEAA=</HashCode>
       <FileName>DataLayer\users.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="System.Collections.ObjectModel.ObservableCollection&lt;T&gt;" Collapsed="true">
-    <Position X="13" Y="2" Width="1.5" />
+    <Position X="8.5" Y="1" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="NAudio.Wave.SampleProviders.MixingSampleProvider" Collapsed="true">
-    <Position X="14" Y="6" Width="1.5" />
+    <Position X="11.5" Y="7.25" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="NAudio.Wave.SampleProviders.VolumeSampleProvider" Collapsed="true">
-    <Position X="7" Y="4" Width="1.5" />
+    <Position X="14.25" Y="1" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Synthesizer.SynthSignalGenerator" Collapsed="true">
-    <Position X="7" Y="10" Width="1.5" />
+    <Position X="8.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAABAAAAAAACABoAAgQIABAEQACQUgEAAAAAA=</HashCode>
       <FileName>Models\SynthSignalGenerator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Synthesizer.StartWindowViewModel" Collapsed="true">
+    <Position X="8.5" Y="7.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>acLbK6EQNBBUVEiAdksQGMYiyAIFHIrKA64QBkSYPJA=</HashCode>
+      <FileName>ViewModels\StartWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="_OpenRestorePasswordCommand" />
+      <Field Name="_RegisterCommand" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.DataLayer.EDM" Collapsed="true">
+    <Position X="8.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAgAAAAAAAAAAAAEAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>DataLayer\EDM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Synthesizer.UserCommandWithParametrs" Collapsed="true">
+    <Position X="11" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEBCACQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserCommand\UserCommandWithParametrs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Synthesizer.UserCommand" Collapsed="true">
+    <Position X="11.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACACQAAECAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserCommand\UserCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="NAudio.Wave.IWavePlayer" Collapsed="true">
-    <Position X="10" Y="4" Width="1.5" />
+    <Position X="11" Y="1" Width="1.5" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="NAudio.Wave.ISampleProvider" Collapsed="true">
-    <Position X="7" Y="2" Width="1.5" />
+    <Position X="11.5" Y="8.5" Width="1.5" />
     <TypeIdentifier />
   </Interface>
   <Font Name="Segoe UI" Size="9" />

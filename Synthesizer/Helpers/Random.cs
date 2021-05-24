@@ -10,7 +10,7 @@ namespace Synthesizer.Helpers
     {
         public static string RandomPassword(int length)
         {
-            string allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string allowed = "0123456789";
             return new string(allowed
                 .OrderBy(o => Guid.NewGuid())
                 .Take(length)

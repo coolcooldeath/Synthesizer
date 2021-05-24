@@ -24,7 +24,7 @@
   <Class Name="Synthesizer.DataLayer.users" Collapsed="true">
     <Position X="12.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAEAAgAAAAAAwAAEAA=</HashCode>
+      <HashCode>AAAAgAAAAAAgAAAAAAAAAAAAAAAEAAgAAAAAAwAAEAA=</HashCode>
       <FileName>DataLayer\users.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -108,7 +108,7 @@
   <Class Name="Synthesizer.UserCommandWithParametrs" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEBCACQAAECAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEBCACQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>UserCommand\UserCommandWithParametrs.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -132,7 +132,7 @@
   <Class Name="Synthesizer.StartWindowViewModel" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="8.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>KcLJK6AQNAAUBEiAZEsQGEIiiAIEDIjKA44QBgSYKBA=</HashCode>
+      <HashCode>acLbK6EQNBBUVEiAdksQGMYiyAIFHIrKA64QBkSYPJA=</HashCode>
       <FileName>ViewModels\StartWindowViewModel.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

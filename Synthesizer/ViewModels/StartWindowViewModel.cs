@@ -235,7 +235,8 @@ namespace Synthesizer
 
             }
             else
-                RegisterRepeat = "";
+            { LoginValidate = ""; RegisterRepeat = ""; }
+               
         }
 
         string _Gmail = default;
@@ -261,7 +262,7 @@ namespace Synthesizer
 
                 Changed_Gmail(value);
 
-                Raise_Password();
+                Raise_Gmail();
             }
         }
         // --------------------------------------------------------------------
@@ -287,7 +288,8 @@ namespace Synthesizer
 
             }
             else
-                MailValidate = "";
+            { LoginValidate = ""; MailValidate = ""; }
+                
         }
 
         bool _NetworkError = default;
@@ -372,7 +374,8 @@ namespace Synthesizer
             }
                
             else
-                UserNameValidate = "";
+            { LoginValidate = ""; UserNameValidate = ""; }
+                
         }
 
         string  _RegisterRepeat = default;
@@ -571,7 +574,8 @@ namespace Synthesizer
                         smtp.SendMailAsync(message);
                         user.password = HelperClass.getHash(password);
                         db.SaveChangesAsync();
-                        
+                        ExecuteCloseRestorePasswordWindowCommand();
+
                     }
                         
                     
@@ -579,7 +583,7 @@ namespace Synthesizer
                 }
                 else
                 {
-                    if (IsEng)
+                    if (!IsEng)
                         MailValidate = "Введены неверные данные";
                     else
                         MailValidate = "Invalid data entered";
@@ -587,7 +591,7 @@ namespace Synthesizer
                
             }
             catch { }
-            ExecuteCloseRestorePasswordWindowCommand();
+            
         }
 
         readonly UserCommand _OpenRestorePasswordCommand;
@@ -992,7 +996,7 @@ namespace Synthesizer
 
 
 
-            users Admin = new users { name = "Admin", isadmin = true, gmail="dobre4ko@gmail.com",login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
+/*            users Admin = new users { name = "Admin", isadmin = true, gmail = "dobre4ko@gmail.com", login = "Admin", password = HelperClass.getHash("135135"), date = DateTime.Now };
             factory factory = new factory { factory_name = Admin.name, login = Admin.login };
             try
             {
@@ -1007,7 +1011,7 @@ namespace Synthesizer
             {
 
             }
-
+*/
             DataBaseAsync();
             _LoginCommand = new UserCommandWithParametrs(CanExecuteLoginCommand, ExecuteLoginCommand);
             _CloseNetworkErrorWindowCommand = new UserCommand(CanExecuteCloseNetworkErrorWindowCommand, ExecuteCloseNetworkErrorWindowCommand);
