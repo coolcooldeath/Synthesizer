@@ -19,8 +19,17 @@ namespace Synthesizer
             
         }
 
-       
-        
+        public MainWindow()
+        {
+
+            InitializeComponent();
+            _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel;
+            Closing += _viewModel.OnWindowClosing;
+
+        }
+
+
 
         protected override void OnKeyDown(KeyEventArgs e)
         {

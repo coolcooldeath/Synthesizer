@@ -8,8 +8,8 @@ namespace Synthesizer
         public event EventHandler CanExecuteChanged;
         private readonly Func<bool> _canExecute;
         private readonly Action _execute;
-        
-      
+
+
 
         public UserCommand(Func<bool> canExecute, Action execute)
         {

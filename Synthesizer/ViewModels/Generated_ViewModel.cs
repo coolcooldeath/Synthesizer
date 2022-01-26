@@ -1872,8 +1872,8 @@ namespace Synthesizer
         public MainWindowViewModel()
         {
 
-            factory factory = db.factory.FirstOrDefault(p => p.login == "Admin");
-            BaseFactoryId = factory.id_factory;
+            /*factory factory = db.factory.FirstOrDefault(p => p.login == "Admin");*/
+            /*BaseFactoryId = factory.id_factory;*/
             _DeletePatchCommand = new UserCommandWithParametrs(CanExecuteDeletePatchCommand, ExecuteDeletePatchCommand);
             _DeleteUserCommand = new UserCommandWithParametrs(CanExecuteDeleteUserCommand, ExecuteDeleteUserCommand);
             _NoDeleteCommand = new UserCommand(CanExecuteNoDeleteCommand, ExecuteNoDeleteCommand);

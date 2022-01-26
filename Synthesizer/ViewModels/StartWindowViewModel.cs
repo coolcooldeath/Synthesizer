@@ -577,16 +577,22 @@ namespace Synthesizer
                         ExecuteCloseRestorePasswordWindowCommand();
 
                     }
-                        
+                    else
+                    {
+                        if (IsEng)
+                            MailValidate = "Invalid data entered";
+                        else
+                            MailValidate = "Введены неверные данные";
+                    }
                     
                    
                 }
                 else
                 {
-                    if (!IsEng)
-                        MailValidate = "Введены неверные данные";
+                    if (IsEng)
+                        MailValidate = "Invalid data entered"; 
                     else
-                        MailValidate = "Invalid data entered";
+                        MailValidate = "Введены неверные данные";
                 }
                
             }
